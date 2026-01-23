@@ -1,135 +1,503 @@
-<?php
-// index.php – Web sencilla para jugar ajedrez (local, 2 jugadores)
-?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Ajedrez Web</title>
-<style>
-body{font-family:Arial,Helvetica,sans-serif;background:#222;color:#eee;display:flex;justify-content:center;align-items:center;height:100vh;margin:0}
-#app{display:flex;gap:20px}
-#board{display:grid;grid-template-columns:repeat(8,70px);grid-template-rows:repeat(8,70px);border:4px solid #555}
-.square{width:70px;height:70px;display:flex;justify-content:center;align-items:center;font-size:42px;cursor:pointer;user-select:none}
-.white{background:#f0d9b5}
-.black{background:#b58863}
-.square.selected{outline:4px solid #00e5ff}
-#panel{min-width:220px}
-#panel h2{margin-top:0}
-button{padding:10px 14px;font-size:14px;cursor:pointer}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ajedrez Online - DAW2 Proyecto</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #f0f0f0;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #3498db;
+        }
+        
+        h1 {
+            color: #3498db;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .subtitle {
+            color: #95a5a6;
+            font-size: 1.2rem;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            justify-content: center;
+        }
+        
+        .chess-section {
+            flex: 1;
+            min-width: 500px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .controls-section {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        #board {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .game-info {
+            background: rgba(52, 152, 219, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .info-item {
+            margin: 10px 0;
+            font-size: 1.1rem;
+        }
+        
+        .info-label {
+            color: #3498db;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            justify-content: center;
+        }
+        
+        button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f0f0f0;
+            border: 2px solid #3498db;
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(52, 152, 219, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(231, 76, 60, 0.4);
+        }
+        
+        .moves-history {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .moves-title {
+            color: #3498db;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        #movesList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .move {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .move.white {
+            border-left: 3px solid #ecf0f1;
+        }
+        
+        .move.black {
+            border-left: 3px solid #2c3e50;
+        }
+        
+        .status-message {
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 20px;
+            background: rgba(52, 152, 219, 0.1);
+            border: 1px solid #3498db;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #95a5a6;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .chess-section, .controls-section {
+                min-width: 100%;
+            }
+            
+            #board {
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-<div id="app">
-  <div id="board"></div>
-  <div id="panel">
-    <h2>Ajedrez</h2>
-    <p>Turno: <strong id="turn">Blancas</strong></p>
-    <button onclick="resetGame()">Reiniciar</button>
-    <p style="font-size:12px;opacity:.8">Juego local (sin IA). Reglas básicas.</p>
-  </div>
-</div>
-<script>
-// Piezas Unicode
-const PIECES = {
-  'r':'♜','n':'♞','b':'♝','q':'♛','k':'♚','p':'♟',
-  'R':'♖','N':'♘','B':'♗','Q':'♕','K':'♔','P':'♙'
-};
+    <div class="container">
+        <header>
+            <h1>♔ Ajedrez Online ♚</h1>
+            <p class="subtitle">Proyecto Final DAW2 - Juego en Tiempo Real</p>
+        </header>
+        
+        <div class="main-content">
+            <section class="chess-section">
+                <div id="board"></div>
+                <div class="status-message" id="status">
+                    Turno de las <span style="color: #ecf0f1;">BLANCAS</span> - ¡Comienza la partida!
+                </div>
+            </section>
+            
+            <section class="controls-section">
+                <div class="game-info">
+                    <div class="info-item">
+                        <span class="info-label">Partida:</span>
+                        <span id="gameId">Local - Modo Práctica</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Turno actual:</span>
+                        <span id="currentTurn">Blancas</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Estado:</span>
+                        <span id="gameState">En juego</span>
+                    </div>
+                    <div class="info-item">
+                        <span class="info-label">Movimientos:</span>
+                        <span id="moveCount">0</span>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <div class="buttons">
+                        <button class="btn-primary" onclick="crearPartida()">
+                            🆕 Nueva Partida Online
+                        </button>
+                        <button class="btn-secondary" onclick="unirsePartida()">
+                            🔗 Unirse a Partida
+                        </button>
+                        <button class="btn-secondary" onclick="reiniciarPartida()">
+                            🔄 Reiniciar Tablero
+                        </button>
+                        <button class="btn-danger" onclick="rendirse()">
+                            🏳️ Rendirse
+                        </button>
+                    </div>
+                    
+                    <div class="moves-history">
+                        <div class="moves-title">Historial de Movimientos:</div>
+                        <div id="movesList">
+                            <!-- Movimientos aparecerán aquí -->
+                            <div class="move white">e4</div>
+                            <div class="move black">e5</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        
+        <footer>
+            <p>Proyecto desarrollado por [Nombre del Equipo] - DAW2 - 2024</p>
+            <p>Usando chessboard.js y chess.js | PHP + MySQL + JavaScript</p>
+        </footer>
+    </div>
 
-let boardEl = document.getElementById('board');
-let turnEl = document.getElementById('turn');
-let selected = null;
-let turn = 'white';
+    <!-- Librerías Chess -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.13.4/chess.min.js"></script>
 
-let board = [];
-
-function initBoard(){
-  board = [
-    ['r','n','b','q','k','b','n','r'],
-    ['p','p','p','p','p','p','p','p'],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
-    ['','','','','','','',''],
-    ['P','P','P','P','P','P','P','P'],
-    ['R','N','B','Q','K','B','N','R'],
-  ];
-}
-
-function render(){
-  boardEl.innerHTML='';
-  for(let r=0;r<8;r++){
-    for(let c=0;c<8;c++){
-      const sq = document.createElement('div');
-      sq.className = 'square ' + ((r+c)%2===0?'white':'black');
-      sq.dataset.r=r; sq.dataset.c=c;
-      const p = board[r][c];
-      if(p) sq.textContent = PIECES[p];
-      if(selected && selected.r==r && selected.c==c) sq.classList.add('selected');
-      sq.onclick = ()=>onSquare(r,c);
-      boardEl.appendChild(sq);
-    }
-  }
-  turnEl.textContent = turn==='white'?'Blancas':'Negras';
-}
-
-function isWhite(p){ return p && p===p.toUpperCase(); }
-function isBlack(p){ return p && p===p.toLowerCase(); }
-
-function onSquare(r,c){
-  const p = board[r][c];
-  if(selected){
-    if(moveAllowed(selected.r,selected.c,r,c)){
-      board[r][c] = board[selected.r][selected.c];
-      board[selected.r][selected.c] = '';
-      turn = turn==='white'?'black':'white';
-    }
-    selected = null;
-  } else {
-    if(p && ((turn==='white' && isWhite(p)) || (turn==='black' && isBlack(p)))){
-      selected = {r,c};
-    }
-  }
-  render();
-}
-
-function moveAllowed(sr,sc,dr,dc){
-  const p = board[sr][sc];
-  const target = board[dr][dc];
-  if(target && (isWhite(p)===isWhite(target))) return false;
-  const dR = dr-sr, dC = dc-sc;
-  switch(p.toLowerCase()){
-    case 'p':{
-      const dir = isWhite(p)?-1:1;
-      if(dC===0 && !target && dR===dir) return true;
-      if(Math.abs(dC)===1 && dR===dir && target) return true;
-      return false;
-    }
-    case 'r': return clearPath(sr,sc,dr,dc) && (dR===0||dC===0);
-    case 'b': return clearPath(sr,sc,dr,dc) && Math.abs(dR)===Math.abs(dC);
-    case 'q': return clearPath(sr,sc,dr,dc) && (dR===0||dC===0||Math.abs(dR)===Math.abs(dC));
-    case 'n': return (Math.abs(dR)==2&&Math.abs(dC)==1)||(Math.abs(dR)==1&&Math.abs(dC)==2);
-    case 'k': return Math.abs(dR)<=1 && Math.abs(dC)<=1;
-  }
-  return false;
-}
-
-function clearPath(sr,sc,dr,dc){
-  const stepR = Math.sign(dr-sr);
-  const stepC = Math.sign(dc-sc);
-  let r = sr+stepR, c = sc+stepC;
-  while(r!==dr || c!==dc){
-    if(board[r][c]) return false;
-    r+=stepR; c+=stepC;
-  }
-  return true;
-}
-
-function resetGame(){
-  selected=null; turn='white'; initBoard(); render();
-}
-
-initBoard(); render();
-</script>
+    <script>
+        // Configuración inicial
+        let game = new Chess();
+        let board = null;
+        let whiteSquareColor = '#f0d9b5';
+        let blackSquareColor = '#b58863';
+        let gameId = 'local-' + Date.now();
+        
+        // Inicializar el tablero
+        function initBoard() {
+            let config = {
+                draggable: true,
+                position: 'start',
+                onDragStart: onDragStart,
+                onDrop: onDrop,
+                onSnapEnd: onSnapEnd,
+                pieceTheme: 'https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/img/chesspieces/wikipedia/{piece}.png',
+                appearSpeed: 200,
+                moveSpeed: 200,
+                snapbackSpeed: 100,
+                snapSpeed: 50
+            };
+            
+            board = Chessboard('board', config);
+            updateGameInfo();
+        }
+        
+        // Validar inicio de arrastre
+        function onDragStart(source, piece, position, orientation) {
+            // No permitir mover si no es el turno
+            if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+                (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                return false;
+            }
+            
+            // No permitir si el juego terminó
+            if (game.game_over()) {
+                return false;
+            }
+        }
+        
+        // Manejar soltar pieza
+        function onDrop(source, target) {
+            // Intentar el movimiento
+            let move = game.move({
+                from: source,
+                to: target,
+                promotion: 'q' // Por defecto promocionar a reina
+            });
+            
+            // Si el movimiento es ilegal, revertir
+            if (move === null) return 'snapback';
+            
+            // Actualizar interfaz
+            updateBoard();
+            updateGameInfo();
+            addMoveToHistory(move);
+            
+            return true;
+        }
+        
+        // Después de soltar la pieza
+        function onSnapEnd() {
+            board.position(game.fen());
+        }
+        
+        // Actualizar tablero
+        function updateBoard() {
+            board.position(game.fen());
+            
+            // Actualizar estado del juego
+            let status = '';
+            let moveColor = game.turn() === 'w' ? 'Blancas' : 'Negras';
+            
+            if (game.in_checkmate()) {
+                status = '¡Jaque Mate! Ganaron las ' + (moveColor === 'Blancas' ? 'Negras' : 'Blancas');
+            } else if (game.in_draw()) {
+                status = '¡Tablas por ' + getDrawReason() + '!';
+            } else if (game.in_check()) {
+                status = '¡Jaque! Turno de ' + moveColor;
+            } else {
+                status = 'Turno de ' + moveColor;
+            }
+            
+            document.getElementById('status').innerHTML = status;
+            
+            // Cambiar color del texto según turno
+            let statusElement = document.getElementById('status');
+            if (game.in_checkmate()) {
+                statusElement.style.background = 'rgba(231, 76, 60, 0.2)';
+                statusElement.style.borderColor = '#e74c3c';
+            } else if (game.in_check()) {
+                statusElement.style.background = 'rgba(241, 196, 15, 0.2)';
+                statusElement.style.borderColor = '#f1c40f';
+            } else {
+                statusElement.style.background = 'rgba(52, 152, 219, 0.1)';
+                statusElement.style.borderColor = '#3498db';
+            }
+        }
+        
+        // Obtener razón de tablas
+        function getDrawReason() {
+            if (game.in_stalemate()) return 'ahogado';
+            if (game.in_threefold_repetition()) return 'triple repetición';
+            if (game.insufficient_material()) return 'material insuficiente';
+            if (game.in_draw()) return '50 movimientos sin capturas';
+            return 'tablas';
+        }
+        
+        // Actualizar información del juego
+        function updateGameInfo() {
+            document.getElementById('currentTurn').textContent = 
+                game.turn() === 'w' ? 'Blancas' : 'Negras';
+            
+            document.getElementById('gameState').textContent = 
+                game.game_over() ? 'Finalizada' : 'En juego';
+            
+            document.getElementById('moveCount').textContent = 
+                game.history().length;
+            
+            // Cambiar color del texto del turno
+            let turnElement = document.getElementById('currentTurn');
+            turnElement.style.color = game.turn() === 'w' ? '#ecf0f1' : '#2c3e50';
+        }
+        
+        // Añadir movimiento al historial
+        function addMoveToHistory(move) {
+            let movesList = document.getElementById('movesList');
+            let moveNumber = Math.ceil(game.history().length / 2);
+            let moveClass = game.history().length % 2 === 1 ? 'white' : 'black';
+            
+            // Si es movimiento de blancas, añadir número
+            if (moveClass === 'white') {
+                let moveNumberElement = document.createElement('div');
+                moveNumberElement.className = 'move move-number';
+                moveNumberElement.textContent = moveNumber + '.';
+                moveNumberElement.style.marginRight = '5px';
+                moveNumberElement.style.background = 'transparent';
+                moveNumberElement.style.border = 'none';
+                moveNumberElement.style.color = '#95a5a6';
+                movesList.appendChild(moveNumberElement);
+            }
+            
+            let moveElement = document.createElement('div');
+            moveElement.className = 'move ' + moveClass;
+            moveElement.textContent = move.san;
+            movesList.appendChild(moveElement);
+            
+            // Auto-scroll al final
+            movesList.scrollTop = movesList.scrollHeight;
+        }
+        
+        // Funciones de control
+        function crearPartida() {
+            alert('⚠️ Función en desarrollo\n\nEn la versión final, esto creará una partida online con un código para compartir.');
+            // Aquí irá la llamada AJAX a backend/api/crear_partida.php
+            gameId = 'online-' + Date.now();
+            document.getElementById('gameId').textContent = gameId;
+        }
+        
+        function unirsePartida() {
+            let codigo = prompt('Introduce el código de la partida:');
+            if (codigo) {
+                alert('Uniéndose a partida: ' + codigo + '\n\n⚠️ Función en desarrollo');
+                gameId = codigo;
+                document.getElementById('gameId').textContent = 'Partida: ' + codigo;
+            }
+        }
+        
+        function reiniciarPartida() {
+            if (confirm('¿Reiniciar el tablero a la posición inicial?')) {
+                game = new Chess();
+                board.start();
+                updateBoard();
+                updateGameInfo();
+                
+                // Limpiar historial
+                document.getElementById('movesList').innerHTML = '';
+                
+                alert('Tablero reiniciado. ¡Nueva partida!');
+            }
+        }
+        
+        function rendirse() {
+            if (confirm('¿Estás seguro de que quieres rendirte?')) {
+                let ganador = game.turn() === 'w' ? 'Negras' : 'Blancas';
+                game.load('8/8/8/8/8/8/8/8 w - - 0 1'); // Tablero vacío
+                updateBoard();
+                alert('Te has rendido. ¡Ganan las ' + ganador + '!');
+            }
+        }
+        
+        // Inicializar cuando se cargue la página
+        $(document).ready(function() {
+            initBoard();
+            
+            // Añadir algunos movimientos de ejemplo al historial
+            setTimeout(() => {
+                addMoveToHistory({san: 'e4'});
+                addMoveToHistory({san: 'e5'});
+            }, 500);
+        });
+    </script>
 </body>
 </html>
