@@ -239,9 +239,9 @@ body{
   background: rgba(225,227,172,0.10);
 }
 
-/* =========================
-   COLUMNA DERECHA (igual captura)
-   ========================= */
+/* ====================
+   COLUMNA DERECHA 
+   ==================== */
 .caja-derecha{
   padding: 14px;
   display:flex;
@@ -250,7 +250,7 @@ body{
 }
 
 .caja-derecha-pequena{
-  height: 140px;  /* arriba: caja mediana en la captura */
+  height: 140px;  /* arriba: caja mediana*/
 }
 
 .caja-derecha-grande{
@@ -261,7 +261,7 @@ body{
   width: 92px;
   height: 18px;
   background: rgba(225,227,172,0.18);
-  border-radius: 0; /* captura: redondeada -> 10px */
+  border-radius: 0; /* redondeada -> 10px */
 }
 
 /* =========================
