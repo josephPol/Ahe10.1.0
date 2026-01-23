@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aje10 - Dashboard Pixel</title>
+
+  <!-- Fuente pixel (opcional) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="../jugar/css/styles.css">
+</head>
+<body>
+
+<header class="barra-superior">
+  <div class="marca">
+    <div class="avatar-mini"></div>
+    <div class="texto-marca">Aje10</div>
+  </div>
+
+  <nav class="menu-superior">
+    <a href="#" class="enlace-menu">PLAY</a>
+    <a href="#" class="enlace-menu">EXPLORE</a>
+    <a href="#" class="enlace-menu">LEARN</a>
+    <a href="#" class="enlace-menu">MORE</a>
+  </nav>
+
+  <div class="acciones-superior">
+    <div class="icono"></div>
+    <div class="icono"></div>
+    <div class="avatar-mini"></div>
+  </div>
+</header>
+
+<main class="contenedor">
+  <aside class="lateral-izquierdo pixel-caja">
+    <a class="item-lateral activo" href="#"><span class="icono-lateral"></span> Dashboard</a>
+    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Play</a>
+    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Explore</a>
+    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Learn</a>
+    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Profile</a>
+    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Settings</a>
+  </aside>
+
+  <section class="zona-central">
+    <div class="panel panel-principal pixel-caja">
+      <div class="tablero-fondo"></div>
+      <div class="scanlines"></div>
+
+      <div class="contenido-panel-principal">
+        <h1 class="titulo-panel">PLAY CHESS ONLINE<br><span>FIND AN OPPONENT</span></h1>
+
+        <div class="fila-botones">
+          <button class="boton-accion">QUICK MATCH</button>
+          <button class="boton-accion">FIND GAME</button>
+          <button class="boton-accion">CREATE GAME</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="barra-busqueda pixel-caja">
+      <div class="texto-busqueda"></div>
+      <div class="lupa"></div>
+    </div>
+
+    <div class="panel panel-tabla pixel-caja">
+      <div class="cabecera-tabla">
+        <div class="titulo-seccion">RECENT GAMES</div>
+      </div>
+
+      <div class="fila columnas">
+        <div class="col">Game</div>
+        <div class="col">White</div>
+        <div class="col">Black</div>
+        <div class="col col-resultado">Result</div>
+      </div>
+
+      <div class="fila fila-juego">
+        <div class="col col-juego">
+          <div class="mini-perfil"></div>
+          <div>
+            <div class="texto-fuerte">Game #123456</div>
+            <div class="texto-suave">White: Player1</div>
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col col-resultado">
+          <span class="insignia insignia-verde"></span>
+          <span class="texto-fuerte">1200</span>
+          <span class="texto-verde">+10</span>
+        </div>
+      </div>
+
+      <div class="fila fila-juego">
+        <div class="col col-juego">
+          <div class="mini-perfil"></div>
+          <div>
+            <div class="texto-fuerte">Game #123455</div>
+            <div class="texto-suave">White: Player1</div>
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col col-resultado">
+          <span class="insignia insignia-dorada"></span>
+          <span class="texto-fuerte">1200</span>
+          <span class="texto-verde">+10</span>
+        </div>
+      </div>
+
+      <div class="fila fila-juego">
+        <div class="col col-juego">
+          <div class="mini-perfil"></div>
+          <div>
+            <div class="texto-fuerte">Game #123454</div>
+            <div class="texto-suave">White: Player1</div>
+          </div>
+        </div>
+        <div class="col"></div>
+        <div class="col"></div>
+        <div class="col col-resultado">
+          <span class="insignia insignia-dorada"></span>
+          <span class="texto-fuerte">1200</span>
+          <span class="texto-verde">+10</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <aside class="lateral-derecho">
+    <div class="panel pixel-caja">
+      <div class="titulo-seccion">FRIENDS ONLINE</div>
+
+      <div class="fila-amigo">
+        <div class="mini-perfil"></div>
+        <div class="info-amigo">
+          <div class="texto-fuerte">Friend1</div>
+          <div class="texto-suave">1200 <span class="texto-verde">+10</span></div>
+        </div>
+        <button class="boton-invitar">INVITE</button>
+      </div>
+
+      <div class="fila-amigo">
+        <div class="mini-perfil"></div>
+        <div class="info-amigo">
+          <div class="texto-fuerte">Friend2</div>
+          <div class="texto-suave">1200 <span class="texto-verde">+10</span></div>
+        </div>
+        <button class="boton-invitar">INVITE</button>
+      </div>
+    </div>
+
+    <div class="panel pixel-caja">
+      <div class="titulo-seccion">STATS</div>
+      <div class="bloque-stats">
+        <div class="linea-stat"><span>Rating:</span> <b>1200</b></div>
+        <div class="linea-stat"><span>Wins:</span> <b>15</b></div>
+        <div class="linea-stat"><span>Losses:</span> <b>5</b></div>
+        <div class="linea-stat"><span>Last Game:</span> <b class="texto-verde">+10</b></div>
+      </div>
+    </div>
+
+    <div class="panel pixel-caja">
+      <div class="titulo-seccion">STATS</div>
+      <div class="bloque-stats">
+        <div class="linea-stat"><span>Rating:</span> <b>1200</b></div>
+        <div class="linea-stat"><span>Wins:</span> <b>15</b></div>
+        <div class="linea-stat"><span>Losses:</span> <b>5</b></div>
+        <div class="linea-stat"><span>Last Game:</span> <b class="texto-verde">+10</b></div>
+      </div>
+    </div>
+  </aside>
+</main>
+
+</body>
+</html>
