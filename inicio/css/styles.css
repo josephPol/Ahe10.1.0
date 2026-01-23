@@ -1,0 +1,300 @@
+/* =========================
+   SIMPLE - Ajustado a la captura (DISEÑO)
+   Mantiene paleta/estilo, solo maquetación
+   ========================= */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  --c1:#213435;
+  --c2:#46685B;
+  --c3:#648A64;
+  --c4:#A6B985;
+  --c5:#E1E3AC;
+
+  --texto: var(--c5);
+  --texto-suave: rgba(225,227,172,0.72);
+  --borde-1: rgba(225,227,172,0.55);
+  --borde-2: rgba(33,52,53,0.55);
+
+  --fondo:
+    radial-gradient(900px 520px at 18% 12%, rgba(225,227,172,0.12), transparent 55%),
+    radial-gradient(700px 420px at 82% 30%, rgba(166,185,133,0.12), transparent 55%),
+    linear-gradient(180deg, var(--c2), var(--c1));
+}
+
+body{
+  min-height:100vh;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Press Start 2P", system-ui, Arial, sans-serif;
+}
+
+/* Caja base (mantienes el “pixel” si quieres, pero esto es solo contenedor) */
+.pixel-caja{
+  background: linear-gradient(180deg, rgba(70,104,91,0.96), rgba(33,52,53,0.96));
+  box-shadow:
+    0 0 0 2px var(--borde-1),
+    0 0 0 4px var(--borde-2),
+    0 10px 0 0 rgba(0,0,0,0.16);
+  border-radius: 0; /* si quieres más parecido a la captura: pon 14px */
+}
+
+/* =========================
+   TOPBAR (como la captura)
+   ========================= */
+.barra-superior{
+  height: 56px;
+  padding: 0 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 16px;
+
+  background: linear-gradient(180deg, rgba(70,104,91,0.96), rgba(33,52,53,0.96));
+  box-shadow: 0 0 0 2px var(--borde-1), 0 0 0 4px var(--borde-2);
+}
+
+.marca{
+  display:flex;
+  align-items:center;
+  gap: 10px;
+  min-width: 160px;
+}
+
+.punto-logo{
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: linear-gradient(180deg, var(--c5), var(--c4));
+  box-shadow: 0 0 0 2px rgba(33,52,53,0.6);
+}
+
+.texto-marca{
+  font-size: 12px;
+  letter-spacing: .3px;
+}
+
+.menu-navegacion{
+  display:flex;
+  gap: 18px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.enlace-menu{
+  color: var(--texto);
+  text-decoration:none;
+  font-size: 10px;
+  opacity: .92;
+}
+.enlace-menu:hover{opacity:1;}
+
+.acciones-usuario{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+  min-width: 190px;
+  justify-content: flex-end;
+}
+
+.boton-top{
+  font-family: inherit;
+  font-size: 9px;
+  padding: 8px 10px;
+  border: 0;
+  cursor:pointer;
+  border-radius: 0;
+}
+
+.boton-top-claro{
+  color:#162526;
+  background: linear-gradient(180deg, var(--c5), var(--c4));
+  box-shadow:
+    0 0 0 2px rgba(33,52,53,0.6),
+    0 6px 0 0 rgba(0,0,0,0.25);
+}
+
+.boton-top-oscuro{
+  color: var(--texto);
+  background: linear-gradient(180deg, rgba(225,227,172,0.14), rgba(100,138,100,0.10));
+  box-shadow:
+    0 0 0 2px rgba(225,227,172,0.18),
+    0 6px 0 0 rgba(0,0,0,0.25);
+}
+
+.boton-top:active{ transform: translateY(2px); }
+
+/* =========================
+   LAYOUT (CLAVADO A LA CAPTURA)
+   ========================= */
+.contenedor{
+  width: 100%;
+  padding: 14px 14px;
+  display:grid;
+
+  /* Sidebar izq ancho + centro + derecha */
+  grid-template-columns: 170px 1fr 260px;
+
+  gap: 16px;
+  align-items:start;
+}
+
+/* Sidebar izquierda: alto y compacto */
+.barra-lateral-izquierda{
+  min-height: 520px;
+}
+
+/* Derecha: cajas apiladas con espacio */
+.barra-lateral-derecha{
+  display:flex;
+  flex-direction:column;
+  gap: 16px;
+}
+
+/* =========================
+   ZONA CENTRAL (igual orden de la captura)
+   ========================= */
+.zona-central{
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
+
+/* Panel grande superior */
+.tarjeta-principal{
+  height: 220px;            /* grande como la captura */
+  position: relative;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* Fondo tablero + scanlines (si quieres mantenerlo) */
+.tablero-fondo{
+  position:absolute; inset:0;
+  opacity: 0.08;
+  background:
+    linear-gradient(45deg, rgba(225,227,172,0.35) 25%, transparent 25%) 0 0/40px 40px,
+    linear-gradient(45deg, transparent 75%, rgba(225,227,172,0.35) 75%) 0 0/40px 40px,
+    linear-gradient(45deg, transparent 25%, rgba(166,185,133,0.22) 25%) 20px 20px/40px 40px,
+    linear-gradient(45deg, rgba(166,185,133,0.22) 75%, transparent 75%) 20px 20px/40px 40px;
+}
+
+.scanlines{
+  position:absolute; inset:0;
+  opacity: 0.08;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0,0,0,0.18) 0 1px,
+    transparent 1px 5px
+  );
+  pointer-events:none;
+}
+
+/* Botón centrado dentro del panel grande */
+.boton-central{
+  width: 150px;
+  height: 38px;
+  border-radius: 0; /* si quieres igual que captura (redondo): 18px */
+  background: linear-gradient(180deg, var(--c5), var(--c4));
+  box-shadow:
+    0 0 0 2px rgba(33,52,53,0.6),
+    0 8px 0 0 rgba(0,0,0,0.25);
+  position: relative;
+}
+
+/* Barra larga + botón pequeño a la derecha (como la captura) */
+.fila-progreso{
+  display:flex;
+  gap: 12px;
+  align-items:center;
+}
+
+.barra-progreso{
+  flex: 1;
+  height: 18px;
+  border-radius: 0; /* captura: redondeado -> 10px */
+  background: rgba(225,227,172,0.15);
+}
+
+.boton-pequeno{
+  width: 46px;
+  height: 18px;
+  border-radius: 0; /* captura: redondeado -> 10px */
+  background: rgba(225,227,172,0.15);
+}
+
+/* Lista grande inferior con 3 líneas (como la captura) */
+.lista-tarjeta{
+  min-height: 230px;
+  padding: 16px;
+  display:flex;
+  flex-direction:column;
+  gap: 14px;
+}
+
+.linea-lista{
+  height: 18px;
+  background: rgba(225,227,172,0.10);
+}
+
+/* =========================
+   COLUMNA DERECHA (igual captura)
+   ========================= */
+.caja-derecha{
+  padding: 14px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:flex-start;
+}
+
+.caja-derecha-pequena{
+  height: 140px;  /* arriba: caja mediana en la captura */
+}
+
+.caja-derecha-grande{
+  height: 210px;  /* abajo: caja grande */
+}
+
+.pastilla{
+  width: 92px;
+  height: 18px;
+  background: rgba(225,227,172,0.18);
+  border-radius: 0; /* captura: redondeada -> 10px */
+}
+
+/* =========================
+   RESPONSIVE (mantener estructura)
+   ========================= */
+@media (max-width: 1050px){
+  .contenedor{
+    grid-template-columns: 160px 1fr;
+    grid-template-areas:
+      "izq centro"
+      "der der";
+  }
+  .barra-lateral-izquierda{ grid-area: izq; }
+  .zona-central{ grid-area: centro; }
+  .barra-lateral-derecha{ grid-area: der; flex-direction: row; }
+  .caja-derecha{ flex: 1; }
+}
+
+@media (max-width: 740px){
+  .barra-superior{
+    height: auto;
+    padding: 10px;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .acciones-usuario{
+    justify-content: flex-end;
+    min-width: unset;
+  }
+  .contenedor{
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+  .barra-lateral-izquierda{ min-height: 160px; }
+  .barra-lateral-derecha{ flex-direction: column; }
+}
