@@ -1,180 +1,155 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Aje10 - Dashboard Pixel</title>
-
-  <!-- Fuente pixel -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-
-  <link rel="stylesheet" href="../jugar/css/styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aje10 - Play</title>
+  <link rel="stylesheet" href="/jugar/css/styles.css" />
 </head>
+
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="avatarSmall"></div>
+      <div class="brandName">aje10</div>
+    </div>
 
-<header class="barra-superior">
-  <div class="marca">
-    <div class="avatar-mini"></div>
-    <div class="texto-marca">Aje10</div>
+    <nav class="topnav">
+      <a class="active" href="#">PLAY</a>
+      <a href="#">EXPLORE</a>
+      <a href="#">LEARN</a>
+      <a href="#">CONTACT</a>
+    </nav>
+
+    <div class="topRight">
+      <div class="search"></div>
+      <div class="icon"></div>
+      <div class="icon"></div>
+      <div class="profileDot"></div>
+    </div>
+  </header>
+
+  <div class="app">
+    <aside class="sidebar">
+      <a class="sideItem active" href="#"><span class="sideIcon">🏠</span>Dashboard</a>
+      <a class="sideItem" href="#"><span class="sideIcon">▶</span>Play</a>
+      <a class="sideItem" href="#"><span class="sideIcon">🧭</span>Explore</a>
+      <a class="sideItem" href="#"><span class="sideIcon">📘</span>Learn</a>
+      <a class="sideItem" href="#"><span class="sideIcon">👤</span>Profile</a>
+      <a class="sideItem" href="#"><span class="sideIcon">⚙</span>Settings</a>
+    </aside>
+
+    <main class="content">
+      <section class="layout">
+        <!-- LEFT: board + time -->
+        <div class="panel boardPanel">
+          <div class="boardMock"></div>
+
+          <div class="timeRow">
+            <div class="timeLabel">Time left</div>
+            <div class="timeBox">10:00</div>
+          </div>
+
+          <div class="socialRow">
+            <div class="socialDot ig"></div>
+            <div class="socialDot fb"></div>
+            <div class="socialDot x"></div>
+            <div class="socialDot yt"></div>
+          </div>
+        </div>
+
+        <!-- CENTER: live chat -->
+        <div class="panel chatPanel">
+          <div class="panelTitle">LIVE CHAT</div>
+
+          <div class="chatList">
+            <div class="msg"><span class="ava"></span><b>Friend1</b> <em>good luck, have fun!</em></div>
+            <div class="msg"><span class="ava"></span><b>Friend2</b> <em>Ready?</em></div>
+            <div class="msg"><span class="ava"></span><b>Friend3</b> <em>Let's go for a great game!</em></div>
+            <div class="msg"><span class="ava"></span><b>aje10</b> <em>gl hf :)</em></div>
+            <div class="msg"><span class="ava"></span><b>Friend2</b> <em>I'll go for a kingside attack</em></div>
+            <div class="msg"><span class="ava"></span><b>Friend1</b> <em>nice move!</em></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: ranking + friends online -->
+        <div class="rightStack">
+          <div class="panel rankingPanel">
+            <div class="panelTitle">RANKING</div>
+
+            <div class="rankItem">
+              <span class="ava"></span><span class="rankName">MasterPlayer</span>
+              <span class="rankPts">2020 pts</span>
+            </div>
+            <div class="rankItem">
+              <span class="ava"></span><span class="rankName">ChessKing</span>
+              <span class="rankPts">1980 pts</span>
+            </div>
+            <div class="rankItem">
+              <span class="ava"></span><span class="rankName">KnightFury</span>
+              <span class="rankPts">1945 pts</span>
+            </div>
+            <div class="rankItem">
+              <span class="ava"></span><span class="rankName">ChessWizard</span>
+              <span class="rankPts">1920 pts</span>
+            </div>
+            <div class="rankItem">
+              <span class="ava"></span><span class="rankName">PawnCrusher</span>
+              <span class="rankPts">1890 pts</span>
+            </div>
+
+            <a class="seeMore" href="#">See more..</a>
+          </div>
+
+          <div class="panel friendsPanel">
+            <div class="panelTitle">FRIENDS ONLINE</div>
+
+            <div class="friendRow">
+              <div class="friendLeft">
+                <div class="ava round"></div>
+                <div>
+                  <div class="friendName">Friend1</div>
+                  <div class="friendElo">1200 +10</div>
+                </div>
+              </div>
+              <button class="inviteBtn">INVITE</button>
+            </div>
+
+            <div class="friendRow">
+              <div class="friendLeft">
+                <div class="ava round"></div>
+                <div>
+                  <div class="friendName">Friend2</div>
+                  <div class="friendElo">1200 +10</div>
+                </div>
+              </div>
+              <button class="inviteBtn">INVITE</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BOTTOM: recent games -->
+      <section class="panel bottomPanel">
+        <div class="panelTitle center">Recent Games</div>
+
+        <div class="tableHead">
+          <div>Game</div><div>White</div><div>Black</div><div>Result</div>
+        </div>
+
+        <div class="tableRow">
+          <div>#123456</div><div>Player1</div><div>Player2</div><div>✔ 1200 +10</div>
+        </div>
+        <div class="tableRow">
+          <div>#123455</div><div>Player1</div><div>Player2</div><div>✔ 1200 +10</div>
+        </div>
+        <div class="tableRow">
+          <div>#123454</div><div>Player1</div><div>Player2</div><div>✔ 1200 +10</div>
+        </div>
+
+        <a class="seeMore centerLink" href="#">See more..</a>
+      </section>
+    </main>
   </div>
-
-  <nav class="menu-superior">
-    <a href="#" class="enlace-menu">PLAY</a>
-    <a href="#" class="enlace-menu">EXPLORE</a>
-    <a href="#" class="enlace-menu">LEARN</a>
-    <a href="#" class="enlace-menu">MORE</a>
-  </nav>
-
-  <div class="acciones-superior">
-    <div class="icono"></div>
-    <div class="icono"></div>
-    <div class="avatar-mini"></div>
-  </div>
-</header>
-
-<main class="contenedor">
-  <aside class="lateral-izquierdo pixel-caja">
-    <a class="item-lateral activo" href="#"><span class="icono-lateral"></span> Dashboard</a>
-    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Play</a>
-    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Explore</a>
-    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Learn</a>
-    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Profile</a>
-    <a class="item-lateral" href="#"><span class="icono-lateral"></span> Settings</a>
-  </aside>
-
-  <section class="zona-central">
-    <div class="panel panel-principal pixel-caja">
-      <div class="tablero-fondo"></div>
-      <div class="scanlines"></div>
-
-      <div class="contenido-panel-principal">
-        <h1 class="titulo-panel">PLAY CHESS ONLINE<br><span>FIND AN OPPONENT</span></h1>
-
-        <div class="fila-botones">
-          <button class="boton-accion">QUICK MATCH</button>
-          <button class="boton-accion">FIND GAME</button>
-          <button class="boton-accion">CREATE GAME</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="barra-busqueda pixel-caja">
-      <div class="texto-busqueda"></div>
-      <div class="lupa"></div>
-    </div>
-
-    <div class="panel panel-tabla pixel-caja">
-      <div class="cabecera-tabla">
-        <div class="titulo-seccion">RECENT GAMES</div>
-      </div>
-
-      <div class="fila columnas">
-        <div class="col">Game</div>
-        <div class="col">White</div>
-        <div class="col">Black</div>
-        <div class="col col-resultado">Result</div>
-      </div>
-
-      <div class="fila fila-juego">
-        <div class="col col-juego">
-          <div class="mini-perfil"></div>
-          <div>
-            <div class="texto-fuerte">Game #123456</div>
-            <div class="texto-suave">White: Player1</div>
-          </div>
-        </div>
-        <div class="col"></div>
-        <div class="col"></div>
-        <div class="col col-resultado">
-          <span class="insignia insignia-verde"></span>
-          <span class="texto-fuerte">1200</span>
-          <span class="texto-verde">+10</span>
-        </div>
-      </div>
-
-      <div class="fila fila-juego">
-        <div class="col col-juego">
-          <div class="mini-perfil"></div>
-          <div>
-            <div class="texto-fuerte">Game #123455</div>
-            <div class="texto-suave">White: Player1</div>
-          </div>
-        </div>
-        <div class="col"></div>
-        <div class="col"></div>
-        <div class="col col-resultado">
-          <span class="insignia insignia-dorada"></span>
-          <span class="texto-fuerte">1200</span>
-          <span class="texto-verde">+10</span>
-        </div>
-      </div>
-
-      <div class="fila fila-juego">
-        <div class="col col-juego">
-          <div class="mini-perfil"></div>
-          <div>
-            <div class="texto-fuerte">Game #123454</div>
-            <div class="texto-suave">White: Player1</div>
-          </div>
-        </div>
-        <div class="col"></div>
-        <div class="col"></div>
-        <div class="col col-resultado">
-          <span class="insignia insignia-dorada"></span>
-          <span class="texto-fuerte">1200</span>
-          <span class="texto-verde">+10</span>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <aside class="lateral-derecho">
-    <div class="panel pixel-caja">
-      <div class="titulo-seccion">FRIENDS ONLINE</div>
-
-      <div class="fila-amigo">
-        <div class="mini-perfil"></div>
-        <div class="info-amigo">
-          <div class="texto-fuerte">Friend1</div>
-          <div class="texto-suave">1200 <span class="texto-verde">+10</span></div>
-        </div>
-        <button class="boton-invitar">INVITE</button>
-      </div>
-
-      <div class="fila-amigo">
-        <div class="mini-perfil"></div>
-        <div class="info-amigo">
-          <div class="texto-fuerte">Friend2</div>
-          <div class="texto-suave">1200 <span class="texto-verde">+10</span></div>
-        </div>
-        <button class="boton-invitar">INVITE</button>
-      </div>
-    </div>
-
-    <div class="panel pixel-caja">
-      <div class="titulo-seccion">STATS</div>
-      <div class="bloque-stats">
-        <div class="linea-stat"><span>Rating:</span> <b>1200</b></div>
-        <div class="linea-stat"><span>Wins:</span> <b>15</b></div>
-        <div class="linea-stat"><span>Losses:</span> <b>5</b></div>
-        <div class="linea-stat"><span>Last Game:</span> <b class="texto-verde">+10</b></div>
-      </div>
-    </div>
-
-    <div class="panel pixel-caja">
-      <div class="titulo-seccion">STATS</div>
-      <div class="bloque-stats">
-        <div class="linea-stat"><span>Rating:</span> <b>1200</b></div>
-        <div class="linea-stat"><span>Wins:</span> <b>15</b></div>
-        <div class="linea-stat"><span>Losses:</span> <b>5</b></div>
-        <div class="linea-stat"><span>Last Game:</span> <b class="texto-verde">+10</b></div>
-      </div>
-    </div>
-  </aside>
-</main>
-
 </body>
 </html>
