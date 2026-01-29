@@ -1,0 +1,16 @@
+# Ignore Docker build artifacts
+**/vendor/
+**/node_modules/
+
+# Laravel specific
+app/.env
+app/.env.local
+app/.env.*.backup
+app/storage/
+app/bootstrap/cache/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+*.log
