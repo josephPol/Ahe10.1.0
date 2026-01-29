@@ -12,24 +12,37 @@
 <header class="topbar">
   <div class="logo">aje10</div>
 
+  <!-- MENÚ PRINCIPAL -->
   <nav class="menu">
-    <a href="/jugar/index.html">PLAY</a>
+    <a class="active" href="/jugar/index.html">PLAY</a>
     <a href="/inicio/index.html">EXPLORE</a>
     <a href="/learn/index.html">LEARN</a>
     <a href="/contact/index.html">CONTACT</a>
   </nav>
 
+  <!-- ACCIONES DERECHA -->
   <div class="topBtns">
-    <button class="themeBtn">🌙</button>
-    <button class="burger">☰</button>
+
+    <!-- 🔑 LOGIN / REGISTER -->
+    <a href="/login/index.html" class="authBtn loginBtn">Login</a>
+    <a href="/register/index.html" class="authBtn registerBtn">Register</a>
+
+    <!-- EXISTENTES -->
+    <button class="themeBtn" type="button">🌙</button>
+    <button class="burger" type="button">☰</button>
   </div>
 </header>
 
+<!-- MENÚ MÓVIL -->
 <nav class="mobileMenu">
   <a href="/jugar/index.html">PLAY</a>
   <a href="/inicio/index.html">EXPLORE</a>
   <a href="/learn/index.html">LEARN</a>
   <a href="/contact/index.html">CONTACT</a>
+
+  <!-- 🔑 LOGIN / REGISTER EN MÓVIL -->
+  <a href="/login/index.html">Login</a>
+  <a href="/register/index.html">Register</a>
 </nav>
 
 <div class="page">
@@ -43,33 +56,21 @@
   </aside>
 
   <main class="main">
-
     <div class="layout">
 
-      <!-- TABLERO -->
+      <!-- PANEL TABLERO -->
       <div class="panel boardPanel">
-        <div class="board">
-          <!-- 64 casillas (solo dejo ejemplo) -->
-          <div class="sq dark"></div>
-          <div class="sq light"></div>
-          <div class="sq dark"></div>
-          <div class="sq light"></div>
-          <div class="sq dark"></div>
-          <div class="sq light"></div>
-          <div class="sq dark"></div>
-          <div class="sq light"></div>
+        <div class="boardFrame">
+          <div id="board" class="board"></div>
         </div>
-
         <div class="timer">10:00</div>
       </div>
 
       <!-- CHAT -->
       <div class="panel chatPanel">
         <h3>LIVE CHAT</h3>
-        <div class="chat">
-          <p><b>User1:</b> good luck!</p>
-          <p><b>User2:</b> hf!</p>
-        </div>
+        <p><b>User1:</b> good luck!</p>
+        <p><b>User2:</b> hf!</p>
       </div>
 
       <!-- RANKING -->
@@ -78,14 +79,14 @@
         <p>Player1 – 2020</p>
         <p>Player2 – 1980</p>
         <p>Player3 – 1940</p>
-        <p>Player4 – 1900</p>
-        <p>Player5 – 1860</p>
       </div>
 
     </div>
   </main>
+
 </div>
 
-<script src="/js/javascript.js"></script>
+<script src="/js/ui.js"></script>
+<script src="/js/board.js"></script>
 </body>
 </html>

@@ -66,16 +66,26 @@ body{
   align-items:center;
 }
 
+/* ✅ DIV CON BORDE BLANCO + IMAGEN DE FONDO */
 .frame{
   width:80%;
   height:80%;
   border:2px solid #ffffff;
-  border-radius:12px;
+  border-radius:16px;
+
+  /* fondo */
+  background-image: url("/imagenes/fondo_learn.png");
+  background-repeat: no-repeat;
+  background-position: center;  /* centrada */
+  background-size: 70%;         /* más pequeña (ajusta 60-80%) */
+
   display:flex;
   justify-content:center;
   align-items:center;
+  padding:14px;
 }
 
+/* ✅ ESTE DIV NO TIENE IMAGEN */
 .boardBox{
   width:320px;
   height:320px;
@@ -84,8 +94,17 @@ body{
   background:rgba(0,0,0,0.3);
 }
 
+/* responsive */
 @media(max-width:900px){
   .menu{ display:none; }
   .burger{ display:inline; }
   .levelsBar{ display:none; }
+
+  /* opcional: que el marco use más ancho en móvil */
+  .frame{
+    width:92%;
+    height:auto;
+    aspect-ratio: 1 / 1;
+    background-size: 85%;
+  }
 }

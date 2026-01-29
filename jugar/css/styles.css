@@ -171,12 +171,12 @@ body {
   margin: 8px 0;
 }
 
-/* ================= RANKING ================= */
+/*RANKING*/
 .rankingPanel p {
   margin: 12px 0;
 }
 
-/* ================= RESPONSIVE ================= */
+/*RESPONSIVE*/
 /* ⚠️ ÚNICO CAMBIO FUNCIONAL */
 @media (max-width: 900px) {
 
@@ -215,4 +215,43 @@ body {
 .sq.move {
   box-shadow: inset 0 0 0 4px rgba(46,230,214,0.35);
 }
+
+/*login/registro*/
+
+.authBtn {
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-weight: bold;
+  text-decoration: none;
+  font-size: 14px;
+  border: 1px solid #cfe3da;
+  color: #e7efe9;
+  transition: background 0.2s;
+}
+
+/* Login más discreto */
+.loginBtn {
+  background: transparent;
+}
+
+/* Register destacado */
+.registerBtn {
+  background: #2ee6d6;
+  color: #1f3f33;
+  border-color: #2ee6d6;
+}
+
+.authBtn:hover {
+  background: rgba(255,255,255,0.15);
+}
+
+/*responsive/login*/
+/* En móvil se esconden arriba (ya salen en el menú hamburguesa) */
+@media (max-width: 900px) {
+  .loginBtn,
+  .registerBtn {
+    display: none;
+  }
+}
+
 
