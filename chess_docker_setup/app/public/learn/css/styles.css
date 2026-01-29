@@ -1,0 +1,161 @@
+*{ box-sizing:border-box; }
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#5b7f6c;
+  color:#e7efe9;
+}
+
+.topbar{
+  height:55px;
+  background:rgba(20,60,45,0.6);
+  border-bottom:3px solid #28d3c7;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 15px;
+}
+
+.menu{ display:flex; gap:20px; }
+.menu a{ color:#e7efe9; text-decoration:none; font-weight:bold; }
+
+.topBtns button{
+  background:none;
+  border:1px solid #cfe3da;
+  color:#e7efe9;
+  padding:5px 10px;
+}
+
+.burger{ display:none; }
+
+.mobileMenu{
+  display:none;
+  background:rgba(20,60,45,0.9);
+}
+.mobileMenu a{
+  display:block;
+  padding:12px;
+  color:#e7efe9;
+  text-decoration:none;
+  border-top:1px solid rgba(255,255,255,0.2);
+}
+.mobileMenu.open{ display:block; }
+
+.page{
+  display:flex;
+  min-height:calc(100vh - 55px);
+}
+
+.levelsBar{
+  width:180px;
+  background:rgba(15,50,40,0.7);
+  padding:10px;
+}
+.levelsBar a{
+  display:block;
+  padding:8px;
+  color:#e7efe9;
+}
+
+.main{
+  flex:1;
+  padding:15px;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* ✅ DIV CON BORDE BLANCO + IMAGEN DE FONDO */
+.frame{
+  width:80%;
+  height:80%;
+  border:2px solid #ffffff;
+  border-radius:16px;
+
+  /* fondo */
+  background-image: url("/imagenes/fondo_learn.png");
+  background-repeat: no-repeat;
+  background-position: center;  /* centrada */
+  background-size: 70%;         /* más pequeña (ajusta 60-80%) */
+
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  padding:14px;
+}
+
+/* ✅ ESTE DIV NO TIENE IMAGEN */
+.boardBox{
+  width:320px;
+  height:320px;
+  border:2px solid #28d3c7;
+  border-radius:10px;
+  background:rgba(0,0,0,0.3);
+}
+
+/* responsive */
+@media(max-width:900px){
+  .menu{ display:none; }
+  .burger{ display:inline; }
+  .levelsBar{ display:none; }
+
+  /* opcional: que el marco use más ancho en móvil */
+  .frame{
+    width:92%;
+    height:auto;
+    aspect-ratio: 1 / 1;
+    background-size: 85%;
+  }
+}
+/*tema claro/oscuro */
+
+.themeSwitch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.themeSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/*interruptor activado*/
+.themeSwitch input:checked + .slider {
+  background: #2ee6d6;
+}
+
+.themeSwitch input:checked + .slider::before {
+  transform: translateX(22px);
+}
+
+body.dark .topbar { background: rgba(10, 30, 22, 0.8); }
+body.dark .levelsBar { background: rgba(10, 30, 22, 0.8); }
+body.dark .frame { border-color: rgba(255,255,255,0.7); }
+body.dark .boardBox { background: rgba(0,0,0,0.5); }
+
+
