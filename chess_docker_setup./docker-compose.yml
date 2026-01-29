@@ -9,11 +9,6 @@ services:
       - "8443:443"
     volumes:
       - ./app:/var/www/html
-      - ../contact:/var/www/html/contact:ro
-      - ../inicio:/var/www/html/inicio:ro
-      - ../jugar:/var/www/html/jugar:ro
-      - ../learn:/var/www/html/learn:ro
-      - ../imagenes:/var/www/html/imagenes:ro
     depends_on:
       - db
       - mailpit
