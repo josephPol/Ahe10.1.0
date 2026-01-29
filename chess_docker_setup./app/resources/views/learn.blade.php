@@ -13,5 +13,6 @@
     @include('partials.learn_content')
   </main>
 
-</body>
+    <script src="{{ asset('js/theme.js') }}"></script>
+  </body>
 </html>
