@@ -177,7 +177,6 @@ body {
 }
 
 /*RESPONSIVE*/
-/* ⚠️ ÚNICO CAMBIO FUNCIONAL */
 @media (max-width: 900px) {
 
   /* desaparece menú normal */
