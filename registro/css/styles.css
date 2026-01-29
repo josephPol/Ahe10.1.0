@@ -1,0 +1,170 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #5b7f6c;
+  color: #e7efe9;
+}
+
+/* CENTRADO */
+.registerPage {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+/* CAJA */
+.registerBox {
+  width: 520px;
+  padding: 28px;
+  background: rgba(20, 60, 45, 0.75);
+  border-radius: 18px;
+  border: 2px solid #2ee6d6;
+  text-align: center;
+}
+
+.registerBox h1 {
+  margin: 0;
+  letter-spacing: 2px;
+}
+
+.subtitle {
+  margin: 8px 0 24px;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+/* FORM */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* FILAS 2 columnas */
+.row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+label {
+  text-align: left;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+input {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+input:focus {
+  outline: 2px solid #2ee6d6;
+}
+
+/* CHECKBOX */
+.check {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+
+.check input {
+  width: 16px;
+  height: 16px;
+}
+
+.check a {
+  color: #e7efe9;
+  opacity: 0.9;
+}
+
+.check a:hover {
+  text-decoration: underline;
+}
+
+/* BOTÓN */
+button {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: #2ee6d6;
+  color: #1f3f33;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* LINKS ABAJO */
+.extra {
+  margin-top: 18px;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.extra a {
+  color: #e7efe9;
+  text-decoration: none;
+  opacity: 0.85;
+  font-weight: bold;
+}
+
+.extra a:hover {
+  text-decoration: underline;
+}
+/* ================= BOTÓN VOLVER A INICIO ================= */
+
+.backHome {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+
+  padding: 8px 14px;
+  border-radius: 12px;
+
+  background: rgba(20, 60, 45, 0.75);
+  border: 1px solid #2ee6d6;
+
+  color: #e7efe9;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+
+  transition: background 0.2s, transform 0.1s;
+  z-index: 1000;
+}
+
+.backHome:hover {
+  background: rgba(20, 60, 45, 0.9);
+  transform: translateY(-1px);
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .registerBox {
+    width: 100%;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+  }
+}

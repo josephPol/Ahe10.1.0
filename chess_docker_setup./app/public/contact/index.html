@@ -1,62 +1,50 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aje10 - Contact</title>
-  <link rel="stylesheet" href="/contact/css/styles.css" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Contact</title>
+  <link rel="stylesheet" href="/contact/css/styles.css">
 </head>
 
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <div class="avatarSmall"></div>
-      <div class="brandName">aje10</div>
-    </div>
 
-    <nav class="topnav">
-      <a href="#">PLAY</a>
-      <a href="#">EXPLORE</a>
-      <a href="#">LEARN</a>
-      <a class="active" href="#">CONTACT</a>
-    </nav>
+<header class="topbar">
+  <div class="logo">aje10</div>
 
-    <div class="topRight">
-      <div class="search"></div>
-      <div class="icon"></div>
-      <div class="icon"></div>
-      <div class="profileDot"></div>
-    </div>
-  </header>
+  <nav class="menu">
+    <a href="/jugar/index.html">PLAY</a>
+    <a href="/inicio/index.html">EXPLORE</a>
+    <a href="/learn/index.html">LEARN</a>
+    <a class="active" href="/contact/index.html">CONTACT</a>
+  </nav>
 
-  <div class="app">
-    <aside class="sidebar">
-      <a class="sideItem" href="#"><span class="sideIcon">🏠</span>Dashboard</a>
-      <a class="sideItem" href="#"><span class="sideIcon">▶</span>Play</a>
-      <a class="sideItem" href="#"><span class="sideIcon">🧭</span>Explore</a>
-      <a class="sideItem" href="#"><span class="sideIcon">📘</span>Learn</a>
-      <a class="sideItem" href="#"><span class="sideIcon">👤</span>Profile</a>
-      <a class="sideItem" href="#"><span class="sideIcon">⚙</span>Settings</a>
-    </aside>
-
-    <main class="content">
-      <div class="centerWrap">
-        <section class="contactCard">
-          <h1>Contact Us</h1>
-
-          <label>Email Address</label>
-          <input type="email" placeholder="name@example.com" />
-
-          <label>Phone Number</label>
-          <input type="tel" placeholder="(123) 456-3890" />
-
-          <label>Reason for Contact</label>
-          <input type="text" placeholder="How can we help you?" />
-
-          <button type="button">Submit</button>
-        </section>
-      </div>
-    </main>
+  <div class="topBtns">
+    <button class="themeBtn">🌙</button>
+    <button class="burger">☰</button>
   </div>
+</header>
+
+<nav class="mobileMenu">
+  <a href="/jugar/index.html">PLAY</a>
+  <a href="/inicio/index.html">EXPLORE</a>
+  <a href="/learn/index.html">LEARN</a>
+  <a href="/contact/index.html">CONTACT</a>
+</nav>
+
+<main class="main">
+
+  <div class="contactBox">
+    <h2>Contact Us</h2>
+
+    <input placeholder="Email">
+    <input placeholder="Phone">
+    <input placeholder="Reason">
+    <button>Send</button>
+  </div>
+
+</main>
+
+<script src="/js/javascript.js"></script>
 </body>
 </html>

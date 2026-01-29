@@ -1,300 +1,173 @@
-/* =========================
-   SIMPLE - Ajustado a la captura (DISEÑO)
-   Mantiene paleta/estilo, solo maquetación
-   ========================= */
-*{margin:0;padding:0;box-sizing:border-box;}
-
-:root{
-  --c1:#213435;
-  --c2:#46685B;
-  --c3:#648A64;
-  --c4:#A6B985;
-  --c5:#E1E3AC;
-
-  --texto: var(--c5);
-  --texto-suave: rgba(225,227,172,0.72);
-  --borde-1: rgba(225,227,172,0.55);
-  --borde-2: rgba(33,52,53,0.55);
-
-  --fondo:
-    radial-gradient(900px 520px at 18% 12%, rgba(225,227,172,0.12), transparent 55%),
-    radial-gradient(700px 420px at 82% 30%, rgba(166,185,133,0.12), transparent 55%),
-    linear-gradient(180deg, var(--c2), var(--c1));
-}
+*{ box-sizing:border-box; }
 
 body{
-  min-height:100vh;
-  background: var(--fondo);
-  color: var(--texto);
-  font-family: "Press Start 2P", system-ui, Arial, sans-serif;
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#5b7f6c;
+  color:#e7efe9;
 }
 
-/* Caja base (mantienes el “pixel” si quieres, pero esto es solo contenedor) */
-.pixel-caja{
-  background: linear-gradient(180deg, rgba(70,104,91,0.96), rgba(33,52,53,0.96));
-  box-shadow:
-    0 0 0 2px var(--borde-1),
-    0 0 0 4px var(--borde-2),
-    0 10px 0 0 rgba(0,0,0,0.16);
-  border-radius: 0; /* si quieres más parecido a la captura: pon 14px */
-}
-
-/* =========================
-   TOPBAR (como la captura)
-   ========================= */
-.barra-superior{
-  height: 56px;
-  padding: 0 14px;
+.topbar{
+  height:55px;
+  background:rgba(20,60,45,0.6);
+  border-bottom:3px solid #28d3c7;
   display:flex;
-  align-items:center;
   justify-content:space-between;
-  gap: 16px;
-
-  background: linear-gradient(180deg, rgba(70,104,91,0.96), rgba(33,52,53,0.96));
-  box-shadow: 0 0 0 2px var(--borde-1), 0 0 0 4px var(--borde-2);
-}
-
-.marca{
-  display:flex;
   align-items:center;
-  gap: 10px;
-  min-width: 160px;
+  padding:0 15px;
 }
 
-.punto-logo{
-  width: 24px;
-  height: 24px;
-  border-radius: 6px;
-  background: linear-gradient(180deg, var(--c5), var(--c4));
-  box-shadow: 0 0 0 2px rgba(33,52,53,0.6);
+.menu{ display:flex; gap:20px; }
+.menu a{ color:#e7efe9; text-decoration:none; font-weight:bold; }
+
+.topBtns button{
+  background:none;
+  border:1px solid #cfe3da;
+  color:#e7efe9;
+  padding:5px 10px;
 }
 
-.texto-marca{
-  font-size: 12px;
-  letter-spacing: .3px;
-}
+.burger{ display:none; }
 
-.menu-navegacion{
-  display:flex;
-  gap: 18px;
-  flex-wrap: wrap;
-  justify-content: center;
+.mobileMenu{
+  display:none;
+  background:rgba(20,60,45,0.9);
 }
-
-.enlace-menu{
-  color: var(--texto);
+.mobileMenu a{
+  display:block;
+  padding:12px;
+  color:#e7efe9;
   text-decoration:none;
-  font-size: 10px;
-  opacity: .92;
+  border-top:1px solid rgba(255,255,255,0.2);
 }
-.enlace-menu:hover{opacity:1;}
+.mobileMenu.open{ display:block; }
 
-.acciones-usuario{
+.page{
   display:flex;
-  gap: 10px;
-  align-items:center;
-  min-width: 190px;
-  justify-content: flex-end;
+  min-height:calc(100vh - 55px);
 }
 
-.boton-top{
-  font-family: inherit;
-  font-size: 9px;
-  padding: 8px 10px;
-  border: 0;
-  cursor:pointer;
-  border-radius: 0;
+.sidebar{
+  width:180px;
+  background:rgba(15,50,40,0.7);
+  padding:10px;
+}
+.sidebar a {
+  position: relative;
+  display: block;
+  padding: 14px 24px 14px 28px;
+  color: #e7efe9;
+  text-decoration: none;
+  font-size: 15px;
+  transition: color 0.2s ease, padding-left 0.2s ease;
 }
 
-.boton-top-claro{
-  color:#162526;
-  background: linear-gradient(180deg, var(--c5), var(--c4));
-  box-shadow:
-    0 0 0 2px rgba(33,52,53,0.6),
-    0 6px 0 0 rgba(0,0,0,0.25);
+/* barra animada */
+.sidebar a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 4px;
+  height: 0;
+  background: #2ee6d6;
+  border-radius: 4px;
+  transform: translateY(-50%);
+  transition: height 0.25s ease;
 }
 
-.boton-top-oscuro{
-  color: var(--texto);
-  background: linear-gradient(180deg, rgba(225,227,172,0.14), rgba(100,138,100,0.10));
-  box-shadow:
-    0 0 0 2px rgba(225,227,172,0.18),
-    0 6px 0 0 rgba(0,0,0,0.25);
+/* hover */
+.sidebar a:hover {
+  padding-left: 36px;
 }
 
-.boton-top:active{ transform: translateY(2px); }
+.sidebar a:hover::before {
+  height: 70%;
+}
 
-/* =========================
-   LAYOUT (CLAVADO A LA CAPTURA)
-   ========================= */
-.contenedor{
-  width: 100%;
-  padding: 14px 14px;
+/* opción activa */
+.sidebar a.active {
+  padding-left: 36px;
+  font-weight: bold;
+}
+
+.sidebar a.active::before {
+  height: 70%;
+}
+.sidebar a.active{
+  background:rgba(255,255,255,0.1);
+}
+
+.main{ flex:1; padding:15px; }
+
+.layout{
   display:grid;
-
-  /* Sidebar izq ancho + centro + derecha */
-  grid-template-columns: 170px 1fr 260px;
-
-  gap: 16px;
-  align-items:start;
+  grid-template-columns:2fr 1fr;
+  gap:15px;
 }
 
-/* Sidebar izquierda: alto y compacto */
-.barra-lateral-izquierda{
-  min-height: 520px;
+.panel{
+  background:rgba(20,60,45,0.55);
+  border-radius:14px;
+  padding:12px;
 }
 
-/* Derecha: cajas apiladas con espacio */
-.barra-lateral-derecha{
-  display:flex;
-  flex-direction:column;
-  gap: 16px;
+.bigPanel{ grid-column:1 / -1; }
+
+.bigBox{
+  height:180px;
+  background:rgba(0,0,0,0.25);
+  border-radius:10px;
 }
 
-/* =========================
-   ZONA CENTRAL (igual orden de la captura)
-   ========================= */
-.zona-central{
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
+@media(max-width:900px){
+  .menu{ display:none; }
+  .burger{ display:inline; }
+  .sidebar{ display:none; }
+  .layout{ grid-template-columns:1fr; }
 }
 
-/* Panel grande superior */
-.tarjeta-principal{
-  height: 220px;            /* grande como la captura */
+/*tema claro/oscuro */
+
+.themeSwitch {
   position: relative;
-  overflow:hidden;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-}
-
-/* Fondo tablero + scanlines (si quieres mantenerlo) */
-.tablero-fondo{
-  position:absolute; inset:0;
-  opacity: 0.08;
-  background:
-    linear-gradient(45deg, rgba(225,227,172,0.35) 25%, transparent 25%) 0 0/40px 40px,
-    linear-gradient(45deg, transparent 75%, rgba(225,227,172,0.35) 75%) 0 0/40px 40px,
-    linear-gradient(45deg, transparent 25%, rgba(166,185,133,0.22) 25%) 20px 20px/40px 40px,
-    linear-gradient(45deg, rgba(166,185,133,0.22) 75%, transparent 75%) 20px 20px/40px 40px;
-}
-
-.scanlines{
-  position:absolute; inset:0;
-  opacity: 0.08;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0,0,0,0.18) 0 1px,
-    transparent 1px 5px
-  );
-  pointer-events:none;
-}
-
-/* Botón centrado dentro del panel grande */
-.boton-central{
-  width: 150px;
-  height: 38px;
-  border-radius: 0; /* si quieres igual que captura (redondo): 18px */
-  background: linear-gradient(180deg, var(--c5), var(--c4));
-  box-shadow:
-    0 0 0 2px rgba(33,52,53,0.6),
-    0 8px 0 0 rgba(0,0,0,0.25);
-  position: relative;
-}
-
-/* Barra larga + botón pequeño a la derecha (como la captura) */
-.fila-progreso{
-  display:flex;
-  gap: 12px;
-  align-items:center;
-}
-
-.barra-progreso{
-  flex: 1;
-  height: 18px;
-  border-radius: 0; /* captura: redondeado -> 10px */
-  background: rgba(225,227,172,0.15);
-}
-
-.boton-pequeno{
   width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.themeSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
   height: 18px;
-  border-radius: 0; /* captura: redondeado -> 10px */
-  background: rgba(225,227,172,0.15);
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.3s;
 }
 
-/* Lista grande inferior con 3 líneas (como la captura) */
-.lista-tarjeta{
-  min-height: 230px;
-  padding: 16px;
-  display:flex;
-  flex-direction:column;
-  gap: 14px;
+/*interruptor activado*/
+.themeSwitch input:checked + .slider {
+  background: #2ee6d6;
 }
 
-.linea-lista{
-  height: 18px;
-  background: rgba(225,227,172,0.10);
-}
-
-/* ====================
-   COLUMNA DERECHA 
-   ==================== */
-.caja-derecha{
-  padding: 14px;
-  display:flex;
-  align-items:flex-start;
-  justify-content:flex-start;
-}
-
-.caja-derecha-pequena{
-  height: 140px;  /* arriba: caja mediana*/
-}
-
-.caja-derecha-grande{
-  height: 210px;  /* abajo: caja grande */
-}
-
-.pastilla{
-  width: 92px;
-  height: 18px;
-  background: rgba(225,227,172,0.18);
-  border-radius: 0; /* redondeada -> 10px */
-}
-
-/* =========================
-   RESPONSIVE (mantener estructura)
-   ========================= */
-@media (max-width: 1050px){
-  .contenedor{
-    grid-template-columns: 160px 1fr;
-    grid-template-areas:
-      "izq centro"
-      "der der";
-  }
-  .barra-lateral-izquierda{ grid-area: izq; }
-  .zona-central{ grid-area: centro; }
-  .barra-lateral-derecha{ grid-area: der; flex-direction: row; }
-  .caja-derecha{ flex: 1; }
-}
-
-@media (max-width: 740px){
-  .barra-superior{
-    height: auto;
-    padding: 10px;
-    flex-direction: column;
-    align-items: stretch;
-  }
-  .acciones-usuario{
-    justify-content: flex-end;
-    min-width: unset;
-  }
-  .contenedor{
-    grid-template-columns: 1fr;
-    padding: 10px;
-  }
-  .barra-lateral-izquierda{ min-height: 160px; }
-  .barra-lateral-derecha{ flex-direction: column; }
+.themeSwitch input:checked + .slider::before {
+  transform: translateX(22px);
 }
