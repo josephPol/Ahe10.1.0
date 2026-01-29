@@ -117,14 +117,14 @@ body {
   gap: 20px;
 }
 
-/* ================= PANELES ================= */
+/*paneles*/
 .panel {
   background: #355f4c;
   border-radius: 18px;
   padding: 18px;
 }
 
-/* ================= TABLERO ================= */
+/*tablero*/
 .board {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
@@ -149,7 +149,7 @@ body {
   background: #243f33;
 }
 
-/* ===== TIMER ===== */
+/*timer*/
 .timer {
   margin-top: 14px;
   background: #d7ded9;
@@ -160,7 +160,7 @@ body {
   border-radius: 14px;
 }
 
-/* ================= CHAT ================= */
+/*chat*/
 .chatPanel h3,
 .rankingPanel h3 {
   margin-top: 0;
@@ -296,5 +296,11 @@ body {
 .themeSwitch input:checked + .slider::before {
   transform: translateX(22px);
 }
+
+body.dark .topbar { background: rgba(10, 30, 22, 0.8); }
+body.dark .levelsBar { background: rgba(10, 30, 22, 0.8); }
+body.dark .frame { border-color: rgba(255,255,255,0.7); }
+body.dark .panel { background: rgba(20, 40, 32, 0.8); }
+body.dark .board { border-color: rgba(255,255,255,0.7);}
 
 

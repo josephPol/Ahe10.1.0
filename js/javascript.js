@@ -8,15 +8,27 @@ if (burger && mobileMenu) {
   });
 }
 
-// ===== TEMA CLARO / OSCURO =====
-const themeBtn = document.querySelector(".themeBtn");
+// ===== TEMA CLARO / OSCURO (SWITCH) =====
+const themeToggle = document.getElementById("themeToggle");
 
-if (themeBtn) {
-  themeBtn.addEventListener("click", () => {
-    document.body.classList.toggle("dark");
+function applyTheme(theme) {
+  document.body.classList.toggle("dark", theme === "dark");
+  if (themeToggle) themeToggle.checked = theme === "dark";
+}
 
-    // cambiar icono
-    themeBtn.textContent = 
-      document.body.classList.contains("dark") ? "☀️" : "🌙";
+if (themeToggle) {
+  // 1) aplicar tema guardado al cargar
+  const savedTheme = localStorage.getItem("theme") || "light";
+  applyTheme(savedTheme);
+
+  // 2) cambiar tema cuando cambias el switch
+  themeToggle.addEventListener("change", () => {
+    const newTheme = themeToggle.checked ? "dark" : "light";
+    localStorage.setItem("theme", newTheme);
+    applyTheme(newTheme);
   });
+} else {
+  // si esta página no tiene switch, aplica el tema guardado igualmente
+  const savedTheme = localStorage.getItem("theme") || "light";
+  applyTheme(savedTheme);
 }
