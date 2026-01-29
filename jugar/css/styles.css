@@ -252,5 +252,49 @@ body {
     display: none;
   }
 }
+/*tema claro/oscuro */
+
+.themeSwitch {
+  position: relative;
+  width: 46px;
+  height: 24px;
+  display: inline-block;
+}
+
+.themeSwitch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.25);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  left: 3px;
+  top: 3px;
+  background: #ffffff;
+  border-radius: 50%;
+  transition: transform 0.3s;
+}
+
+/*interruptor activado*/
+.themeSwitch input:checked + .slider {
+  background: #2ee6d6;
+}
+
+.themeSwitch input:checked + .slider::before {
+  transform: translateX(22px);
+}
 
 
