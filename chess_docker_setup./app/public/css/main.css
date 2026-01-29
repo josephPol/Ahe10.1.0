@@ -464,24 +464,3 @@ textarea:focus {
   }
 }
 
-/* ========== DARK MODE OVERRIDES ========== */
-body.dark {
-  --c1: #0e1515;
-  --c2: #0b2622;
-  --c3: #1f5a4a;
-  --c4: #3e8b6a;
-  --c5: #dfe6d3;
-  --texto: var(--c5);
-  --texto-suave: rgba(223, 230, 211, 0.7);
-  --borde-1: rgba(223, 230, 211, 0.45);
-  --borde-2: rgba(6, 20, 18, 0.55);
-  --fondo: radial-gradient(900px 520px at 18% 12%, rgba(223,230,211,0.06), transparent 55%),
-    radial-gradient(700px 420px at 82% 30%, rgba(62,139,106,0.04), transparent 55%),
-    linear-gradient(180deg, var(--c2), var(--c1));
-}
-
-/* Small tweaks to make transitions smoother when toggling */
-body, .topbar, .hero, .feature-card, .info-section, footer {
-  transition: background 200ms ease, color 200ms ease, border-color 150ms ease, box-shadow 150ms ease;
-}
-

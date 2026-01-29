@@ -13,6 +13,5 @@
     @include('partials.jugar_content')
   </main>
 
-    <script src="{{ asset('js/theme.js') }}"></script>
-  </body>
+</body>
 </html>
