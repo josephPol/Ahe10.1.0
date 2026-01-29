@@ -10,16 +10,16 @@ body {
 }
 
 /* CENTRADO TOTAL */
-.loginPage {
+.forgotPage {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* CAJA LOGIN */
-.loginBox {
-  width: 320px;
+/* CAJA */
+.forgotBox {
+  width: 360px;
   padding: 28px;
   background: rgba(20, 60, 45, 0.75);
   border-radius: 18px;
@@ -28,14 +28,15 @@ body {
 }
 
 /* TÍTULO */
-.loginBox h1 {
+.forgotBox h1 {
   margin: 0;
   letter-spacing: 2px;
 }
 
 .subtitle {
-  margin: 8px 0 24px;
+  margin: 14px 0 24px;
   font-size: 14px;
+  line-height: 1.4;
   opacity: 0.9;
 }
 
@@ -43,7 +44,7 @@ body {
 form {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
 }
 
 label {
@@ -68,7 +69,7 @@ input:focus {
 
 /* BOTÓN */
 button {
-  margin-top: 10px;
+  margin-top: 8px;
   padding: 10px;
   border-radius: 12px;
   border: none;
@@ -82,7 +83,7 @@ button:hover {
   opacity: 0.9;
 }
 
-/* LINKS ABAJO */
+/* LINK ABAJO */
 .extra {
   margin-top: 18px;
   font-size: 13px;
@@ -97,12 +98,6 @@ button:hover {
 .extra a:hover {
   text-decoration: underline;
 }
-
-.extra span {
-  margin: 0 6px;
-  opacity: 0.5;
-}
-
 /* ================= BOTÓN VOLVER A INICIO ================= */
 
 .backHome {
@@ -132,9 +127,8 @@ button:hover {
 
 
 /* RESPONSIVE */
-@media (max-width: 400px) {
-  .loginBox {
+@media (max-width: 420px) {
+  .forgotBox {
     width: 90%;
   }
 }
-
