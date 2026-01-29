@@ -8,12 +8,12 @@ services:
       - "8080:80"
       - "8443:443"
     volumes:
-      - ./:/var/www/html
+      - ./app:/var/www/html
     depends_on:
       - db
       - mailpit
     environment:
-      APACHE_DOCUMENT_ROOT: /var/www/html/app/public
+      APACHE_DOCUMENT_ROOT: /var/www/html/public
 
   db:
     image: mysql:8.0
