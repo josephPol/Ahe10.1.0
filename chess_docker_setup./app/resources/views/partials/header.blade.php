@@ -12,6 +12,6 @@
   </nav>
 
   <div class="topRight">
-    <button class="btn-theme">🌙</button>
+    <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
   </div>
 </header>
