@@ -22,3 +22,6 @@
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Allow storage of uploads in specific folder if needed
+!/storage/app/public
