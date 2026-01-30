@@ -1,89 +1,112 @@
-<section class="hero">
-  <h1>⚔ Juega Ajedrez Online</h1>
-  <p>Desafía a jugadores de todo el mundo en partidas en vivo</p>
-</section>
+<!-- Mode Selection Screen -->
+<div id="modeSelection" class="game-mode-selection">
+  <section class="hero">
+    <h1>⚔ Juega Ajedrez Online</h1>
+    <p>Elige cómo quieres jugar</p>
+  </section>
 
-<section class="features">
-  <div class="feature-card">
-    <div class="icon">⚡</div>
-    <h3>Partidas Rápidas</h3>
-    <p>Juega partidas de 3, 5 o 10 minutos. Perfecto para sesiones cortas.</p>
-  </div>
-  
-  <div class="feature-card">
-    <div class="icon">🏛️</div>
-    <h3>Clásicas</h3>
-    <p>Partidas de 15 minutos o más. Tiempo para pensar con cuidado cada movimiento.</p>
-  </div>
-  
-  <div class="feature-card">
-    <div class="icon">🤖</div>
-    <h3>Contra IA</h3>
-    <p>Practica contra inteligencia artificial de diferentes niveles de dificultad.</p>
-  </div>
-  
-  <div class="feature-card">
-    <div class="icon">👥</div>
-    <h3>Multijugador</h3>
-    <p>Juega en vivo contra amigos u otros jugadores conectados.</p>
-  </div>
-</section>
+  <section class="game-modes">
+    <div class="mode-card" id="createRoomBtn">
+      <div class="mode-icon">🏰</div>
+      <h3>Crear Sala</h3>
+      <p>Crea una sala privada y comparte el código con un amigo</p>
+      <button class="btn btn-primary">Crear Sala</button>
+    </div>
+    
+    <div class="mode-card" id="joinRoomBtn">
+      <div class="mode-icon">🚪</div>
+      <h3>Unirse a Sala</h3>
+      <p>Únete a una sala existente con un código de acceso</p>
+      <button class="btn btn-primary">Unirse</button>
+    </div>
+    
+    <div class="mode-card" id="playBotBtn">
+      <div class="mode-icon">🤖</div>
+      <h3>Jugar vs Bot</h3>
+      <p>Practica contra la inteligencia artificial</p>
+      <button class="btn btn-primary">Jugar vs IA</button>
+    </div>
+  </section>
+</div>
 
-<section class="info-section">
-  <h2>🎯 Modos de Juego</h2>
-  
-  <div class="info-grid">
-    <div class="info-item">
-      <h4>Blitz</h4>
-      <p>3-5 minutos. ¡Rápido, emocionante y exigente! Perfecto para calentar.</p>
+<!-- Room Creation Modal -->
+<div id="createRoomModal" class="chess-modal" style="display: none;">
+  <div class="modal-content">
+    <h2>🏰 Crear Nueva Sala</h2>
+    <p>Comparte este código con tu oponente:</p>
+    <div class="room-code-display" id="roomCodeDisplay">
+      <span id="generatedRoomCode">------</span>
+      <button class="btn-copy" id="copyRoomCode">📋 Copiar</button>
     </div>
-    
-    <div class="info-item">
-      <h4>Rapid</h4>
-      <p>10-25 minutos. Tiempo suficiente para calcular variantes importantes.</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>Clásico</h4>
-      <p>30+ minutos. Para partidas serias con profundo análisis estratégico.</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>Entrenamiento</h4>
-      <p>Tiempo ilimitado. Estudia posiciones y aprende contra la IA sin presión.</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>Puzzle</h4>
-      <p>Resuelve acertijos tácticos. Mejora tu capacidad de cálculo y visión.</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>Torneo</h4>
-      <p>Compite en torneos regulares con otros jugadores y sube de nivel.</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="cancelCreateRoom">Cancelar</button>
+      <button class="btn btn-primary" id="startGameAsHost">Iniciar Partida</button>
     </div>
   </div>
-</section>
+</div>
 
-<section style="text-align: center; padding: 3rem 0;">
-  <h2 style="color: var(--gold); margin-bottom: 2rem;">¿Listo para jugar?</h2>
-  <button class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem;">
-    🎮 Comenzar Partida
-  </button>
-</section>
-        <div class="msg"><span class="ava"></span><b>Friend1</b> <em>good luck, have fun!</em></div>
-        <div class="msg"><span class="ava"></span><b>Friend2</b> <em>Ready?</em></div>
+<!-- Join Room Modal -->
+<div id="joinRoomModal" class="chess-modal" style="display: none;">
+  <div class="modal-content">
+    <h2>🚪 Unirse a Sala</h2>
+    <p>Ingresa el código de la sala:</p>
+    <input type="text" id="roomCodeInput" class="room-code-input" placeholder="Código de sala" maxlength="6">
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="cancelJoinRoom">Cancelar</button>
+      <button class="btn btn-primary" id="joinRoomConfirm">Unirse</button>
+    </div>
+  </div>
+</div>
+
+<!-- Bot Difficulty Modal -->
+<div id="botDifficultyModal" class="chess-modal" style="display: none;">
+  <div class="modal-content">
+    <h2>🤖 Selecciona Dificultad</h2>
+    <div class="difficulty-options">
+      <button class="btn btn-primary difficulty-btn" data-level="1">Fácil</button>
+      <button class="btn btn-primary difficulty-btn" data-level="2">Medio</button>
+      <button class="btn btn-primary difficulty-btn" data-level="3">Difícil</button>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" id="cancelBotGame">Cancelar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Chess Game Screen -->
+<div id="gameScreen" style="display: none;">
+  <section class="chess-game-container">
+    <div class="game-header">
+      <div class="game-info">
+        <h2 id="gameTitle">Partida de Ajedrez</h2>
+        <p id="gameStatus">Turno de las blancas</p>
+      </div>
+      <div class="game-actions">
+        <button class="btn btn-secondary" id="resignBtn">🏳️ Rendirse</button>
+        <button class="btn btn-secondary" id="newGameBtn">🔄 Nueva Partida</button>
       </div>
     </div>
-
-    <div class="rightStack">
-      <div class="panel rankingPanel">
-        <div class="panelTitle">RANKING</div>
+    
+    <div class="chess-board-wrapper">
+      <div id="chessBoard" class="chess-board"></div>
+    </div>
+    
+    <div class="game-controls">
+      <div class="move-history">
+        <h3>Historial de Movimientos</h3>
+        <div id="moveList" class="move-list"></div>
+      </div>
+      
+      <div class="captured-pieces">
+        <div class="captured-white">
+          <h4>Capturadas Blancas:</h4>
+          <div id="capturedWhite"></div>
+        </div>
+        <div class="captured-black">
+          <h4>Capturadas Negras:</h4>
+          <div id="capturedBlack"></div>
+        </div>
       </div>
     </div>
   </section>
-
-  <section class="panel bottomPanel">
-    <div class="panelTitle center">Recent Games</div>
-  </section>
-</main>
+</div>
