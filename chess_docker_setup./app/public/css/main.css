@@ -1,5 +1,5 @@
 /* ==========================================
-   CHESSHUB - Pixel Art Style
+   CHESSHUB - Enhanced Pixel Art Style
    ========================================== */
 
 * {
@@ -9,20 +9,23 @@
 }
 
 :root {
-  /* Paleta Pixel Art Original */
-  --c1: #213435;
-  --c2: #46685B;
-  --c3: #648A64;
-  --c4: #A6B985;
-  --c5: #E1E3AC;
+  /* Enhanced Pixel Art Palette */
+  --c1: #1a2528;
+  --c2: #2d4a3e;
+  --c3: #5a8266;
+  --c4: #8fbc8f;
+  --c5: #e8f4d7;
+  --accent: #f4a460;
 
   --texto: var(--c5);
-  --texto-suave: rgba(225, 227, 172, 0.72);
-  --borde-1: rgba(225, 227, 172, 0.55);
-  --borde-2: rgba(33, 52, 53, 0.55);
+  --texto-suave: rgba(232, 244, 215, 0.75);
+  --borde-1: rgba(143, 188, 143, 0.6);
+  --borde-2: rgba(26, 37, 40, 0.8);
 
-  --fondo: radial-gradient(900px 520px at 18% 12%, rgba(225, 227, 172, 0.12), transparent 55%),
-    radial-gradient(700px 420px at 82% 30%, rgba(166, 185, 133, 0.12), transparent 55%),
+  --fondo: 
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(143, 188, 143, 0.03) 2px, rgba(143, 188, 143, 0.03) 4px),
+    radial-gradient(circle at 20% 30%, rgba(143, 188, 143, 0.15), transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(90, 130, 102, 0.1), transparent 50%),
     linear-gradient(180deg, var(--c2), var(--c1));
 }
 
@@ -101,19 +104,23 @@ body {
   font-weight: bold;
   font-size: 0.9rem;
   padding: 0.5rem 1rem;
-  background: linear-gradient(180deg, rgba(100, 138, 100, 0.5), rgba(70, 104, 91, 0.5));
-  border: 2px solid var(--c4);
-  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  background: linear-gradient(180deg, rgba(90, 130, 102, 0.6), rgba(45, 74, 62, 0.6));
+  border: 3px solid var(--c4);
+  border-bottom: 4px solid var(--c2);
+  border-right: 4px solid var(--c2);
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.4), inset 1px 1px 0px rgba(232, 244, 215, 0.2);
   transition: all 0.1s ease;
   cursor: pointer;
+  position: relative;
 }
 
 .nav-link:hover,
 .nav-link.active {
   background: linear-gradient(180deg, var(--c4), var(--c3));
   color: var(--c1);
-  transform: translate(-2px, -2px);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.3);
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px rgba(0, 0, 0, 0.4), inset 1px 1px 0px rgba(255, 255, 255, 0.3);
+  border-color: var(--c5);
 }
 
 .topRight {
@@ -149,28 +156,40 @@ body {
 /* ========== HERO SECTION ========== */
 .hero {
   text-align: center;
-  padding: 2rem;
+  padding: 3rem 2rem;
   margin-bottom: 2rem;
-  background: linear-gradient(180deg, rgba(70, 104, 91, 0.6), rgba(33, 52, 53, 0.6));
-  border: 3px solid var(--c4);
-  box-shadow: 0 0 0 2px var(--borde-1), 0 0 0 4px var(--borde-2), 8px 8px 0 0 rgba(0, 0, 0, 0.3);
+  background: 
+    repeating-linear-gradient(90deg, transparent, transparent 10px, rgba(143, 188, 143, 0.05) 10px, rgba(143, 188, 143, 0.05) 20px),
+    linear-gradient(180deg, rgba(45, 74, 62, 0.8), rgba(26, 37, 40, 0.8));
+  border: 4px solid var(--c4);
+  border-top: 6px solid var(--c5);
+  box-shadow: 
+    0 0 0 2px var(--borde-1), 
+    0 0 0 6px var(--borde-2), 
+    10px 10px 0 0 rgba(0, 0, 0, 0.5),
+    inset 0 4px 0 rgba(232, 244, 215, 0.1);
 }
 
 .hero h1 {
-  font-size: 2.5rem;
+  font-size: 2.8rem;
   margin-bottom: 1rem;
   color: var(--c5);
-  text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.5);
-  letter-spacing: 2px;
+  text-shadow: 
+    4px 4px 0px rgba(0, 0, 0, 0.8),
+    -1px -1px 0px var(--c3);
+  letter-spacing: 4px;
+  font-weight: bold;
 }
 
 .hero p {
-  font-size: 1rem;
+  font-size: 1.1rem;
   color: var(--texto-suave);
   margin-bottom: 1.5rem;
   max-width: 600px;
   margin-left: auto;
   margin-right: auto;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
 }
 
 .cta-buttons {
@@ -181,29 +200,46 @@ body {
 }
 
 .btn {
-  padding: 0.8rem 1.8rem;
-  border: 2px solid var(--c4);
+  padding: 0.9rem 2rem;
+  border: 4px solid var(--c4);
+  border-bottom: 5px solid var(--c2);
+  border-right: 5px solid var(--c2);
   border-radius: 0;
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  transition: all 0.1s ease;
+  transition: all 0.08s ease;
   text-decoration: none;
   display: inline-block;
   font-family: "Courier New", monospace;
   background: linear-gradient(180deg, var(--c3), var(--c2));
   color: var(--texto);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.4);
+  box-shadow: 
+    5px 5px 0px rgba(0, 0, 0, 0.5),
+    inset 2px 2px 0px rgba(232, 244, 215, 0.2);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 
+    6px 6px 0px rgba(0, 0, 0, 0.5),
+    inset 2px 2px 0px rgba(232, 244, 215, 0.3);
 }
 
 .btn:active {
-  transform: translate(4px, 4px);
-  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.4);
+  transform: translate(3px, 3px);
+  box-shadow: 
+    2px 2px 0px rgba(0, 0, 0, 0.5),
+    inset 1px 1px 0px rgba(0, 0, 0, 0.3);
 }
 
 .btn-primary {
   background: linear-gradient(180deg, var(--c4), var(--c3));
   color: var(--c1);
+  border-color: var(--c5);
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 .btn-secondary {
@@ -370,25 +406,47 @@ footer p {
 }
 
 /* ========== FORM STYLES ========== */
-input,
-textarea {
-  font-family: "Courier New", monospace !important;
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--c4);
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
 input,
 textarea {
-  background: rgba(33, 52, 53, 0.7) !important;
-  border: 2px solid var(--c4) !important;
+  font-family: "Courier New", monospace !important;
+  width: 100%;
+}
+
+input,
+textarea {
+  background: rgba(26, 37, 40, 0.8) !important;
+  border: 3px solid var(--c4) !important;
+  border-bottom: 4px solid var(--c2) !important;
+  border-right: 4px solid var(--c2) !important;
   color: var(--texto) !important;
-  padding: 0.6rem 0.8rem !important;
-  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.3) !important;
+  padding: 0.8rem !important;
+  box-shadow: 
+    inset 3px 3px 0 rgba(0, 0, 0, 0.4),
+    2px 2px 0 rgba(143, 188, 143, 0.2) !important;
+  transition: all 0.2s ease;
 }
 
 input:focus,
 textarea:focus {
   outline: none;
   border-color: var(--c5) !important;
-  box-shadow: inset 2px 2px 0 rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(225, 227, 172, 0.3) !important;
+  background: rgba(26, 37, 40, 0.95) !important;
+  box-shadow: 
+    inset 3px 3px 0 rgba(0, 0, 0, 0.4), 
+    0 0 0 3px rgba(232, 244, 215, 0.3),
+    3px 3px 0 rgba(143, 188, 143, 0.3) !important;
 }
 
 /* ========== ANIMATIONS ========== */
@@ -483,5 +541,314 @@ body.dark {
 /* Small tweaks to make transitions smoother when toggling */
 body, .topbar, .hero, .feature-card, .info-section, footer {
   transition: background 200ms ease, color 200ms ease, border-color 150ms ease, box-shadow 150ms ease;
+}
+
+/* ========== CHESS GAME STYLES ========== */
+
+/* Game Mode Selection */
+.game-mode-selection {
+  width: 100%;
+}
+
+.game-modes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin: 2rem 0;
+}
+
+.mode-card {
+  background: linear-gradient(180deg, rgba(70, 104, 91, 0.8), rgba(33, 52, 53, 0.8));
+  padding: 2rem;
+  border: 3px solid var(--c4);
+  box-shadow: 0 0 0 1px var(--borde-1), 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mode-card:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 0 0 0 1px var(--borde-1), 6px 6px 0 0 rgba(0, 0, 0, 0.3);
+  border-color: var(--c5);
+}
+
+.mode-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+}
+
+.mode-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: var(--c5);
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.mode-card p {
+  color: var(--texto-suave);
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.mode-card .btn {
+  width: 100%;
+  max-width: 200px;
+}
+
+/* Chess Modals */
+.chess-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 9999;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: linear-gradient(180deg, rgba(70, 104, 91, 0.98), rgba(33, 52, 53, 0.98));
+  padding: 2.5rem;
+  border: 3px solid var(--c4);
+  box-shadow: 0 0 0 2px var(--borde-1), 8px 8px 0 0 rgba(0, 0, 0, 0.5);
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+}
+
+.modal-content h2 {
+  color: var(--c5);
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content p {
+  color: var(--texto-suave);
+  margin-bottom: 1.5rem;
+}
+
+.room-code-display {
+  background: rgba(33, 52, 53, 0.8);
+  padding: 1.5rem;
+  border: 2px solid var(--c4);
+  margin: 1.5rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.room-code-display span {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--c5);
+  letter-spacing: 0.3rem;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.btn-copy {
+  background: linear-gradient(180deg, var(--c4), var(--c3));
+  border: 2px solid var(--c5);
+  color: var(--c1);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  font-weight: bold;
+  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.3);
+  transition: all 0.1s ease;
+}
+
+.btn-copy:active {
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px rgba(0, 0, 0, 0.3);
+}
+
+.room-code-input {
+  width: 100%;
+  max-width: 300px;
+  padding: 1rem;
+  font-size: 1.5rem;
+  text-align: center;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  margin: 1rem auto;
+  background: rgba(33, 52, 53, 0.7) !important;
+  border: 2px solid var(--c4) !important;
+  color: var(--texto) !important;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.difficulty-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.difficulty-btn {
+  width: 100%;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Chess Game Screen */
+.chess-game-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.game-header {
+  background: linear-gradient(180deg, rgba(70, 104, 91, 0.8), rgba(33, 52, 53, 0.8));
+  padding: 1.5rem;
+  border: 3px solid var(--c4);
+  box-shadow: 0 0 0 1px var(--borde-1), 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.game-info h2 {
+  color: var(--c5);
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  text-shadow: 2px 2px 0px rgba(0, 0, 0, 0.5);
+}
+
+.game-info p {
+  color: var(--texto-suave);
+  font-size: 1rem;
+}
+
+.game-actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.chess-board-wrapper {
+  max-width: 600px;
+  margin: 0 auto 2rem;
+  border: 4px solid var(--c4);
+  box-shadow: 0 0 0 2px var(--borde-1), 8px 8px 0 0 rgba(0, 0, 0, 0.4);
+}
+
+.chess-board {
+  width: 100%;
+  aspect-ratio: 1;
+}
+
+.game-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.move-history,
+.captured-pieces {
+  background: linear-gradient(180deg, rgba(70, 104, 91, 0.7), rgba(33, 52, 53, 0.7));
+  padding: 1.5rem;
+  border: 2px solid var(--c4);
+  box-shadow: 0 0 0 1px var(--borde-1), 4px 4px 0 0 rgba(0, 0, 0, 0.3);
+}
+
+.move-history h3,
+.captured-pieces h4 {
+  color: var(--c5);
+  margin-bottom: 1rem;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+}
+
+.move-list {
+  max-height: 300px;
+  overflow-y: auto;
+  padding: 0.5rem;
+  background: rgba(33, 52, 53, 0.5);
+  border: 1px solid var(--c3);
+}
+
+.move-item {
+  padding: 0.5rem;
+  color: var(--texto-suave);
+  border-bottom: 1px solid rgba(100, 138, 100, 0.2);
+  font-size: 0.9rem;
+}
+
+.move-item:last-child {
+  border-bottom: none;
+}
+
+.captured-white,
+.captured-black {
+  margin-bottom: 1rem;
+}
+
+.captured-white h4 {
+  color: var(--c5);
+}
+
+.captured-black h4 {
+  color: var(--texto-suave);
+}
+
+.captured-piece {
+  display: inline-block;
+  font-size: 1.5rem;
+  margin: 0 0.3rem;
+}
+
+/* Responsive Chess */
+@media (max-width: 768px) {
+  .game-modes {
+    grid-template-columns: 1fr;
+  }
+  
+  .game-header {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .game-actions {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .game-actions .btn {
+    width: 100%;
+  }
+  
+  .chess-board-wrapper {
+    max-width: 100%;
+  }
+  
+  .game-controls {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+  
+  .modal-actions {
+    flex-direction: column;
+  }
+  
+  .modal-actions .btn {
+    width: 100%;
+  }
 }
 
