@@ -1,2 +1,23 @@
 @import 'main.css';
 /* Estilos específicos para la página Inicio (si es necesario) */
+
+/* Botones de autenticación en la cabecera */
+.auth-btn {
+	padding: 0.45rem 0.9rem;
+	font-size: 0.95rem;
+	border-radius: 4px;
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 0.4rem;
+}
+
+/* Ajustes para que los botones no desplacen visualmente el theme-toggle */
+.topRight .auth-btn { box-shadow: 2px 2px 0px rgba(0,0,0,0.3); }
+
+@media (max-width: 600px) {
+	.topRight { flex-wrap: wrap; justify-content: center; }
+	.auth-btn { width: 48%; }
+	.btn-theme { width: 100%; margin-top: 0.5rem; }
+}
