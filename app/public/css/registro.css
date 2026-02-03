@@ -1,0 +1,4 @@
+@import 'main.css';
+/* Estilos para registro */
+.registerPage{display:flex;align-items:center;justify-content:center;min-height:80vh}
+.registerBox{background:linear-gradient(180deg, rgba(70,104,91,0.9), rgba(33,52,53,0.9)); padding:2rem; border:3px solid var(--c4);}

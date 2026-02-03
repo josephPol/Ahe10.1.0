@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ChessHub - Contacto</title>
+  <link rel="stylesheet" href="../css/contact.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">ChessHub</div>
+    </div>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link active">💬 CONTACTO</a>
+    </nav>
+
+    <div class="topRight">
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main class="contenedor">
+
+<section class="hero">
+  <h1>✉ CONTACTO</h1>
+  <p>¿Preguntas o sugerencias?</p>
+</section>
+
+<section class="info-section" style="max-width: 600px; margin: 2rem auto;">
+  <h2>📝 Formulario</h2>
+
+  <div id="formMessages"></div>
+
+  <form id="contactForm" class="contact-form" method="GET" action="/contact/submit" style="padding: 1.5rem 0;">
+    <div class="form-group">
+      <label>Nombre</label>
+      <input name="name" type="text" placeholder="Tu nombre (opcional)">
+    </div>
+
+    <div class="form-group">
+      <label>Email</label>
+      <input name="email" type="email" placeholder="tu@email.com" required>
+    </div>
+    
+    <div class="form-group">
+      <label>Asunto</label>
+      <input name="subject" type="text" placeholder="Asunto (opcional)">
+    </div>
+    
+    <div class="form-group">
+      <label>Mensaje</label>
+      <textarea name="message" placeholder="Escribe tu mensaje..." rows="5" required></textarea>
+    </div>
+    
+    <button type="submit" class="btn btn-primary" style="width: 100%;">
+      ▶ ENVIAR
+    </button>
+  </form>
+</section>
+
+<section class="info-section">
+  <h2>📍 Información</h2>
+  
+  <div class="info-grid">
+    <div class="info-item">
+      <h4>📧 Email</h4>
+      <p>support@chesshub.com</p>
+    </div>
+    
+    <div class="info-item">
+      <h4>💬 Discord</h4>
+      <p>discord.gg/chesshub</p>
+    </div>
+    
+    <div class="info-item">
+      <h4>🐦 Twitter</h4>
+      <p>@ChessHub</p>
+    </div>
+  </div>
+</section>
+
+<section style="background: rgba(233, 69, 96, 0.1); padding: 3rem; border-radius: 12px; margin-top: 3rem; text-align: center; border: 1px solid rgba(233, 69, 96, 0.3);">
+  <h2 style="color: var(--gold); margin-bottom: 1rem;">¿Reportar un problema?</h2>
+  <p style="margin-bottom: 1.5rem;">Si encuentras un bug o tienes una sugerencia técnica, usa nuestro</p>
+  <a href="#" class="btn btn-secondary">🐛 Sistema de Reportes</a>
+</section>
+    </section>
+  </div>
+</main>
+
+<script>
+// Basic client-side feedback for GET submission
+document.getElementById('contactForm').addEventListener('submit', function(e){
+  // let browser handle navigation to /contact/submit (GET)
+  var form = this;
+  var params = Array.from(new FormData(form)).map(function(pair){
+    return encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]);
+  }).join('&');
+  var url = form.action + '?' + params;
+  e.preventDefault();
+  fetch(url, { method: 'GET' })
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var m = document.getElementById('formMessages');
+      if (data.success) {
+        m.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+        form.reset();
+      } else {
+        m.innerHTML = '<div class="alert alert-danger">' + (data.message || 'Error') + '</div>';
+      }
+    })
+    .catch(function(){
+      document.getElementById('formMessages').innerHTML = '<div class="alert alert-danger">Error de envío</div>';
+    });
+});
+</script>
+
+    <script src="js/theme.js"></script>
+  </body>
+</html>

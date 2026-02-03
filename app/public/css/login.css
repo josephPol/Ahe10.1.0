@@ -1,0 +1,5 @@
+@import 'main.css';
+/* Estilos para login */
+.loginPage { display:flex; align-items:center; justify-content:center; min-height:80vh; }
+.loginBox { background: linear-gradient(180deg, rgba(70,104,91,0.9), rgba(33,52,53,0.9)); padding:2rem; border:3px solid var(--c4); box-shadow:4px 4px 0 rgba(0,0,0,0.3); }
+.loginBox h1{font-size:2rem; color:var(--c5);}
