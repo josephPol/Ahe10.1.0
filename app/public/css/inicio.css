@@ -16,8 +16,190 @@
 /* Ajustes para que los botones no desplacen visualmente el theme-toggle */
 .topRight .auth-btn { box-shadow: 2px 2px 0px rgba(0,0,0,0.3); }
 
+/* Rankings Section */
+.rankings {
+	margin: 4rem auto;
+	max-width: 1200px;
+	padding: 0 1rem;
+}
+
+.rankings-title {
+	text-align: center;
+	font-size: 2rem;
+	margin-bottom: 2rem;
+	color: var(--c5);
+	text-shadow: 
+		3px 3px 0 var(--c2),
+		4px 4px 0 rgba(0,0,0,0.3);
+	letter-spacing: 2px;
+}
+
+.rankings-container {
+	background: var(--c1);
+	border: 4px solid var(--c3);
+	border-radius: 8px;
+	padding: 1.5rem;
+	box-shadow: 
+		inset 0 2px 8px rgba(0,0,0,0.3),
+		0 4px 0 var(--c2),
+		0 8px 16px rgba(0,0,0,0.4);
+}
+
+.rankings-table {
+	width: 100%;
+}
+
+.rankings-header {
+	display: grid;
+	grid-template-columns: 60px 1fr 100px 100px 100px 100px;
+	gap: 1rem;
+	padding: 1rem;
+	background: var(--c2);
+	border: 3px solid var(--c3);
+	border-radius: 4px;
+	font-weight: bold;
+	color: var(--c5);
+	text-shadow: 1px 1px 0 rgba(0,0,0,0.5);
+	margin-bottom: 1rem;
+}
+
+.rankings-list {
+	min-height: 200px;
+}
+
+.ranking-row {
+	display: grid;
+	grid-template-columns: 60px 1fr 100px 100px 100px 100px;
+	gap: 1rem;
+	padding: 1rem;
+	margin-bottom: 0.75rem;
+	background: var(--c2);
+	border: 3px solid var(--c3);
+	border-radius: 4px;
+	align-items: center;
+	transition: all 0.2s ease;
+	box-shadow: 0 2px 0 var(--c3);
+}
+
+.ranking-row:hover {
+	transform: translateY(-2px);
+	box-shadow: 0 4px 0 var(--c3);
+	background: var(--c3);
+}
+
+.rank-col {
+	text-align: center;
+	font-weight: bold;
+	font-size: 1.5rem;
+}
+
+.rank-1 { color: #FFD700; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); }
+.rank-2 { color: #C0C0C0; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); }
+.rank-3 { color: #CD7F32; text-shadow: 2px 2px 0 rgba(0,0,0,0.5); }
+
+.player-col {
+	display: flex;
+	align-items: center;
+	gap: 0.75rem;
+}
+
+.player-avatar {
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	background: var(--c3);
+	border: 3px solid var(--c4);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 1.5rem;
+	box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.player-name {
+	font-weight: bold;
+	color: var(--c5);
+	font-size: 1.1rem;
+}
+
+.wins-col, .games-col, .winrate-col, .rating-col {
+	text-align: center;
+	font-weight: bold;
+	color: var(--c5);
+}
+
+.wins-col {
+	color: var(--accent);
+	font-size: 1.2rem;
+}
+
+.rating-col {
+	color: #FFD700;
+}
+
+.loading-rankings, .no-rankings, .error-rankings {
+	text-align: center;
+	padding: 3rem 1rem;
+	color: var(--c4);
+}
+
+.no-rankings p:first-child {
+	font-size: 1.5rem;
+	margin-bottom: 0.5rem;
+}
+
+.error-rankings button {
+	margin-top: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+	.rankings-header, .ranking-row {
+		grid-template-columns: 50px 1fr 80px 80px;
+		gap: 0.5rem;
+		padding: 0.75rem;
+	}
+	
+	.winrate-col, .rating-col {
+		display: none;
+	}
+	
+	.rankings-title {
+		font-size: 1.5rem;
+	}
+}
+
 @media (max-width: 600px) {
 	.topRight { flex-wrap: wrap; justify-content: center; }
 	.auth-btn { width: 48%; }
 	.btn-theme { width: 100%; margin-top: 0.5rem; }
+	
+	.rankings-header, .ranking-row {
+		grid-template-columns: 40px 1fr 70px;
+		font-size: 0.9rem;
+	}
+	
+	.games-col {
+		display: none;
+	}
+	
+	.player-avatar {
+		width: 30px;
+		height: 30px;
+		font-size: 1rem;
+	}
+	
+	.player-name {
+		font-size: 0.95rem;
+	}
 }
+
+/* Dark mode adjustments */
+body.dark-mode .ranking-row:hover {
+	background: var(--c2);
+}
+
+body.dark-mode .player-name {
+	color: var(--c4);
+}
+
