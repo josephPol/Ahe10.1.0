@@ -21,6 +21,8 @@
     </nav>
 
     <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
   </header>
@@ -89,36 +91,36 @@
   <h2 style="color: var(--gold); margin-bottom: 1rem;">¿Reportar un problema?</h2>
   <p style="margin-bottom: 1.5rem;">Si encuentras un bug o tienes una sugerencia técnica, usa nuestro</p>
   <a href="#" class="btn btn-secondary">🐛 Sistema de Reportes</a>
-</section>
+    </section>
     </section>
   </div>
 </main>
 
 <script>
-// Basic client-side feedback for GET submission
-document.getElementById('contactForm').addEventListener('submit', function(e){
-  // let browser handle navigation to /contact/submit (GET)
-  var form = this;
-  var params = Array.from(new FormData(form)).map(function(pair){
-    return encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]);
-  }).join('&');
-  var url = form.action + '?' + params;
-  e.preventDefault();
-  fetch(url, { method: 'GET' })
-    .then(function(r){ return r.json(); })
-    .then(function(data){
-      var m = document.getElementById('formMessages');
-      if (data.success) {
-        m.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
-        form.reset();
-      } else {
-        m.innerHTML = '<div class="alert alert-danger">' + (data.message || 'Error') + '</div>';
-      }
-    })
-    .catch(function(){
-      document.getElementById('formMessages').innerHTML = '<div class="alert alert-danger">Error de envío</div>';
-    });
-});
+  // Basic client-side feedback for GET submission
+  document.getElementById('contactForm').addEventListener('submit', function(e){
+    // let browser handle navigation to /contact/submit (GET)
+    var form = this;
+    var params = Array.from(new FormData(form)).map(function(pair){
+      return encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]);
+    }).join('&');
+    var url = form.action + '?' + params;
+    e.preventDefault();
+    fetch(url, { method: 'GET' })
+      .then(function(r){ return r.json(); })
+      .then(function(data){
+        var m = document.getElementById('formMessages');
+        if (data.success) {
+          m.innerHTML = '<div class="alert alert-success">' + data.message + '</div>';
+          form.reset();
+        } else {
+          m.innerHTML = '<div class="alert alert-danger">' + (data.message || 'Error') + '</div>';
+        }
+      })
+      .catch(function(){
+        document.getElementById('formMessages').innerHTML = '<div class="alert alert-danger">Error de envío</div>';
+      });
+  });
 </script>
 
     <script src="js/theme.js"></script>
