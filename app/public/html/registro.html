@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registro | aje10</title>
   <link rel="stylesheet" href="../css/registro.css">
-  <a href="jugar.html" class="backHome">← Inicio</a>
 </head>
 
 <body>
@@ -16,59 +15,105 @@
     <h1>AJE10</h1>
     <p class="subtitle">¡Crea tu cuenta para jugar y obtener beneficios!</p>
 
-    <form>
+    <form id="registerForm">
 
       <div class="row">
         <label>
           Nombre de usuario
-          <input type="text" placeholder="tuUsuario" required>
+          <input type="text" id="registerName" placeholder="tuUsuario" required>
         </label>
 
         <label>
           Email
-          <input type="email" placeholder="tu@email.com" required>
+          <input type="email" id="registerEmail" placeholder="tu@email.com" required>
         </label>
       </div>
 
       <div class="row">
         <label>
           Contraseña
-          <input type="password" placeholder="••••••••" required>
+          <input type="password" id="registerPassword" placeholder="••••••••" required>
         </label>
 
         <label>
           Repetir contraseña
-          <input type="password" placeholder="••••••••" required>
-        </label>
-      </div>
-
-      <div class="row">
-        <label>
-          País (opcional)
-          <input type="text" placeholder="España">
-        </label>
-
-        <label>
-          Fecha de nacimiento (opcional)
-          <input type="date">
+          <input type="password" id="registerPasswordConfirm" placeholder="••••••••" required>
         </label>
       </div>
 
       <label class="check">
-        <input type="checkbox" required>
+        <input type="checkbox" id="registerTerms" required>
         Acepto los <a href="#">términos y condiciones</a>
       </label>
 
-      <button type="submit">Crear cuenta</button>
+      <button type="submit" id="registerBtn">Crear cuenta</button>
     </form>
+
+    <div id="registerMessage" style="margin-top: 15px; text-align: center; display: none;"></div>
 
     <div class="extra">
       <span>¿Ya tienes cuenta?</span>
       <a href="login.html">Inicia sesión</a>
     </div>
+
+    <a href="inicio.html" class="backHome">← Inicio</a>
   </div>
 
 </div>
+
+<script src="../auth/auth.js"></script>
+<script>
+  document.getElementById('registerForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('registerName').value;
+    const email = document.getElementById('registerEmail').value;
+    const password = document.getElementById('registerPassword').value;
+    const passwordConfirm = document.getElementById('registerPasswordConfirm').value;
+    const messageDiv = document.getElementById('registerMessage');
+    const registerBtn = document.getElementById('registerBtn');
+    
+    registerBtn.disabled = true;
+    registerBtn.textContent = 'Cargando...';
+    
+    const formData = new FormData();
+    formData.append('action', 'register');
+    formData.append('name', name);
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('password_confirm', passwordConfirm);
+    
+    fetch('../auth/auth.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      registerBtn.disabled = false;
+      registerBtn.textContent = 'Crear cuenta';
+      
+      if (data.success) {
+        messageDiv.style.color = 'green';
+        messageDiv.textContent = 'Cuenta creada exitosamente. Se ha enviado un correo de confirmación. Redirigiendo...';
+        messageDiv.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = 'inicio.html';
+        }, 2000);
+      } else {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = data.message;
+        messageDiv.style.display = 'block';
+      }
+    })
+    .catch(error => {
+      registerBtn.disabled = false;
+      registerBtn.textContent = 'Crear cuenta';
+      messageDiv.style.color = 'red';
+      messageDiv.textContent = 'Error: ' + error.message;
+      messageDiv.style.display = 'block';
+    });
+  });
+</script>
 
 </body>
 </html>

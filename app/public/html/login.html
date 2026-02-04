@@ -5,8 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login | aje10</title>
   <link rel="stylesheet" href="../css/login.css">
-  <a href="jugar.html" class="backHome">← Inicio</a>
+  <style>
+    /* ESTILOS LOCALES PARA ASEGURAR QUE FUNCIONEN */
+    #loginBtn {
+      padding: 1.2rem 2.5rem !important;
+      margin-top: 0.5rem !important;
+      font-size: 1.2rem !important;
+      font-weight: bold !important;
+      color: #1a2528 !important;
+      background: linear-gradient(180deg, #f4a460, #d48545) !important;
+      border: 3px solid #8b6914 !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+      font-family: "Courier New", monospace !important;
+      letter-spacing: 1px !important;
+      transition: all 0.2s ease !important;
+      box-shadow: 
+        0 4px 0 #6b5610,
+        0 6px 12px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2) !important;
+      text-transform: uppercase !important;
+      position: relative !important;
+      top: 0 !important;
+      width: 100% !important;
+    }
 
+    #loginBtn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ffb575, #e59555) !important;
+      box-shadow: 
+        0 2px 0 #6b5610,
+        0 4px 8px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+      top: 2px !important;
+      transform: scale(1.02) !important;
+    }
+
+    #loginBtn:active:not(:disabled) {
+      top: 4px !important;
+      box-shadow: 
+        0 0 0 #6b5610,
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    }
+
+    #loginBtn:disabled {
+      opacity: 0.7 !important;
+      cursor: not-allowed !important;
+      background: linear-gradient(180deg, #a88560, #8b6f47) !important;
+    }
+  </style>
 </head>
 
 <body>
@@ -17,28 +64,82 @@
     <h1>AJE10</h1>
     <p class="subtitle">Inicia sesión para jugar</p>
 
-    <form>
+    <form id="loginForm">
       <label>
         Email
-        <input type="email" placeholder="tu@email.com" required>
+        <input type="email" id="loginEmail" placeholder="tu@email.com" required>
       </label>
 
       <label>
         Contraseña
-        <input type="password" placeholder="••••••••" required>
+        <input type="password" id="loginPassword" placeholder="••••••••" required>
       </label>
 
-      <button type="submit">Entrar</button>
+      <button type="submit" id="loginBtn">Entrar</button>
     </form>
+
+    <div id="loginMessage" style="margin-top: 15px; text-align: center; display: none;"></div>
 
     <div class="extra">
       <a href="contraseña_olvidada.html">¿Has olvidado la contraseña?</a>
       <span>·</span>
       <a href="registro.html">Crear cuenta</a>
     </div>
+
+    <a href="inicio.html" class="backHome">← Inicio</a>
   </div>
 
 </div>
+
+<script src="../auth/auth.js"></script>
+<script>
+  document.getElementById('loginForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+    const messageDiv = document.getElementById('loginMessage');
+    const loginBtn = document.getElementById('loginBtn');
+    
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Cargando...';
+    
+    const formData = new FormData();
+    formData.append('action', 'login');
+    formData.append('email', email);
+    formData.append('password', password);
+    
+    fetch('../auth/auth.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Entrar';
+      
+      if (data.success) {
+        messageDiv.style.color = 'green';
+        messageDiv.textContent = 'Iniciando sesión...';
+        messageDiv.style.display = 'block';
+        setTimeout(() => {
+          window.location.href = 'inicio.html';
+        }, 1500);
+      } else {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = data.message;
+        messageDiv.style.display = 'block';
+      }
+    })
+    .catch(error => {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Entrar';
+      messageDiv.style.color = 'red';
+      messageDiv.textContent = 'Error: ' + error.message;
+      messageDiv.style.display = 'block';
+    });
+  });
+</script>
 
 </body>
 </html>
