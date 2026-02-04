@@ -1,4 +1,201 @@
 @import 'main.css';
+
 /* Estilos para recuperar contraseña */
-.forgotPage{display:flex;align-items:center;justify-content:center;min-height:80vh}
-.forgotBox{background:linear-gradient(180deg, rgba(70,104,91,0.9), rgba(33,52,53,0.9)); padding:2rem; border:3px solid var(--c4);}
+.forgotPage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  background: var(--fondo);
+  padding: 1rem;
+}
+
+.forgotBox {
+  background: linear-gradient(180deg, rgba(70,104,91,0.95), rgba(33,52,53,0.95));
+  padding: 2.5rem;
+  border: 4px solid var(--c4);
+  box-shadow:
+    0 0 0 2px var(--borde-1),
+    0 0 0 4px var(--borde-2),
+    0 8px 0 rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.1);
+  border-radius: 8px;
+  max-width: 450px;
+  width: 100%;
+}
+
+.forgotBox h1 {
+  font-size: 2.5rem;
+  color: var(--c5);
+  margin-bottom: 0.5rem;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.4);
+  letter-spacing: 2px;
+  text-align: center;
+}
+
+.forgotBox .subtitle {
+  color: var(--texto-suave);
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* FORMULARIO */
+.forgotBox form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.forgotBox label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  color: var(--c5);
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+.forgotBox input[type="email"] {
+  padding: 0.8rem;
+  border: 2px solid var(--c4);
+  background: rgba(26, 37, 40, 0.6);
+  color: var(--c5);
+  font-family: "Courier New", monospace;
+  font-size: 1rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.forgotBox input[type="email"]:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(26, 37, 40, 0.8);
+  box-shadow:
+    inset 0 2px 4px rgba(0,0,0,0.3),
+    0 0 8px rgba(244, 164, 96, 0.4);
+}
+
+.forgotBox input::placeholder {
+  color: rgba(232, 244, 215, 0.5);
+}
+
+/* BOTÓN ENVIAR ENLACE */
+.forgotBox button {
+  padding: 1rem 2rem;
+  margin-top: 0.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #1a2528;
+  background: linear-gradient(180deg, #f4a460, #d48545);
+  border: 3px solid #8b6914;
+  border-radius: 6px;
+  cursor: pointer;
+  font-family: "Courier New", monospace;
+  letter-spacing: 1px;
+  transition: all 0.2s ease;
+  box-shadow:
+    0 4px 0 #6b5610,
+    0 6px 12px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+  text-transform: uppercase;
+  position: relative;
+  top: 0;
+}
+
+.forgotBox button:hover {
+  background: linear-gradient(180deg, #ffb575, #e59555);
+  box-shadow:
+    0 2px 0 #6b5610,
+    0 4px 8px rgba(0,0,0,0.4),
+    inset 0 1px 0 rgba(255,255,255,0.3);
+  top: 2px;
+  transform: scale(1.02);
+}
+
+.forgotBox button:active {
+  top: 4px;
+  box-shadow:
+    0 0 0 #6b5610,
+    0 2px 4px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.2);
+}
+
+.forgotBox button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  background: linear-gradient(180deg, #a88560, #8b6f47);
+}
+
+/* LINKS EXTRAS */
+.forgotBox .extra {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 2px solid rgba(143, 188, 143, 0.3);
+}
+
+.forgotBox .extra a {
+  color: var(--c5);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.forgotBox .extra a:hover {
+  color: var(--accent);
+  text-shadow: 0 0 8px rgba(244, 164, 96, 0.6);
+}
+
+/* BOTÓN VOLVER */
+.backHome {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  display: inline-block;
+  padding: 0.6rem 1.2rem;
+  background: rgba(90, 130, 102, 0.4);
+  color: var(--c5);
+  text-decoration: none;
+  border: 2px solid var(--c3);
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  text-align: center;
+  z-index: 100;
+}
+
+.backHome:hover {
+  background: rgba(90, 130, 102, 0.6);
+  border-color: var(--accent);
+  color: var(--accent);
+  box-shadow: 0 0 8px rgba(244, 164, 96, 0.3);
+}
+
+/* RESPONSIVE */
+@media (max-width: 600px) {
+  .forgotBox {
+    padding: 1.5rem;
+    margin: 1rem;
+  }
+
+  .forgotBox h1 {
+    font-size: 2rem;
+  }
+
+  .forgotBox button {
+    padding: 0.9rem 1.5rem;
+    font-size: 1rem;
+  }
+
+  .backHome {
+    top: 10px;
+    left: 10px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+  }
+}

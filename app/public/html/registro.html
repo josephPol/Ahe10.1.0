@@ -5,6 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registro | aje10</title>
   <link rel="stylesheet" href="../css/registro.css">
+  <style>
+    /* ESTILOS LOCALES PARA ASEGURAR QUE FUNCIONEN */
+    #registerBtn {
+      padding: 1.2rem 2.5rem !important;
+      margin-top: 0.5rem !important;
+      font-size: 1.2rem !important;
+      font-weight: bold !important;
+      color: #1a2528 !important;
+      background: linear-gradient(180deg, #f4a460, #d48545) !important;
+      border: 3px solid #8b6914 !important;
+      border-radius: 6px !important;
+      cursor: pointer !important;
+      font-family: "Courier New", monospace !important;
+      letter-spacing: 1px !important;
+      transition: all 0.2s ease !important;
+      box-shadow:
+        0 4px 0 #6b5610,
+        0 6px 12px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.2) !important;
+      text-transform: uppercase !important;
+      position: relative !important;
+      top: 0 !important;
+      width: 100% !important;
+    }
+
+    #registerBtn:hover:not(:disabled) {
+      background: linear-gradient(180deg, #ffb575, #e59555) !important;
+      box-shadow:
+        0 2px 0 #6b5610,
+        0 4px 8px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.3) !important;
+      top: 2px !important;
+      transform: scale(1.02) !important;
+    }
+
+    #registerBtn:active:not(:disabled) {
+      top: 4px !important;
+      box-shadow:
+        0 0 0 #6b5610,
+        0 2px 4px rgba(0,0,0,0.3),
+        inset 0 1px 0 rgba(255,255,255,0.2) !important;
+    }
+
+    #registerBtn:disabled {
+      opacity: 0.7 !important;
+      cursor: not-allowed !important;
+      background: linear-gradient(180deg, #a88560, #8b6f47) !important;
+    }
+  </style>
 </head>
 
 <body>
