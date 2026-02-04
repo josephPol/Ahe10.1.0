@@ -39,7 +39,7 @@
 
   <div id="formMessages"></div>
 
-  <form id="contactForm" class="contact-form" method="GET" action="/contact/submit" style="padding: 1.5rem 0;">
+  <form id="contactForm" class="contact-form" method="POST" action="../contact-submit.php" style="padding: 1.5rem 0;">
     <div class="form-group">
       <label>Nombre</label>
       <input name="name" type="text" placeholder="Tu nombre (opcional)">
@@ -72,17 +72,17 @@
   <div class="info-grid">
     <div class="info-item">
       <h4>📧 Email</h4>
-      <p>support@chesshub.com</p>
+      <p>support@aje10.com</p>
     </div>
     
     <div class="info-item">
       <h4>💬 Discord</h4>
-      <p>discord.gg/chesshub</p>
+      <p>discord.gg/Aje10</p>
     </div>
     
     <div class="info-item">
       <h4>🐦 Twitter</h4>
-      <p>@ChessHub</p>
+      <p>@Aje10</p>
     </div>
   </div>
 </section>
@@ -97,16 +97,15 @@
 </main>
 
 <script>
-  // Basic client-side feedback for GET submission
+  // Envío por POST al endpoint PHP
   document.getElementById('contactForm').addEventListener('submit', function(e){
-    // let browser handle navigation to /contact/submit (GET)
-    var form = this;
-    var params = Array.from(new FormData(form)).map(function(pair){
-      return encodeURIComponent(pair[0]) + '=' + encodeURIComponent(pair[1]);
-    }).join('&');
-    var url = form.action + '?' + params;
     e.preventDefault();
-    fetch(url, { method: 'GET' })
+    var form = this;
+    var formData = new FormData(form);
+    fetch(form.action, {
+      method: 'POST',
+      body: formData
+    })
       .then(function(r){ return r.json(); })
       .then(function(data){
         var m = document.getElementById('formMessages');
