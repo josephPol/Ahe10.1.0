@@ -1,2 +1,328 @@
 @import 'main.css';
-/* Estilos específicos para la página Learn (si es necesario) */
+
+/* Hero section con botón de crear */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+  background: var(--fondo);
+  border: 3px solid var(--c3);
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--gold);
+  text-shadow: 2px 2px 0 var(--c1);
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: var(--texto);
+}
+
+#btn-crear-jugada {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+/* Grid de jugadas */
+.jugadas-section {
+  padding: 2rem 0;
+}
+
+.jugadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+/* Tarjeta de jugada */
+.jugada-card {
+  background: var(--fondo);
+  border: 3px solid var(--c3);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.jugada-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 8px 8px 0 var(--c1);
+  border-color: var(--accent);
+}
+
+.jugada-image {
+  width: 100%;
+  height: 300px;
+  background: var(--c1);
+  border: 2px solid var(--c3);
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.jugada-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.no-image {
+  font-size: 4rem;
+  color: var(--c3);
+}
+
+.jugada-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.jugada-title {
+  font-size: 1.4rem;
+  color: var(--gold);
+  margin: 0;
+  text-shadow: 1px 1px 0 var(--c1);
+}
+
+.jugada-description {
+  color: var(--texto);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.jugada-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--c3);
+}
+
+.jugada-author {
+  color: var(--c4);
+  font-size: 0.9rem;
+}
+
+.btn-like {
+  background: transparent;
+  border: 2px solid var(--c3);
+  color: var(--texto);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.btn-like:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.btn-like.liked {
+  animation: likeAnimation 0.3s ease;
+}
+
+@keyframes likeAnimation {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.modal-content {
+  background: var(--fondo);
+  margin: 2% auto;
+  padding: 2rem;
+  border: 3px solid var(--c3);
+  width: 90%;
+  max-width: 600px;
+  position: relative;
+  box-shadow: 8px 8px 0 var(--c1);
+}
+
+.modal-close {
+  color: var(--texto);
+  float: right;
+  font-size: 2rem;
+  font-weight: bold;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: var(--accent);
+}
+
+.modal-content h2 {
+  color: var(--gold);
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  text-shadow: 2px 2px 0 var(--c1);
+}
+
+/* Formulario */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  color: var(--texto);
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  background: var(--c1);
+  border: 2px solid var(--c3);
+  color: var(--texto);
+  font-family: inherit;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.help-text {
+  font-size: 0.9rem;
+  color: var(--c4);
+  margin-top: 0.5rem;
+}
+
+/* Contenedor del tablero */
+.board-container {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  background: var(--c1);
+  border: 2px solid var(--c3);
+  margin-top: 0.5rem;
+}
+
+/* Acciones del formulario */
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+}
+
+/* Estados de carga y error */
+.loading,
+.empty-state,
+.error-state {
+  text-align: center;
+  padding: 4rem 2rem;
+  color: var(--texto);
+}
+
+.empty-state {
+  background: var(--fondo);
+  border: 3px dashed var(--c3);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  color: var(--gold);
+  margin-bottom: 0.5rem;
+}
+
+.error-state {
+  background: var(--fondo);
+  border: 3px solid #d32f2f;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .jugadas-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .modal-content {
+    width: 95%;
+    padding: 1.5rem;
+  }
+
+  .board-container #board {
+    width: 100% !important;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .form-actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+
+  .jugada-card {
+    padding: 1rem;
+  }
+
+  .jugada-image {
+    height: 250px;
+  }
+
+  .jugada-footer {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+
+  .btn-like {
+    width: 100%;
+  }
+}
+
