@@ -34,11 +34,18 @@
   <main class="contenedor">
     <section class="hero play-hero">
       <h1>♞ PARTIDA ♞</h1>
-      <p>Arrastra las piezas para jugar.</p>
+      <p>Mueve las piezas para jugar.</p>
     </section>
 
     <section class="play-board-section">
     <div class="play-layout">
+      <!-- Temporizador de Blancas (arriba a la izquierda) -->
+      <div class="timer-container timer-white">
+        <div class="timer-label">⚪ BLANCAS</div>
+        <div class="timer-display" id="timerWhite">10:00</div>
+        <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
+      </div>
+
       <aside class="move-panel">
         <div class="move-panel__title">Historial de movimientos</div>
         <ol id="moveList" class="move-list"></ol>
@@ -46,6 +53,13 @@
 
       <div class="play-board-frame">
         <div id="chessBoard" class="play-board"></div>
+      </div>
+
+      <!-- Temporizador de Negras (abajo a la derecha) -->
+      <div class="timer-container timer-black">
+        <div class="timer-label">⚫ NEGRAS</div>
+        <div class="timer-display" id="timerBlack">10:00</div>
+        <button class="resign-btn" id="resignBlack" data-color="b">Rendirse</button>
       </div>
 
       <aside class="control-panel">
@@ -62,6 +76,15 @@
           </div>
         </div>
       </aside>
+    </div>
+
+    <!-- Panel de resultado final -->
+    <div id="resultModal" class="result-modal hidden">
+      <div class="result-content">
+        <h2 id="resultTitle">¡Partida Terminada!</h2>
+        <p id="resultMessage"></p>
+        <button id="restartBtn" class="result-btn">Nueva Partida</button>
+      </div>
     </div>
   </section>
 
