@@ -1,8 +1,20 @@
 (() => {
   'use strict';
 
-  let game = null;
-  let board = null;
+  let game;
+  let board;
+
+  const moveListEl = document.getElementById('moveList');
+
+  // Mapa para mostrar icono de pieza en el historial (estilo simple)
+  const pieceIcon = {
+    p: '♙', // peón
+    n: '♘', // caballo
+    b: '♗', // alfil
+    r: '♖', // torre
+    q: '♕', // reina
+    k: '♔'  // rey
+  };
 
   document.addEventListener('DOMContentLoaded', () => {
     game = new Chess();
@@ -17,216 +29,138 @@
     };
 
     board = Chessboard('chessBoard', config);
+
+    // Pintar estado inicial (por si quieres marcar jaque/limpiar)
+    refreshBoardUI(null);
   });
 
-  /* =========================================
-     UTILIDADES
-  ========================================= */
-
-  // a1 -> [row, col] con row 0..7 (0 es fila 8) y col 0..7 (0 es 'a')
-  function getCoordinates(square) {
-    const col = square.charCodeAt(0) - 'a'.charCodeAt(0);
-    const row = 8 - parseInt(square[1], 10);
-    return [row, col];
-  }
-
-  // Construye estado actual del tablero en formato chessboard.js: {a8:"br", e2:"wp"...}
-  function getBoardStateFromGame(gameInstance) {
-    const state = {};
-    const b = gameInstance.board(); // 8x8, cada celda {type:'p', color:'w'} o null
-
-    for (let row = 0; row < 8; row++) {
-      for (let col = 0; col < 8; col++) {
-        const cell = b[row][col];
-        if (!cell) continue;
-
-        const file = String.fromCharCode(97 + col); // a..h
-        const rank = String(8 - row);               // 8..1
-        const sq = file + rank;
-
-        state[sq] = cell.color + cell.type; // ej: 'w'+'p' => 'wp'
-      }
-    }
-    return state;
-  }
-
-  /* =========================================
-     VALIDACIÓN: REGLAS POR PIEZA
-  ========================================= */
-
-  /**
-   * Valida si el movimiento es legal para el tipo de pieza (reglas básicas)
-   * piece: "wp","bn","wq","bk"... (color + tipo)
-   */
-  function isValidPieceMovement(piece, from, to, boardState) {
-    const [fromRow, fromCol] = getCoordinates(from);
-    const [toRow, toCol] = getCoordinates(to);
-    const type = piece[1].toLowerCase();
-    const targetPiece = boardState[to];
-
-    // No capturar pieza del mismo color
-    if (targetPiece && targetPiece[0] === piece[0]) return false;
-
-    switch (type) {
-      case 'p': // peón
-        return isValidPawnMove(piece, fromRow, fromCol, toRow, toCol, boardState, from, to);
-      case 'n': // caballo
-        return isValidKnightMove(fromRow, fromCol, toRow, toCol);
-      case 'b': // alfil
-        return isValidBishopMove(fromRow, fromCol, toRow, toCol, boardState);
-      case 'r': // torre
-        return isValidRookMove(fromRow, fromCol, toRow, toCol, boardState);
-      case 'q': // reina
-        return isValidQueenMove(fromRow, fromCol, toRow, toCol, boardState);
-      case 'k': // rey
-        return isValidKingMove(fromRow, fromCol, toRow, toCol);
-      default:
-        return false;
-    }
-  }
-
-  /**
-   * PEÓN:
-   * - Avanza recto 1 si está libre
-   * - Primer movimiento: puede avanzar 2 si ambos libres
-   * - Captura SOLO en diagonal 1 si hay pieza enemiga
-   * Blancas suben (row disminuye), negras bajan (row aumenta)
-   */
-  function isValidPawnMove(piece, fromRow, fromCol, toRow, toCol, boardState, from, to) {
-    const isWhite = piece[0] === 'w';
-    const direction = isWhite ? -1 : 1;
-    const targetPiece = boardState[to];
-
-    // 1 paso hacia adelante (misma columna, casilla destino vacía)
-    if (fromCol === toCol && toRow === fromRow + direction && !targetPiece) {
-      return true;
-    }
-
-    // 2 pasos iniciales
-    const startRow = isWhite ? 6 : 1;
-    if (fromRow === startRow && fromCol === toCol && toRow === fromRow + 2 * direction) {
-      const middleSquare = String.fromCharCode(97 + fromCol) + (8 - (fromRow + direction));
-      if (!boardState[middleSquare] && !targetPiece) {
-        return true;
-      }
-    }
-
-    // Captura en diagonal (1)
-    if (Math.abs(toCol - fromCol) === 1 && toRow === fromRow + direction && targetPiece) {
-      return true;
-    }
-
-    return false;
-  }
-
-  /**
-   * CABALLO: movimiento en L (2,1) o (1,2)
-   */
-  function isValidKnightMove(fromRow, fromCol, toRow, toCol) {
-    const rowDiff = Math.abs(toRow - fromRow);
-    const colDiff = Math.abs(toCol - fromCol);
-    return (rowDiff === 2 && colDiff === 1) || (rowDiff === 1 && colDiff === 2);
-  }
-
-  /**
-   * ALFIL: diagonal sin obstáculos
-   */
-  function isValidBishopMove(fromRow, fromCol, toRow, toCol, boardState) {
-    const rowDiff = Math.abs(toRow - fromRow);
-    const colDiff = Math.abs(toCol - fromCol);
-
-    if (rowDiff !== colDiff || rowDiff === 0) return false;
-    return isPathClear(fromRow, fromCol, toRow, toCol, boardState);
-  }
-
-  /**
-   * TORRE: vertical u horizontal sin obstáculos
-   */
-  function isValidRookMove(fromRow, fromCol, toRow, toCol, boardState) {
-    if (fromRow !== toRow && fromCol !== toCol) return false;
-    if (fromRow === toRow && fromCol === toCol) return false;
-    return isPathClear(fromRow, fromCol, toRow, toCol, boardState);
-  }
-
-  /**
-   * REINA: combina alfil + torre
-   */
-  function isValidQueenMove(fromRow, fromCol, toRow, toCol, boardState) {
-    return (
-      isValidBishopMove(fromRow, fromCol, toRow, toCol, boardState) ||
-      isValidRookMove(fromRow, fromCol, toRow, toCol, boardState)
-    );
-  }
-
-  /**
-   * REY: 1 casilla en cualquier dirección
-   */
-  function isValidKingMove(fromRow, fromCol, toRow, toCol) {
-    const rowDiff = Math.abs(toRow - fromRow);
-    const colDiff = Math.abs(toCol - fromCol);
-    return rowDiff <= 1 && colDiff <= 1 && (rowDiff !== 0 || colDiff !== 0);
-  }
-
-  /**
-   * Camino despejado entre origen y destino (alfil, torre, reina)
-   */
-  function isPathClear(fromRow, fromCol, toRow, toCol, boardState) {
-    const rowStep = toRow > fromRow ? 1 : toRow < fromRow ? -1 : 0;
-    const colStep = toCol > fromCol ? 1 : toCol < fromCol ? -1 : 0;
-
-    let currentRow = fromRow + rowStep;
-    let currentCol = fromCol + colStep;
-
-    while (currentRow !== toRow || currentCol !== toCol) {
-      const square = String.fromCharCode(97 + currentCol) + (8 - currentRow);
-      if (boardState[square]) return false;
-      currentRow += rowStep;
-      currentCol += colStep;
-    }
-    return true;
-  }
-
-  /* =========================================
-     EVENTOS DEL TABLERO
-  ========================================= */
-
   function onDragStart(source, piece) {
-    // No mover si terminó
+    // Solo bloquea si hay FINAL de partida, no por jaque
+    // (en jaque se puede mover, pero solo legalmente)
     if (game.game_over()) return false;
 
-    // Respetar turnos (blancas primero)
+    // Respetar turnos
     if ((game.turn() === 'w' && piece.startsWith('b')) ||
         (game.turn() === 'b' && piece.startsWith('w'))) {
       return false;
     }
+
+    // Si no existe pieza en source, fuera
+    const p = game.get(source);
+    if (!p) return false;
   }
 
   function onDrop(source, target) {
-    // Si sueltas en la misma casilla, lo dejamos
-    if (source === target) return;
-
-    const pieceObj = game.get(source);
-    if (!pieceObj) return 'snapback';
-
-    const movingPiece = pieceObj.color + pieceObj.type; // "wp", "bn"...
-    const boardState = getBoardStateFromGame(game);
-
-    // 1) Reglas básicas por pieza (las que quieres)
-    const okByRules = isValidPieceMovement(movingPiece, source, target, boardState);
-    if (!okByRules) return 'snapback';
-
-    // 2) Aplicar el movimiento en chess.js para conservar turnos y estado
+    // Intentamos mover con chess.js: si es ilegal (incluye jaque), lo rechaza
     const move = game.move({
       from: source,
       to: target,
-      promotion: 'q' // promoción simple
+      promotion: 'q'
     });
 
-    if (move === null) return 'snapback';
+    if (move === null) {
+      return 'snapback';
+    }
+
+    // Añadir al historial
+    addMoveToHistory(move);
+
+    // Refrescar UI (último movimiento, jaque)
+    refreshBoardUI(move);
   }
 
   function onSnapEnd() {
+    // Sincroniza tablero con el estado real
     board.position(game.fen());
+  }
+
+  /* =========================================
+     HISTORIAL
+  ========================================= */
+
+  function addMoveToHistory(move) {
+    // move: {color:'w'/'b', piece:'p','n'.., from:'e2', to:'e4', san:'e4', flags:'...' }
+    const icon = pieceIcon[move.piece] || '';
+    const isWhiteMove = move.color === 'w';
+
+    // Número de jugada: solo se incrementa en movimientos de blancas
+    // Ej: 1. (blancas) ... (negras)
+    const fullMoveNumber = Math.ceil(game.history().length / 2);
+
+    const text = `${icon} ${move.from}→${move.to}  (${move.san})`;
+
+    if (isWhiteMove) {
+      // nueva línea numerada
+      const li = document.createElement('li');
+      li.textContent = `${fullMoveNumber}. ${text}`;
+      moveListEl.appendChild(li);
+    } else {
+      // añadir al último li (misma jugada)
+      const last = moveListEl.lastElementChild;
+      if (last) {
+        last.textContent = `${last.textContent}   |   ${text}`;
+      } else {
+        // por si acaso
+        const li = document.createElement('li');
+        li.textContent = `${fullMoveNumber}. ${text}`;
+        moveListEl.appendChild(li);
+      }
+    }
+
+    // Auto-scroll abajo
+    moveListEl.scrollTop = moveListEl.scrollHeight;
+  }
+
+  /* =========================================
+     UI: último movimiento + jaque
+  ========================================= */
+
+  function refreshBoardUI(lastMove) {
+    clearBoardHighlights();
+
+    if (lastMove) {
+      highlightSquare(lastMove.from, 'highlight-from');
+      highlightSquare(lastMove.to, 'highlight-to');
+    }
+
+    // Marcar el rey en jaque
+    if (game.in_check()) {
+      const kingSquare = findKingSquare(game.turn()); // el bando que está por mover es el que puede estar en jaque
+      if (kingSquare) highlightSquare(kingSquare, 'in-check');
+    }
+  }
+
+  function clearBoardHighlights() {
+    const $board = document.getElementById('chessBoard');
+    if (!$board) return;
+
+    $board.querySelectorAll('.highlight-from, .highlight-to, .in-check')
+      .forEach(el => {
+        el.classList.remove('highlight-from', 'highlight-to', 'in-check');
+      });
+  }
+
+  function highlightSquare(square, className) {
+    // chessboard.js pinta casillas con atributo data-square="e4"
+    const sel = `#chessBoard [data-square="${square}"]`;
+    const el = document.querySelector(sel);
+    if (el) el.classList.add(className);
+  }
+
+  function findKingSquare(colorToMove) {
+    // colorToMove: 'w' o 'b' -> buscamos el rey de ese color en el tablero
+    const b = game.board(); // 8x8
+    for (let r = 0; r < 8; r++) {
+      for (let c = 0; c < 8; c++) {
+        const cell = b[r][c];
+        if (cell && cell.type === 'k' && cell.color === colorToMove) {
+          const file = String.fromCharCode(97 + c);
+          const rank = String(8 - r);
+          return file + rank;
+        }
+      }
+    }
+    return null;
   }
 
 })();

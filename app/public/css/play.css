@@ -1,7 +1,7 @@
 @import 'main.css';
 
 /* =========================================
-   HERO (más fino, menos alto)
+   HERO (más fino)
 ========================================= */
 .play-hero {
   margin: 0 0 0.9rem 0;
@@ -19,14 +19,58 @@
 }
 
 /* =========================================
-   SECCIÓN DEL TABLERO
+   LAYOUT: historial izquierda + tablero derecha
 ========================================= */
 .play-board-section {
   display: flex;
   justify-content: center;
 }
 
-/* Marco (mantiene el look del proyecto usando variables del main.css) */
+.play-layout {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+/* Panel de historial (izquierda) */
+.move-panel {
+  width: 220px;
+  padding: 0.8rem;
+  border: 4px solid var(--c4);
+  border-top: 6px solid var(--c5);
+  background:
+    linear-gradient(180deg, rgba(45, 74, 62, 0.55), rgba(26, 37, 40, 0.55));
+  box-shadow:
+    0 0 0 2px var(--borde-1),
+    0 0 0 6px var(--borde-2),
+    10px 10px 0 0 rgba(0, 0, 0, 0.45),
+    inset 0 4px 0 rgba(232, 244, 215, 0.06);
+  border-radius: 8px;
+}
+
+.move-panel__title {
+  font-weight: 700;
+  letter-spacing: 1px;
+  margin-bottom: 0.6rem;
+  opacity: 0.95;
+}
+
+/* Lista de movimientos */
+.move-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  max-height: 480px; /* que coincida con el tablero */
+  overflow-y: auto;
+}
+
+.move-list li {
+  margin: 0.25rem 0;
+  opacity: 0.92;
+}
+
+/* =========================================
+   Marco del tablero (como ya tenías)
+========================================= */
 .play-board-frame {
   padding: 0.8rem;
   border: 4px solid var(--c4);
@@ -49,27 +93,64 @@
 }
 
 /* =========================================
-   TABLERO ESTÁTICO (NO deformable)
+   TABLERO ESTÁTICO (cuadrado fijo)
 ========================================= */
 .play-board {
   width: 480px;
   height: 480px;
 }
 
-/* Chessboard.js mete elementos internos con clases propias */
 #chessBoard,
 #chessBoard .board-b72b1 {
   width: 480px !important;
   height: 480px !important;
 }
 
-/* Evitar que algo lo intente hacer "responsive" */
-#chessBoard * {
-  max-width: none !important;
-}
-
-/* (Opcional) un poquito de redondeo al tablero interno */
 #chessBoard .board-b72b1 {
   border-radius: 6px;
   overflow: hidden;
+}
+
+/* =========================================
+   COLORES DEL TABLERO (adaptados al tema)
+   chessboard.js usa estas clases:
+   .white-1e1d7 y .black-3c85d
+========================================= */
+#chessBoard .white-1e1d7 {
+  /* “verde claro” suave, estilo tu UI */
+  background: linear-gradient(
+    180deg,
+    rgba(232, 244, 215, 0.35),
+    rgba(232, 244, 215, 0.22)
+  ) !important;
+}
+
+#chessBoard .black-3c85d {
+  /* “verde oscuro” suave, coherente con el fondo */
+  background: linear-gradient(
+    180deg,
+    rgba(26, 37, 40, 0.55),
+    rgba(26, 37, 40, 0.40)
+  ) !important;
+}
+
+/* =========================================
+   HIGHLIGHTS (selección, último movimiento, jaque)
+========================================= */
+#chessBoard .highlight-from,
+#chessBoard .highlight-to {
+  box-shadow: inset 0 0 0 4px rgba(232, 244, 215, 0.22) !important;
+}
+
+#chessBoard .highlight-from {
+  box-shadow: inset 0 0 0 4px rgba(255, 210, 0, 0.20) !important;
+}
+
+#chessBoard .highlight-to {
+  box-shadow: inset 0 0 0 4px rgba(143, 188, 143, 0.20) !important;
+}
+
+/* Si el rey está en jaque (lo añadimos por JS con .in-check) */
+#chessBoard .in-check {
+  box-shadow: inset 0 0 0 4px rgba(255, 80, 80, 0.28) !important;
 }
