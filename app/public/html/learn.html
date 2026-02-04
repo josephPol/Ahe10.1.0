@@ -4,14 +4,15 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ChessHub - Aprender</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
   <link rel="stylesheet" href="../css/learn.css" />
 </head>
 <body>
   <header class="topbar">
-    <div class="brand">
+    <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
       <div class="brandName">ChessHub</div>
-    </div>
+    </a>
 
     <nav class="topnav">
       <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
@@ -30,41 +31,58 @@
   <main class="contenedor">
 
 <section class="hero">
-  <h1>📖 APRENDER AJEDREZ</h1>
-  <p>Guía completa del peón al maestro</p>
+  <h1>📖 JUGADAS DE AJEDREZ</h1>
+  <p>Publica y aprende de las mejores estrategias</p>
+  <button id="btn-crear-jugada" class="btn btn-primary">+ Crear Jugada</button>
 </section>
 
-<section class="info-section">
-  <h2>🎯 Niveles de Aprendizaje</h2>
-  
-  <div class="info-grid">
-    <div class="info-item">
-      <h4>♟ Nivel 1 · BÁSICO</h4>
-      <p>Movimientos de piezas, reglas fundamentales, jaque mate simple</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>♞ Nivel 2 · INTERMEDIO</h4>
-      <p>Control del centro, desarrollo de piezas, táctica básica</p>
-    </div>
-    
-    <div class="info-item">
-      <h4>♝ Nivel 3 · AVANZADO</h4>
-      <p>Estrategia posicional, finales técnicos, aperturas clásicas</p>
-    </div>
+<section class="jugadas-section">
+  <div id="jugadas-list" class="jugadas-grid">
+    <div class="loading">Cargando jugadas...</div>
   </div>
 </section>
 
-<section style="text-align: center; padding: 3rem 0;">
-  <h2 style="color: var(--gold); margin-bottom: 2rem;">Comienza tu viaje ajedrecístico</h2>
-  <button class="btn btn-primary" style="padding: 1.2rem 3rem; font-size: 1.1rem;">
-    📚 Ir a Nivel 1
-  </button>
-</section>
+<!-- Modal para crear jugada -->
+<div id="modal-crear" class="modal">
+  <div class="modal-content">
+    <span class="modal-close">&times;</span>
+    <h2>Crear Nueva Jugada</h2>
+    
+    <form id="form-jugada">
+      <div class="form-group">
+        <label for="nombre-jugada">Nombre de la jugada:</label>
+        <input type="text" id="nombre-jugada" required maxlength="255" placeholder="Ej: Mate del Pastor">
+      </div>
+      
+      <div class="form-group">
+        <label for="descripcion-jugada">Descripción:</label>
+        <textarea id="descripcion-jugada" required rows="4" placeholder="Explica los movimientos y la estrategia..."></textarea>
+      </div>
+      
+      <div class="form-group">
+        <label>Configura el tablero:</label>
+        <div id="board-container" class="board-container">
+          <div id="board" style="width: 400px"></div>
+        </div>
+        <p class="help-text">Mueve las piezas para mostrar tu jugada</p>
+      </div>
+      
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancelar">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Publicar Jugada</button>
+      </div>
+    </form>
+  </div>
+</div>
 
   </main>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="../auth/auth.js"></script>
-    <script src="js/theme.js"></script>
+    <script src="../js/theme.js"></script>
+    <script src="../js/jugadas.js"></script>
   </body>
 </html>

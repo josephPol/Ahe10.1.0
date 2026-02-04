@@ -70,6 +70,17 @@ body {
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+  color: var(--c5);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brand:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.brand:active {
+  transform: scale(0.98);
 }
 
 .brand .logo {
