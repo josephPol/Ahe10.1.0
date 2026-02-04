@@ -14,6 +14,11 @@
   // Modo de jugabilidad
   let gameMode = 'drag'; // 'drag' o 'click'
 
+  // Modo de juego: 'pvp' o 'ai'
+  let playMode = 'pvp'; // 'pvp' o 'ai'
+  let aiDifficulty = 'medium'; // 'easy', 'medium', 'hard'
+  let isAIThinking = false;
+
   // Temporizadores
   let timerWhiteEl = document.getElementById('timerWhite');
   let timerBlackEl = document.getElementById('timerBlack');
@@ -37,14 +42,14 @@
   document.addEventListener('DOMContentLoaded', () => {
     game = new Chess();
 
+    // Mostrar modal de selección de modo de juego
+    setupGameModeSelection();
+
     // Inicializar controles de modo
     setupModeControls();
     setupResignButtons();
 
-    // Crear tablero (inicialmente en modo drag)
-    initializeBoard();
-
-    refreshBoardUI(null);
+    // NO crear tablero aún, esperar a que elija modo
   });
 
   // Configura los botones de rendición
@@ -57,8 +62,72 @@
     });
 
     resignBlackBtn.addEventListener('click', () => {
+      if (playMode === 'ai') {
+        // En modo IA, no se puede hacer rendirse a la IA
+        return;
+      }
       endGame('Negras se rindieron', 'Blancas ganan', 'w');
     });
+
+    // Si estamos en modo IA, deshabilitar botón de rendición de negras
+    if (playMode === 'ai') {
+      resignBlackBtn.disabled = true;
+      resignBlackBtn.style.opacity = '0.5';
+      resignBlackBtn.style.cursor = 'not-allowed';
+    }
+  }
+
+  // Configura la selección de modo de juego
+  function setupGameModeSelection() {
+    const gameModeModal = document.getElementById('gameModeModal');
+    const pvpBtn = document.getElementById('pvpBtn');
+    const aiBtn = document.getElementById('aiBtn');
+
+    pvpBtn.addEventListener('click', () => {
+      playMode = 'pvp';
+      gameModeModal.classList.add('hidden');
+      // Timer para ambos jugadores
+      timerBlackEl.parentElement.style.display = 'flex';
+      updatePageTitle('Jugador vs Jugador');
+      initializeBoard();
+      refreshBoardUI(null);
+    });
+
+    aiBtn.addEventListener('click', () => {
+      playMode = 'ai';
+      gameModeModal.classList.add('hidden');
+      // Mostrar modal de dificultad
+      const difficultyModal = document.getElementById('aiDifficultyModal');
+      difficultyModal.classList.remove('hidden');
+      setupDifficultySelection();
+    });
+  }
+
+  function setupDifficultySelection() {
+    const difficultyModal = document.getElementById('aiDifficultyModal');
+    const difficultyBtns = document.querySelectorAll('.difficulty-btn');
+
+    difficultyBtns.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        aiDifficulty = e.currentTarget.getAttribute('data-difficulty');
+        difficultyModal.classList.add('hidden');
+        // Ocultar temporizador de IA (solo usuario juega con tiempo)
+        timerBlackEl.parentElement.style.display = 'none';
+        
+        const difficultyNames = { easy: 'Fácil', medium: 'Medio', hard: 'Difícil' };
+        updatePageTitle(`Jugador vs IA (${difficultyNames[aiDifficulty]})`);
+        
+        initializeBoard();
+        refreshBoardUI(null);
+      });
+    });
+  }
+
+  function updatePageTitle(subtitle) {
+    const heroP = document.querySelector('.play-hero p');
+    if (heroP) {
+      heroP.textContent = subtitle;
+    }
   }
 
   // Configura los botones de cambio de modo
@@ -141,22 +210,33 @@
         return;
       }
 
-      // Disminuir el tiempo del jugador actual
-      if (game.turn() === 'w') {
+      // En modo PvP, contar tiempo para ambos
+      // En modo IA, solo contar tiempo del jugador (blancas)
+      if (playMode === 'pvp') {
+        if (game.turn() === 'w') {
+          timeWhite--;
+          if (timeWhite < 0) timeWhite = 0;
+        } else {
+          timeBlack--;
+          if (timeBlack < 0) timeBlack = 0;
+        }
+      } else if (playMode === 'ai' && game.turn() === 'w') {
+        // Solo contar tiempo si es blancas (el jugador humano)
         timeWhite--;
         if (timeWhite < 0) timeWhite = 0;
-      } else {
-        timeBlack--;
-        if (timeBlack < 0) timeBlack = 0;
       }
 
       updateTimerDisplay();
 
       // Si alguien se queda sin tiempo
-      if (timeWhite === 0) {
-        endGame('Tiempo agotado', 'Negras ganan por tiempo', 'b');
-      } else if (timeBlack === 0) {
-        endGame('Tiempo agotado', 'Blancas ganan por tiempo', 'w');
+      if (playMode === 'pvp') {
+        if (timeWhite === 0) {
+          endGame('Tiempo agotado', 'Negras ganan por tiempo', 'b');
+        } else if (timeBlack === 0) {
+          endGame('Tiempo agotado', 'Blancas ganan por tiempo', 'w');
+        }
+      } else if (playMode === 'ai' && timeWhite === 0) {
+        endGame('Tiempo agotado', 'IA gana por tiempo', 'b');
       }
     }, 1000);
 
@@ -222,6 +302,11 @@
   function onDragStart(source, piece) {
     if (game.game_over()) return false;
 
+    // En modo IA, solo el jugador (blancas) puede mover
+    if (playMode === 'ai' && !piece.startsWith('w')) {
+      return false;
+    }
+
     // turnos
     if ((game.turn() === 'w' && piece.startsWith('b')) ||
         (game.turn() === 'b' && piece.startsWith('w'))) {
@@ -250,7 +335,13 @@
     refreshBoardUI(move);
     clearSelection();
     updateTimerUI(); // Actualizar temporizador después del movimiento
-    checkGameEnd(); // Verificar si la partida ha terminado
+    
+    if (checkGameEnd()) return;
+    
+    // Si es modo IA y es turno de negras, que juegue la IA
+    if (playMode === 'ai' && game.turn() === 'b') {
+      setTimeout(() => makeAIMove(), 500);
+    }
   }
 
   function onSnapEnd() {
@@ -272,6 +363,11 @@
 
     // Si NO hay pieza seleccionada aún
     if (!selectedFrom) {
+      // En modo IA, solo blancas pueden ser seleccionadas inicialmente
+      if (playMode === 'ai' && clickedPiece && clickedPiece.color !== 'w') {
+        return;
+      }
+      
       // Solo selecciona si hay pieza y es del turno actual
       if (clickedPiece && clickedPiece.color === game.turn()) {
         setSelection(square);
@@ -300,7 +396,13 @@
       clearSelection();
       setupClickHandlers(); // Reconfigura listeners después del movimiento
       updateTimerUI(); // Actualizar temporizador después del movimiento
-      checkGameEnd(); // Verificar si la partida ha terminado
+      
+      if (checkGameEnd()) return;
+      
+      // Si es modo IA y es turno de negras, que juegue la IA
+      if (playMode === 'ai' && game.turn() === 'b') {
+        setTimeout(() => makeAIMove(), 500);
+      }
       return;
     }
 
@@ -342,6 +444,157 @@
   function clearSelection() {
     selectedFrom = null;
     clearSelectionHighlight();
+  }
+
+  /* =========================================
+     IA - LOGICA DE MOVIMIENTO
+  ========================================= */
+
+  function makeAIMove() {
+    if (gameFinished || isAIThinking || game.turn() !== 'b') return;
+
+    isAIThinking = true;
+
+    let bestMove;
+    if (aiDifficulty === 'easy') {
+      bestMove = getRandomMove();
+    } else if (aiDifficulty === 'medium') {
+      bestMove = getMediumAIMove();
+    } else {
+      bestMove = getHardAIMove();
+    }
+
+    if (bestMove) {
+      const move = game.move(bestMove);
+      if (move) {
+        addMoveToHistory(move);
+        refreshBoardUI(move);
+        updateTimerUI();
+        
+        if (checkGameEnd()) {
+          isAIThinking = false;
+          return;
+        }
+      }
+    }
+
+    isAIThinking = false;
+    board.position(game.fen());
+  }
+
+  // IA FÁCIL: Movimiento completamente aleatorio
+  function getRandomMove() {
+    const moves = game.moves({ verbose: true });
+    if (moves.length === 0) return null;
+    return moves[Math.floor(Math.random() * moves.length)];
+  }
+
+  // IA MEDIO: Evita pérdidas obvias y busca capturas
+  function getMediumAIMove() {
+    const moves = game.moves({ verbose: true });
+    if (moves.length === 0) return null;
+
+    // Evaluar cada movimiento
+    const scoredMoves = moves.map(move => {
+      let score = 0;
+
+      // +1 punto por capturar piezas
+      if (move.captured) {
+        const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
+        score += pieceValues[move.captured] || 1;
+      }
+
+      // +0.5 puntos por controlar el centro
+      const centerSquares = ['d4', 'd5', 'e4', 'e5'];
+      if (centerSquares.includes(move.to)) {
+        score += 0.5;
+      }
+
+      // -1 punto si el rey está en jaque (riesgo de pérdida)
+      game.move(move);
+      if (game.in_check()) {
+        score -= 0.5;
+      }
+      game.undo();
+
+      return { move, score };
+    });
+
+    // Ordenar por puntuación y añadir aleatoriedad
+    scoredMoves.sort((a, b) => b.score - a.score);
+    
+    // Tomar de los top 3 movimientos aleatorio
+    const topMoves = scoredMoves.slice(0, Math.max(1, Math.floor(moves.length / 3)));
+    return topMoves[Math.floor(Math.random() * topMoves.length)].move;
+  }
+
+  // IA DIFÍCIL: Análisis profundo con minimax simplificado
+  function getHardAIMove() {
+    const moves = game.moves({ verbose: true });
+    if (moves.length === 0) return null;
+
+    const bestMove = moves.reduce((best, move) => {
+      let score = evaluateMoveHard(move);
+      
+      // Añadir pequeña aleatoriedad para que no siempre juegue igual
+      score += Math.random() * 0.2;
+      
+      return score > best.score ? { move, score } : best;
+    }, { move: null, score: -Infinity });
+
+    return bestMove.move;
+  }
+
+  function evaluateMoveHard(move) {
+    let score = 0;
+
+    // Valor de capturas
+    if (move.captured) {
+      const pieceValues = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
+      score += pieceValues[move.captured] * 10;
+    }
+
+    // Control del centro (muy importante)
+    const centerSquares = ['d4', 'd5', 'e4', 'e5', 'c4', 'c5', 'd3', 'd6', 'e3', 'e6'];
+    if (centerSquares.includes(move.to)) {
+      score += 2;
+    }
+
+    // Proteger el rey
+    game.move(move);
+    if (game.in_check()) {
+      score -= 50; // Evitar jaque al propio rey
+    }
+
+    // Atacar piezas desprotegidas
+    const targetSquare = move.to;
+    const allMoves = game.moves({ verbose: true });
+    const isAttackedByOpponent = allMoves.some(m => m.to === targetSquare && m.captured);
+    if (!isAttackedByOpponent && move.captured) {
+      score += 1;
+    }
+
+    // Dar jaque al oponente es bueno
+    if (game.in_check()) {
+      score += 3;
+    }
+
+    // Evitar perder piezas
+    game.undo();
+    const ourAttackers = game.moves({ verbose: true }).filter(m => m.to === move.from && !m.captured).length;
+    const opponentAttackers = getMoveCount(move.from);
+    
+    if (opponentAttackers > ourAttackers && move.piece !== 'p') {
+      score -= 5;
+    }
+
+    return score;
+  }
+
+  function getMoveCount(square) {
+    const originalGame = new Chess(game.fen());
+    const moves = originalGame.moves({ verbose: true });
+    return moves.filter(m => m.to === square && m.color === 'w').length;
   }
 
   /* =========================================

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ChessHub - Partida</title>
+  <title>Aje10 - Partida</title>
 
   <!-- Misma idea que el resto: CSS de página que importa main.css -->
   <link rel="stylesheet" href="../css/play.css" />
@@ -16,7 +16,7 @@
   <header class="topbar">
     <div class="brand">
       <div class="logo">♟</div>
-      <div class="brandName">ChessHub</div>
+      <div class="brandName">Aje10</div>
     </div>
 
     <nav class="topnav">
@@ -84,6 +84,39 @@
         <h2 id="resultTitle">¡Partida Terminada!</h2>
         <p id="resultMessage"></p>
         <button id="restartBtn" class="result-btn">Nueva Partida</button>
+      </div>
+    </div>
+
+    <!-- Modal de selección de modo de juego -->
+    <div id="gameModeModal" class="result-modal">
+      <div class="result-content">
+        <h2>Selecciona modo de juego</h2>
+        <div class="game-mode-selector">
+          <button id="pvpBtn" class="mode-choice-btn">
+            👥 Jugador vs Jugador
+          </button>
+          <button id="aiBtn" class="mode-choice-btn">
+            🤖 Jugador vs IA
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de selección de dificultad IA -->
+    <div id="aiDifficultyModal" class="result-modal hidden">
+      <div class="result-content">
+        <h2>Elige dificultad de IA</h2>
+        <div class="difficulty-selector">
+          <button class="difficulty-btn" data-difficulty="easy">
+            🟢 Fácil
+          </button>
+          <button class="difficulty-btn" data-difficulty="medium">
+            🟡 Medio
+          </button>
+          <button class="difficulty-btn" data-difficulty="hard">
+            🔴 Difícil
+          </button>
+        </div>
       </div>
     </div>
   </section>
