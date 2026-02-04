@@ -6,22 +6,67 @@
 
   const moveListEl = document.getElementById('moveList');
 
-  // Mapa para mostrar icono de pieza en el historial (estilo simple)
+  // Para “click to move”
+  let selectedFrom = null; // ej: "c1"
+  let dragStartTime = null;
+  let dragStartSquare = null;
+
+  // Modo de jugabilidad
+  let gameMode = 'drag'; // 'drag' o 'click'
+
+  // Mapa para iconos en historial
   const pieceIcon = {
-    p: '♙', // peón
-    n: '♘', // caballo
-    b: '♗', // alfil
-    r: '♖', // torre
-    q: '♕', // reina
-    k: '♔'  // rey
+    p: '♙',
+    n: '♘',
+    b: '♗',
+    r: '♖',
+    q: '♕',
+    k: '♔'
   };
 
   document.addEventListener('DOMContentLoaded', () => {
     game = new Chess();
 
+    // Inicializar controles de modo
+    setupModeControls();
+
+    // Crear tablero (inicialmente en modo drag)
+    initializeBoard();
+
+    refreshBoardUI(null);
+  });
+
+  // Configura los botones de cambio de modo
+  function setupModeControls() {
+    const modeButtons = document.querySelectorAll('.mode-btn');
+    modeButtons.forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const newMode = e.currentTarget.getAttribute('data-mode');
+        setGameMode(newMode);
+      });
+    });
+  }
+
+  // Cambia el modo de juego
+  function setGameMode(mode) {
+    gameMode = mode;
+
+    // Actualizar UI de botones
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+      btn.classList.remove('mode-btn--active');
+    });
+    document.querySelector(`[data-mode="${mode}"]`).classList.add('mode-btn--active');
+
+    // Recrear el tablero con la nueva configuración
+    clearSelection();
+    initializeBoard();
+  }
+
+  // Inicializa el tablero con la configuración actual
+  function initializeBoard() {
     const config = {
-      draggable: true,
-      position: 'start',
+      draggable: gameMode === 'drag', // true para drag, false para click
+      position: game.fen(), // Mantener posición actual
       onDragStart,
       onDrop,
       onSnapEnd,
@@ -30,48 +75,160 @@
 
     board = Chessboard('chessBoard', config);
 
-    // Pintar estado inicial (por si quieres marcar jaque/limpiar)
-    refreshBoardUI(null);
-  });
+    // Agregar listeners de click si estamos en modo click
+    if (gameMode === 'click') {
+      const chessBoardEl = document.getElementById('chessBoard');
+      if (chessBoardEl) {
+        chessBoardEl.removeEventListener('click', handleBoardClick);
+        chessBoardEl.addEventListener('click', handleBoardClick);
+      }
+    }
+  }
+
+  // Configura los listeners de click en cada casilla del tablero
+  function setupClickHandlers() {
+    // Esta función ya no es necesaria con draggable: true
+  }
+
+  // Manejador de click global en el tablero (solo en modo click)
+  function handleBoardClick(e) {
+    if (gameMode !== 'click') return;
+
+    const squareEl = e.target.closest('[data-square]');
+    if (!squareEl) return;
+
+    const square = squareEl.getAttribute('data-square');
+    if (square) {
+      onBoardClick(square);
+    }
+  }
+
+  // Detecta el inicio del mouse down
+  function handleSquareMouseDown(e) {
+    // Ya no usada
+  }
+
+  // Si soltas = click-to-move o arrastre
+  function handleSquareMouseUp(e) {
+    // Ya no usada
+  }
+
+  // Si dejas el mouse fuera = reset de drag
+  function handleSquareMouseLeave(e) {
+    // No reseteamos aquí, permitimos que el drag continúe
+  }
+
+
 
   function onDragStart(source, piece) {
-    // Solo bloquea si hay FINAL de partida, no por jaque
-    // (en jaque se puede mover, pero solo legalmente)
     if (game.game_over()) return false;
 
-    // Respetar turnos
+    // turnos
     if ((game.turn() === 'w' && piece.startsWith('b')) ||
         (game.turn() === 'b' && piece.startsWith('w'))) {
       return false;
     }
 
-    // Si no existe pieza en source, fuera
-    const p = game.get(source);
-    if (!p) return false;
+    // Si empiezas a arrastrar, quitamos selección click-to-move
+    clearSelection();
   }
 
   function onDrop(source, target) {
-    // Intentamos mover con chess.js: si es ilegal (incluye jaque), lo rechaza
     const move = game.move({
       from: source,
       to: target,
       promotion: 'q'
     });
 
-    if (move === null) {
-      return 'snapback';
-    }
+    if (move === null) return 'snapback';
 
-    // Añadir al historial
     addMoveToHistory(move);
-
-    // Refrescar UI (último movimiento, jaque)
     refreshBoardUI(move);
+    clearSelection();
   }
 
   function onSnapEnd() {
-    // Sincroniza tablero con el estado real
     board.position(game.fen());
+  }
+
+  /* =========================================
+     CLICK TO MOVE
+     - Click 1: selecciona pieza (si es tu turno)
+     - Click 2: intenta mover a casilla/captura
+     - Si clickas una pieza de tu color -> cambia selección
+  ========================================= */
+
+  function onBoardClick(square) {
+    const clickedPiece = game.get(square); // {type:'p', color:'w'} o null
+
+    // Si la partida terminó, no hacemos nada
+    if (game.game_over()) return;
+
+    // Si NO hay pieza seleccionada aún
+    if (!selectedFrom) {
+      // Solo selecciona si hay pieza y es del turno actual
+      if (clickedPiece && clickedPiece.color === game.turn()) {
+        setSelection(square);
+        refreshBoardUI(null);
+        highlightSelection();
+      }
+      return;
+    }
+
+    // Si YA hay selección
+    const from = selectedFrom;
+
+    // Si haces click sobre una pieza de TU color -> cambia la selección
+    if (clickedPiece && clickedPiece.color === game.turn()) {
+      setSelection(square);
+      refreshBoardUI(null);
+      highlightSelection();
+      return;
+    }
+
+    // Intentar mover/capturar al destino (vacío o enemigo)
+    const move = tryMove(from, square);
+    if (move) {
+      addMoveToHistory(move);
+      refreshBoardUI(move);
+      clearSelection();
+      setupClickHandlers(); // Reconfigura listeners después del movimiento
+      return;
+    }
+
+    // Si el movimiento es ilegal, mantengo selección y resalto
+    highlightSelection();
+  }
+
+  function tryMove(from, to) {
+    if (from === to) return null;
+
+    // chess.js valida legalidad completa (incluye jaque)
+    const move = game.move({
+      from,
+      to,
+      promotion: 'q'
+    });
+
+    if (move === null) {
+      // revertir cualquier intento (chess.js ya no cambia si es null)
+      // asegurar que el tablero se mantenga igual
+      board.position(game.fen());
+      return null;
+    }
+
+    // Si se ha movido, actualizamos el tablero visual
+    board.position(game.fen());
+    return move;
+  }
+
+  function setSelection(square) {
+    selectedFrom = square;
+  }
+
+  function clearSelection() {
+    selectedFrom = null;
+    clearSelectionHighlight();
   }
 
   /* =========================================
@@ -79,40 +236,32 @@
   ========================================= */
 
   function addMoveToHistory(move) {
-    // move: {color:'w'/'b', piece:'p','n'.., from:'e2', to:'e4', san:'e4', flags:'...' }
     const icon = pieceIcon[move.piece] || '';
     const isWhiteMove = move.color === 'w';
-
-    // Número de jugada: solo se incrementa en movimientos de blancas
-    // Ej: 1. (blancas) ... (negras)
     const fullMoveNumber = Math.ceil(game.history().length / 2);
 
     const text = `${icon} ${move.from}→${move.to}  (${move.san})`;
 
     if (isWhiteMove) {
-      // nueva línea numerada
       const li = document.createElement('li');
       li.textContent = `${fullMoveNumber}. ${text}`;
       moveListEl.appendChild(li);
     } else {
-      // añadir al último li (misma jugada)
       const last = moveListEl.lastElementChild;
       if (last) {
         last.textContent = `${last.textContent}   |   ${text}`;
       } else {
-        // por si acaso
         const li = document.createElement('li');
         li.textContent = `${fullMoveNumber}. ${text}`;
         moveListEl.appendChild(li);
       }
     }
 
-    // Auto-scroll abajo
     moveListEl.scrollTop = moveListEl.scrollHeight;
   }
 
   /* =========================================
-     UI: último movimiento + jaque
+     UI: highlights (último movimiento + jaque + selección)
   ========================================= */
 
   function refreshBoardUI(lastMove) {
@@ -125,31 +274,46 @@
 
     // Marcar el rey en jaque
     if (game.in_check()) {
-      const kingSquare = findKingSquare(game.turn()); // el bando que está por mover es el que puede estar en jaque
+      const kingSquare = findKingSquare(game.turn());
       if (kingSquare) highlightSquare(kingSquare, 'in-check');
     }
+
+    // Si hay selección, remarcarla
+    highlightSelection();
+  }
+
+  function highlightSelection() {
+    clearSelectionHighlight();
+    if (selectedFrom) {
+      highlightSquare(selectedFrom, 'highlight-from');
+      // Nota: reutilizo highlight-from para selección (queda integrado con tu paleta)
+      // Si quieres un estilo distinto, creo una clase "selected-square".
+    }
+  }
+
+  function clearSelectionHighlight() {
+    const $board = document.getElementById('chessBoard');
+    if (!$board) return;
+    $board.querySelectorAll('.selected-square').forEach(el => el.classList.remove('selected-square'));
   }
 
   function clearBoardHighlights() {
     const $board = document.getElementById('chessBoard');
     if (!$board) return;
 
-    $board.querySelectorAll('.highlight-from, .highlight-to, .in-check')
+    $board.querySelectorAll('.highlight-from, .highlight-to, .in-check, .selected-square')
       .forEach(el => {
-        el.classList.remove('highlight-from', 'highlight-to', 'in-check');
+        el.classList.remove('highlight-from', 'highlight-to', 'in-check', 'selected-square');
       });
   }
 
   function highlightSquare(square, className) {
-    // chessboard.js pinta casillas con atributo data-square="e4"
-    const sel = `#chessBoard [data-square="${square}"]`;
-    const el = document.querySelector(sel);
+    const el = document.querySelector(`#chessBoard [data-square="${square}"]`);
     if (el) el.classList.add(className);
   }
 
   function findKingSquare(colorToMove) {
-    // colorToMove: 'w' o 'b' -> buscamos el rey de ese color en el tablero
-    const b = game.board(); // 8x8
+    const b = game.board();
     for (let r = 0; r < 8; r++) {
       for (let c = 0; c < 8; c++) {
         const cell = b[r][c];
