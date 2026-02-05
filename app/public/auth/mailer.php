@@ -123,5 +123,4 @@ class Mailer {
         // Enviar email
         return mail($email, $subject, $message, $headers);
     }
-    }
 }
