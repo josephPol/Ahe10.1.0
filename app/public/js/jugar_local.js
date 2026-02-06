@@ -110,7 +110,10 @@ function handleBoardClick(e) {
 function onBoardClick(square) {
     const clickedPiece = game.get(square);
     if (game.game_over()) return;
+
+    // Si NO hay pieza seleccionada aún
     if (!selectedFrom) {
+        // Solo selecciona si hay pieza y es del turno actual
         if (clickedPiece && clickedPiece.color === game.turn()) {
             setSelection(square);
             refreshBoardUI(null);
@@ -118,13 +121,19 @@ function onBoardClick(square) {
         }
         return;
     }
+
+    // Si YA hay selección
     const from = selectedFrom;
+
+    // Si haces click sobre una pieza de TU color -> cambia la selección
     if (clickedPiece && clickedPiece.color === game.turn()) {
         setSelection(square);
         refreshBoardUI(null);
         highlightSelection();
         return;
     }
+
+    // Intentar mover/capturar al destino (vacío o enemigo)
     const move = tryMove(from, square);
     if (move) {
         addMoveToHistory(move);

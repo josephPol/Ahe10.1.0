@@ -4,7 +4,6 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jugar Local - Ajedrez</title>
-    <link rel="stylesheet" href="../css/play.css" />
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/jugar_local.css" />
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
@@ -27,59 +26,59 @@
     </header>
 
     <main class="contenedor">
-        <section class="hero play-hero">
+        <section class="hero jugar-local-hero">
             <h1>♞ PARTIDA LOCAL ♞</h1>
         </section>
 
-                <section class="play-board-section">
-                    <div class="play-layout">
-                        <div class="timer-container timer-white">
-                            <div class="timer-label">⚪ BLANCAS</div>
-                            <div class="timer-display" id="timerWhite">10:00</div>
-                            <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
-                        </div>
+        <section class="jugar-local-board-section">
+            <div class="jugar-local-layout">
+                <div class="timer-container timer-white">
+                    <div class="timer-label">⚪ BLANCAS</div>
+                    <div class="timer-display" id="timerWhite">10:00</div>
+                    <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
+                </div>
 
-                        <aside class="move-panel">
-                            <div class="move-panel__title">Historial de movimientos</div>
-                            <ol id="moveList" class="move-list"></ol>
-                        </aside>
+                <aside class="move-panel">
+                    <div class="move-panel__title">Historial de movimientos</div>
+                    <ol id="moveList" class="move-list"></ol>
+                </aside>
 
-                        <div class="play-board-frame">
-                            <div id="chessBoard" class="play-board" style="width:480px; height:480px;"></div>
-                        </div>
+                <div class="jugar-local-board-frame">
+                    <div id="chessBoard" class="jugar-local-board" style="width:480px; height:480px;"></div>
+                </div>
 
-                        <aside class="control-panel">
-                            <div class="control-panel__title">⚙ Jugabilidad</div>
-                            <div class="control-group">
-                                <label class="control-label">Modo de movimiento</label>
-                                <div class="mode-selector">
-                                    <button id="mode-drag" class="mode-btn mode-btn--active" data-mode="drag">📍 Drag & Drop</button>
-                                    <button id="mode-click" class="mode-btn" data-mode="click">🖱️ Doble Click</button>
-                                </div>
-                            </div>
-                        </aside>
-
-                        <div class="timer-container timer-black">
-                            <div class="timer-label">⚫ NEGRAS</div>
-                            <div class="timer-display" id="timerBlack">10:00</div>
-                            <button class="resign-btn" id="resignBlack" data-color="b">Rendirse</button>
+                <aside class="control-panel">
+                    <div class="control-panel__title">⚙ Jugabilidad</div>
+                    <div class="control-group">
+                        <label class="control-label">Modo de movimiento</label>
+                        <div class="mode-selector">
+                            <button id="mode-drag" class="mode-btn mode-btn--active" data-mode="drag">📍 Drag & Drop</button>
+                            <button id="mode-click" class="mode-btn" data-mode="click">🖱️ Doble Click</button>
                         </div>
                     </div>
+                </aside>
 
-                    <!-- Panel de resultado final -->
-                    <div id="resultModal" class="result-modal hidden">
-                        <div class="result-content">
-                            <h2 id="resultTitle">¡Partida Terminada!</h2>
-                            <p id="resultMessage"></p>
-                            <button id="restartBtn" class="result-btn">Nueva Partida</button>
-                        </div>
-                    </div>
-                </section>
+                <div class="timer-container timer-black">
+                    <div class="timer-label">⚫ NEGRAS</div>
+                    <div class="timer-display" id="timerBlack">10:00</div>
+                    <button class="resign-btn" id="resignBlack" data-color="b">Rendirse</button>
+                </div>
+            </div>
+
+            <!-- Panel de resultado final -->
+            <div id="resultModal" class="result-modal hidden">
+                <div class="result-content">
+                    <h2 id="resultTitle">¡Partida Terminada!</h2>
+                    <p id="resultMessage"></p>
+                    <button id="restartBtn" class="result-btn">Nueva Partida</button>
+                </div>
+            </div>
+        </section>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.6.2/chess.min.js"></script>
     <script src="../js/jugar_local.js"></script>
     <script src="../js/theme.js"></script>
 </body>

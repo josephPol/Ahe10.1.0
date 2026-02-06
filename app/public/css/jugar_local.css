@@ -1,43 +1,320 @@
-body {
-    background: var(--background);
-    color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+#chessBoard,
+#chessBoard .board-b72b1 {
+    width: 480px !important;
+    height: 480px !important;
 }
-header {
+
+#chessBoard .board-b72b1 {
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+/* =========================================
+     COLORES DEL TABLERO (de jugar_bot.css)
+========================================= */
+#chessBoard .white-1e1d7 {
+    background: linear-gradient(
+        180deg,
+        rgba(232, 244, 215, 0.35),
+        rgba(232, 244, 215, 0.22)
+    ) !important;
+}
+
+#chessBoard .black-3c85d {
+    background: linear-gradient(
+        180deg,
+        rgba(26, 37, 40, 0.55),
+        rgba(26, 37, 40, 0.40)
+    ) !important;
+}
+#chessBoard .in-check {
+    box-shadow: inset 0 0 0 4px rgba(255, 80, 80, 0.28) !important;
+}
+/* =========================================
+     HIGHLIGHTS (copiados de jugar_bot.css)
+========================================= */
+#chessBoard .highlight-from,
+#chessBoard .highlight-to {
+    box-shadow: inset 0 0 0 4px rgba(232, 244, 215, 0.22) !important;
+}
+
+#chessBoard .highlight-from {
+    box-shadow: inset 0 0 0 4px rgba(255, 210, 0, 0.20) !important;
+}
+
+#chessBoard .highlight-to {
+    box-shadow: inset 0 0 0 4px rgba(143, 188, 143, 0.20) !important;
+}
+
+#chessBoard .in-check {
+    box-shadow: inset 0 0 0 4px rgba(255, 80, 80, 0.28) !important;
+}
+/* Botones de rendición */
+.resign-btn {
+    margin-top: 0.8rem;
+    padding: 0.5rem 0.8rem;
+    border: 2px solid #c0392b;
+    border-radius: 4px;
+    background: rgba(192, 57, 43, 0.2);
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+    transition: all 0.2s ease;
+}
+.resign-btn:hover {
+    background: rgba(192, 57, 43, 0.4);
+    box-shadow: inset 0 0 8px rgba(231, 76, 60, 0.3);
+}
+
+/* Forzar que el tablero siempre se muestre correctamente */
+#chessBoard, .jugar-local-board {
+    min-width: 480px !important;
+    min-height: 480px !important;
+    width: 480px !important;
+    height: 480px !important;
+    box-sizing: border-box;
+    display: block !important;
+    flex: none !important;
+    background: transparent;
+}
+
+/* HERO */
+.jugar-local-hero {
+    margin: 0 0 0.9rem 0;
+    padding: 0.6rem 0.9rem;
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 1rem 2rem;
-    background: var(--header-bg, #222);
-    color: var(--header-text, #fff);
+    justify-content: center;
 }
-.chessboard-container {
-    margin: 2rem auto;
-    width: 400px;
-    height: 400px;
+.jugar-local-hero h1 {
+    margin: 0.2rem 0 0.2rem 0;
+    line-height: 1.1;
 }
-.controls {
+
+/* LAYOUT */
+.jugar-local-board-section {
     display: flex;
     justify-content: center;
-    margin: 1rem 0;
+    margin-bottom: 12rem;
+    padding-bottom: 4rem;
 }
-#reset-btn {
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    border-radius: 5px;
-    border: none;
-    background: var(--primary, #007bff);
-    color: #fff;
-    cursor: pointer;
-    transition: background 0.2s;
+.jugar-local-layout {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
 }
-#reset-btn:hover {
-    background: var(--primary-dark, #0056b3);
+
+/* Panel de historial (izquierda) */
+.move-panel {
+    width: 220px;
+    padding: 0.8rem;
+    border: 4px solid var(--c4);
+    background:
+        linear-gradient(180deg, rgba(45, 74, 62, 0.55), rgba(26, 37, 40, 0.55));
+    box-shadow:
+        0 0 0 6px var(--borde-2),
+        inset 0 1px 0 rgba(232, 244, 215, 0.06);
+    border-radius: 8px;
 }
-#status {
+.move-panel__title {
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 0.6rem;
+    opacity: 0.95;
+}
+.move-list {
+    margin: 0;
+    padding-left: 1.1rem;
+    max-height: 480px;
+    overflow-y: auto;
+}
+.move-list li {
+    margin: 0.25rem 0;
+    opacity: 0.92;
+}
+
+/* Marco del tablero */
+.jugar-local-board-frame {
+    padding: 0.8rem;
+    border: 4px solid var(--c4);
+    background: linear-gradient(180deg, rgba(45, 74, 62, 0.7), rgba(26, 37, 40, 0.7));
+    box-shadow:
+        0 0 0 6px var(--borde-2),
+        inset 0 1px 0 rgba(232, 244, 215, 0.08);
+    border-radius: 8px;
+}
+.jugar-local-board {
+    width: 480px;
+    height: 480px;
+}
+
+/* TEMPORIZADORES */
+.timer-container {
+    width: 200px;
+    padding: 1rem;
+    border: 3px solid var(--c4);
+    background: linear-gradient(180deg, rgba(45, 74, 62, 0.6), rgba(26, 37, 40, 0.6));
+    box-shadow: 0 0 0 6px var(--borde-2);
+    border-radius: 8px;
     text-align: center;
+}
+.timer-label {
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--c5);
+    margin-bottom: 0.5rem;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+}
+.timer-display {
+    font-size: 2rem;
+    font-weight: bold;
+    font-family: 'Courier New', monospace;
+    color: var(--accent);
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+    letter-spacing: 2px;
+}
+.timer-container.active .timer-display {
+    color: #00ff00;
+    text-shadow: 
+        0 0 10px rgba(0, 255, 0, 0.5),
+        2px 2px 0 rgba(0, 0, 0, 0.5);
+    animation: pulse 1s infinite;
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Panel de jugabilidad (derecha) */
+.control-panel {
+    width: 220px;
+    padding: 0.8rem;
+    border: 4px solid var(--c4);
+    background:
+        linear-gradient(180deg, rgba(45, 74, 62, 0.55), rgba(26, 37, 40, 0.55));
+    box-shadow:
+        0 0 0 6px var(--borde-2),
+        inset 0 1px 0 rgba(232, 244, 215, 0.06);
+    border-radius: 8px;
+}
+.control-panel__title {
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: var(--c5);
+    margin-bottom: 1rem;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--c3);
+}
+.control-group {
+    margin-bottom: 1rem;
+}
+.control-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--texto-suave);
+    margin-bottom: 0.6rem;
+    font-weight: bold;
+}
+.mode-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.mode-btn {
+    padding: 0.6rem 0.8rem;
+    border: 3px solid var(--c3);
+    border-radius: 4px;
+    background: var(--c2);
+    color: var(--c5);
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: bold;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 0 var(--c3);
+    font-family: "Courier New", monospace;
+}
+.mode-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 0 var(--c3);
+    background: var(--c3);
+}
+.mode-btn--active {
+    background: var(--accent);
+    color: var(--c1);
+    border-color: var(--accent);
+    box-shadow: 
+        inset 0 2px 0 rgba(0, 0, 0, 0.2),
+        0 4px 0 var(--c1);
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Panel de resultado */
+.result-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    backdrop-filter: blur(3px);
+}
+.result-modal.hidden {
+    display: none;
+}
+.result-content {
+    background: linear-gradient(180deg, rgba(45, 74, 62, 0.95), rgba(26, 37, 40, 0.95));
+    border: 4px solid var(--c4);
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+    max-width: 500px;
+    animation: slideIn 0.3s ease;
+}
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+#resultTitle {
+    font-size: 2rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
+}
+#resultMessage {
     font-size: 1.1rem;
-    margin-top: 1rem;
+    color: var(--c5);
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+.result-btn {
+    padding: 0.8rem 1.5rem;
+    border: 3px solid var(--c4);
+    border-radius: 6px;
+    background: var(--accent);
+    color: var(--c1);
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: "Courier New", monospace;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+.result-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
 }
