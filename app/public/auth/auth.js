@@ -1,13 +1,6 @@
 // Determinar la URL base dinámicamente
 const getBaseUrl = () => {
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('/html/')) {
-        return '../auth/';
-    } else if (currentPath.includes('/auth/')) {
-        return './';
-    } else {
-        return 'auth/';
-    }
+    return window.location.origin + '/Ahe10.1.0/app/public/auth/';
 };
 
 // Guardar estado actual de autenticación
@@ -17,7 +10,9 @@ let currentAuthState = null;
 async function checkAuthStatus() {
     try {
         const baseUrl = getBaseUrl();
-        const response = await fetch(baseUrl + 'session.php');
+        const response = await fetch(baseUrl + 'session.php', {
+            credentials: 'include'
+        });
         const data = await response.json();
         
         // Solo actualizar UI si el estado cambió
@@ -114,12 +109,13 @@ function updateAuthUI(userName, userEmail, userId) {
             try {
                 const response = await fetch(baseUrl + 'auth.php', {
                     method: 'POST',
-                    body: formData
+                    body: formData,
+                    credentials: 'include'
                 });
                 const data = await response.json();
                 
                 if (data.success) {
-                    window.location.href = 'inicio.html';
+                    window.location.href = window.location.origin + '/Ahe10.1.0/app/public/html/inicio.html';
                 }
             } catch (error) {
                 console.error('Error logging out:', error);

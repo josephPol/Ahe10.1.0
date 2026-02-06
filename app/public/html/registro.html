@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registro | AJE10</title>
   <link rel="stylesheet" href="../css/registro.css">
+  <link rel="stylesheet" href="../css/cookies.css">
   <style>
     /* ESTILOS LOCALES PARA ASEGURAR QUE FUNCIONEN */
     #registerBtn {
@@ -134,6 +135,13 @@
     const messageDiv = document.getElementById('registerMessage');
     const registerBtn = document.getElementById('registerBtn');
     
+    if (password !== passwordConfirm) {
+      messageDiv.style.color = 'red';
+      messageDiv.textContent = 'Las contraseñas no coinciden';
+      messageDiv.style.display = 'block';
+      return;
+    }
+    
     registerBtn.disabled = true;
     registerBtn.textContent = 'Cargando...';
     
@@ -144,11 +152,20 @@
     formData.append('password', password);
     formData.append('password_confirm', passwordConfirm);
     
-    fetch('../auth/auth.php', {
+    // Usar ruta relativa simple que funciona desde cualquier origen
+    const authUrl = '../auth/auth.php';
+    
+    fetch(authUrl, {
       method: 'POST',
-      body: formData
+      body: formData,
+      credentials: 'include'
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       registerBtn.disabled = false;
       registerBtn.textContent = 'Crear cuenta';
@@ -162,7 +179,7 @@
         }, 2000);
       } else {
         messageDiv.style.color = 'red';
-        messageDiv.textContent = data.message;
+        messageDiv.textContent = data.message || 'Error al crear cuenta';
         messageDiv.style.display = 'block';
       }
     })
@@ -170,8 +187,9 @@
       registerBtn.disabled = false;
       registerBtn.textContent = 'Crear cuenta';
       messageDiv.style.color = 'red';
-      messageDiv.textContent = 'Error: ' + error.message;
+      messageDiv.textContent = 'Error al conectar: ' + error.message + '. Intenta nuevamente.';
       messageDiv.style.display = 'block';
+      console.error('Error completo:', error);
     });
   });
 </script>
@@ -198,3 +216,4 @@
 </body>
 
 <script src="../js/theme.js"></script>
+<script src="../js/cookies.js"></script>

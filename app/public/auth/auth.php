@@ -1,6 +1,17 @@
 <?php
 session_start();
+
+// Headers CORS y JSON
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Content-Type: application/json; charset=utf-8');
+
+// Manejar preflight requests
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(200);
+    exit;
+}
 
 // Incluir configuración de base de datos
 require_once __DIR__ . '/../config/database.php';
@@ -18,7 +29,12 @@ class Auth {
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {
-            die('Error de conexión: ' . $e->getMessage());
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error de conexión a la base de datos'
+            ]);
+            exit;
         }
     }
 
@@ -145,12 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['password_confirm'] ?? ''
             );
             
+            // Comentado temporalmente - puede causar problemas si no está configurado correctamente
+            /*
             if ($response['success']) {
                 // Enviar correo de confirmación
                 require_once __DIR__ . '/mailer.php';
                 $mailer = new Mailer();
                 $mailer->sendConfirmationEmail($_SESSION['user_email'], $_SESSION['user_name']);
             }
+            */
             break;
 
         case 'login':
