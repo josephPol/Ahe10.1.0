@@ -152,10 +152,10 @@
     formData.append('password', password);
     formData.append('password_confirm', passwordConfirm);
     
-    // Obtener la ruta base
-    const baseUrl = window.location.origin + '/Ahe10.1.0/app/public/auth/auth.php';
+    // Usar ruta relativa simple que funciona desde cualquier origen
+    const authUrl = '../auth/auth.php';
     
-    fetch(baseUrl, {
+    fetch(authUrl, {
       method: 'POST',
       body: formData,
       credentials: 'include'

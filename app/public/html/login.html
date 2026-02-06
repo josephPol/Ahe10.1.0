@@ -121,10 +121,10 @@
     formData.append('email', email);
     formData.append('password', password);
     
-    // Obtener la ruta base
-    const baseUrl = window.location.origin + '/Ahe10.1.0/app/public/auth/auth.php';
+    // Usar ruta relativa simple
+    const authUrl = '../auth/auth.php';
     
-    fetch(baseUrl, {
+    fetch(authUrl, {
       method: 'POST',
       body: formData,
       credentials: 'include'

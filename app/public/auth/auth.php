@@ -29,7 +29,12 @@ class Auth {
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {
-            die('Error de conexión: ' . $e->getMessage());
+            http_response_code(500);
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error de conexión a la base de datos'
+            ]);
+            exit;
         }
     }
 
@@ -156,12 +161,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['password_confirm'] ?? ''
             );
             
+            // Comentado temporalmente - puede causar problemas si no está configurado correctamente
+            /*
             if ($response['success']) {
                 // Enviar correo de confirmación
                 require_once __DIR__ . '/mailer.php';
                 $mailer = new Mailer();
                 $mailer->sendConfirmationEmail($_SESSION['user_email'], $_SESSION['user_name']);
             }
+            */
             break;
 
         case 'login':
