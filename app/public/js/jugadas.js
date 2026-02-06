@@ -183,12 +183,78 @@ async function loadJugadas() {
         if (result.success && result.data.length > 0) {
             displayJugadas(result.data);
         } else {
-            displayNoJugadas();
+            // Si no hay jugadas en la BD, mostrar ejemplos predefinidos
+            displayJugadasEjemplo();
         }
     } catch (error) {
         console.error('Error al cargar jugadas:', error);
-        displayError();
+        // Si hay error de conexión, mostrar ejemplos
+        displayJugadasEjemplo();
     }
+}
+
+// Jugadas de ejemplo predefinidas
+function displayJugadasEjemplo() {
+    const jugadasEjemplo = [
+        {
+            id: 'ejemplo-1',
+            nombre: 'Mate del Pastor',
+            descripcion: 'Una de las trampas más famosas del ajedrez. El objetivo es atacar el punto f7, el más débil del negro al inicio. Se desarrolla el alfil y la dama rápidamente para crear una amenaza letal. ¡Perfecto para principiantes!',
+            user: { name: 'Sistema' },
+            likes: 15
+        },
+        {
+            id: 'ejemplo-2',
+            nombre: 'Apertura Española (Ruy López)',
+            descripcion: 'Una de las aperturas más antiguas y respetadas del ajedrez. Las blancas desarrollan sus piezas rápidamente, controlan el centro y presionan el caballo en c6. Es la favorita de muchos grandes maestros por su solidez estratégica.',
+            user: { name: 'Sistema' },
+            likes: 23
+        },
+        {
+            id: 'ejemplo-3',
+            nombre: 'Defensa Siciliana',
+            descripcion: 'La defensa más popular contra 1.e4. Las negras buscan un juego asimétrico y dinámico, evitando las típicas estructuras simétricas. Es la elección favorita de jugadores agresivos que buscan ganar con negras.',
+            user: { name: 'Sistema' },
+            likes: 18
+        },
+        {
+            id: 'ejemplo-4',
+            nombre: 'Gambito de Dama',
+            descripcion: 'Un clásico atemporal del ajedrez. Las blancas ofrecen un peón para obtener un rápido desarrollo y control del centro. Aunque el peón puede recuperarse, lo importante es la ventaja posicional que se obtiene. Inmortalizada en la serie "Gambito de Dama".',
+            user: { name: 'Sistema' },
+            likes: 31
+        },
+        {
+            id: 'ejemplo-5',
+            nombre: 'Defensa India de Rey',
+            descripcion: 'Una defensa hipermoderna donde las negras permiten que las blancas ocupen el centro con peones, para luego atacarlo con piezas. El fianchetto del alfil en g7 es característico. Muy popular entre jugadores dinámicos y creativos.',
+            user: { name: 'Sistema' },
+            likes: 19
+        },
+        {
+            id: 'ejemplo-6',
+            nombre: 'Mate de la Escalera',
+            descripcion: 'Un patrón de mate donde la torre y el rey trabajan juntos para acorralar al rey enemigo hacia el borde del tablero. Es una técnica fundamental que todo jugador debe dominar para convertir ventajas materiales en victoria.',
+            user: { name: 'Sistema' },
+            likes: 12
+        },
+        {
+            id: 'ejemplo-7',
+            nombre: 'Apertura Italiana',
+            descripcion: 'Una apertura clásica y directa donde las blancas desarrollan rápidamente el alfil a c4, apuntando al débil punto f7. Perfecta para principiantes por sus planes claros: desarrollo rápido, enroque y ataque. Solida y efectiva en todos los niveles.',
+            user: { name: 'Sistema' },
+            likes: 27
+        },
+        {
+            id: 'ejemplo-8',
+            nombre: 'Defensa Francesa',
+            descripcion: 'Una defensa sólida donde las negras construyen una cadena de peones que controla el centro. Es posicionalmente compleja y conduce a batallas estratégicas profundas. Ideal para jugadores pacientes que prefieren la estrategia sobre la táctica.',
+            user: { name: 'Sistema' },
+            likes: 14
+        }
+    ];
+
+    displayJugadas(jugadasEjemplo);
 }
 
 // Mostrar jugadas
@@ -207,7 +273,7 @@ function displayJugadas(jugadas) {
                 <p class="jugada-description">${escapeHtml(jugada.descripcion)}</p>
                 <div class="jugada-footer">
                     <span class="jugada-author">Por: ${escapeHtml(jugada.user?.name || 'Anónimo')}</span>
-                    <button class="btn-like" onclick="likeJugada(${jugada.id})">
+                    <button class="btn-like" onclick="likeJugada('${jugada.id}')">
                         ❤️ <span id="likes-${jugada.id}">${jugada.likes}</span>
                     </button>
                 </div>
@@ -243,6 +309,23 @@ function displayError() {
 
 // Dar like a una jugada
 async function likeJugada(id) {
+    const likesElement = document.getElementById(`likes-${id}`);
+    
+    // Si es una jugada de ejemplo (ID es string que empieza con 'ejemplo-')
+    if (typeof id === 'string' && id.startsWith('ejemplo-')) {
+        if (likesElement) {
+            const currentLikes = parseInt(likesElement.textContent) || 0;
+            likesElement.textContent = currentLikes + 1;
+            // Animación
+            likesElement.parentElement.classList.add('liked');
+            setTimeout(() => {
+                likesElement.parentElement.classList.remove('liked');
+            }, 300);
+        }
+        return;
+    }
+    
+    // Para jugadas reales de la BD
     try {
         const response = await fetch(`/api/jugadas/${id}/like`, {
             method: 'POST',
@@ -255,7 +338,6 @@ async function likeJugada(id) {
 
         if (result.success) {
             // Actualizar contador de likes
-            const likesElement = document.getElementById(`likes-${id}`);
             if (likesElement) {
                 likesElement.textContent = result.data.likes;
                 // Animación
