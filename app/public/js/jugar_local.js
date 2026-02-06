@@ -327,7 +327,16 @@ function checkGameEnd() {
         return true;
     }
     if (game.in_stalemate()) {
-        endGame('¡Ahogado!', 'Partida empatada', null);
+        endGame('¡Ahogado! (rey ahogado)', 'Partida empatada', null);
+        return true;
+    }
+    if (game.in_draw()) {
+        // chess.js detecta tablas por repetición, 50 movimientos, insuficiencia material
+        let reason = 'Tablas';
+        if (game.in_threefold_repetition()) reason = 'Tablas por triple repetición';
+        else if (game.insufficient_material()) reason = 'Tablas por material insuficiente';
+        else if (game.in_fifty_moves()) reason = 'Tablas por 50 movimientos';
+        endGame(reason, 'Partida empatada', null);
         return true;
     }
     return false;
