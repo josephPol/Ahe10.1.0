@@ -26,6 +26,10 @@
    LAYOUT: historial izquierda + tablero derecha
 ========================================= */
 .play-board-section {
+@import 'main.css';
+
+/* Contenedor del tablero */
+.board-wrapper {
   display: flex;
   justify-content: center;
   margin-bottom: 12rem;

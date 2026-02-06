@@ -70,6 +70,17 @@ body {
   font-weight: bold;
   text-decoration: none;
   cursor: pointer;
+  color: var(--c5);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.brand:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.brand:active {
+  transform: scale(0.98);
 }
 
 .brand .logo {
@@ -390,13 +401,109 @@ body {
 
 /* ========== FOOTER ========== */
 footer {
-  background: linear-gradient(180deg, rgba(70, 104, 91, 0.9), rgba(33, 52, 53, 0.95));
+  background: linear-gradient(135deg, #2a2e35 0%, #1e2228 100%);
   border-top: 3px solid var(--c4);
-  padding: 2rem;
+  padding: 0;
   margin-top: 3rem;
-  text-align: center;
   color: var(--texto-suave);
-  box-shadow: 0 -4px 0 0 rgba(0, 0, 0, 0.3);
+  box-shadow: 0 -4px 0 0 rgba(0, 0, 0, 0.5);
+  position: relative;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--c5) 50%, transparent);
+  opacity: 0.3;
+}
+
+.footer-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.footer-icon {
+  font-size: 2rem;
+  filter: drop-shadow(2px 2px 0 rgba(0,0,0,0.6));
+  animation: float 3s ease-in-out infinite;
+}
+
+.footer-name {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--c5);
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.6);
+  letter-spacing: 2px;
+}
+
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--texto-suave);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+  position: relative;
+  padding-bottom: 0.2rem;
+}
+
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--c4);
+  transition: width 0.3s ease;
+  box-shadow: 0 0 4px var(--c4);
+}
+
+.footer-links a:hover {
+  color: var(--c5);
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+.footer-copy {
+  text-align: right;
+}
+
+.footer-copy p {
+  margin: 0.25rem 0;
+  font-size: 0.875rem;
+  color: rgba(232, 244, 215, 0.6);
+  text-shadow: 1px 1px 0 rgba(0,0,0,0.6);
+}
+
+.footer-slogan {
+  color: var(--c4) !important;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-top: 0.5rem !important;
 }
 
 footer p {
@@ -404,26 +511,33 @@ footer p {
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
 }
 
-.footer-links {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  margin-top: 1rem;
-  flex-wrap: wrap;
+/* Footer Responsive */
+@media (max-width: 768px) {
+  .footer-container {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1.5rem;
+  }
+  
+  .footer-brand {
+    justify-content: center;
+  }
+  
+  .footer-links {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+  
+  .footer-copy {
+    text-align: center;
+  }
 }
 
-.footer-links a {
-  color: var(--c4);
-  text-decoration: none;
-  transition: all 0.1s ease;
-  padding: 0.3rem 0.6rem;
-  border: 1px solid var(--c4);
-  background: rgba(166, 185, 133, 0.1);
-}
-
-.footer-links a:hover {
-  background: var(--c4);
-  color: var(--c1);
+@media (max-width: 480px) {
+  .footer-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
 }
 
 /* ========== FORM STYLES ========== */
@@ -873,3 +987,31 @@ body, .topbar, .hero, .feature-card, .info-section, footer {
   }
 }
 
+/* ========== FOOTER ========== */
+.footer {
+  background: linear-gradient(180deg, rgba(33, 52, 53, 0.98), rgba(70, 104, 91, 0.98));
+  padding: 1.5rem 1.5rem;
+  text-align: center;
+  box-shadow: 0 -4px 0 0 rgba(0, 0, 0, 0.3), 0 0 0 2px var(--borde-1), 0 0 0 4px var(--borde-2);
+  border-top: 3px solid var(--c4);
+  margin-top: 3rem;
+  position: relative;
+}
+
+.footer p {
+  color: var(--texto-suave);
+  font-size: 0.9rem;
+  margin: 0;
+  text-shadow: 1px 1px 0px rgba(0, 0, 0, 0.5);
+  letter-spacing: 0.5px;
+}
+
+.footer a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer a:hover {
+  color: var(--c5);
+}

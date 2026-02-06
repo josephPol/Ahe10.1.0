@@ -1,5 +1,6 @@
 <?php
 session_start();
+header('Content-Type: application/json; charset=utf-8');
 
 // Incluir configuración de base de datos
 require_once __DIR__ . '/../config/database.php';
@@ -167,7 +168,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $response = ['success' => false, 'message' => 'Acción no válida'];
     }
 
-    header('Content-Type: application/json');
     echo json_encode($response);
     exit();
 }

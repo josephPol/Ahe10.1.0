@@ -35,7 +35,17 @@ Route::get('/contact', function () {
 });
 
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\RankingController;
+use App\Http\Controllers\JugadaController;
 
 // Preserve POST route for programmatic clients and add a GET submit endpoint
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/contact/submit', [ContactController::class, 'store'])->name('contact.store.get');
+
+// API endpoint for rankings
+Route::get('/api/rankings', [RankingController::class, 'index'])->name('rankings.index');
+
+// API endpoints for jugadas
+Route::get('/api/jugadas', [JugadaController::class, 'index'])->name('jugadas.index');
+Route::post('/api/jugadas', [JugadaController::class, 'store'])->name('jugadas.store');
+Route::post('/api/jugadas/{id}/like', [JugadaController::class, 'like'])->name('jugadas.like');
