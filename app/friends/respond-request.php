@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/helpers.php';
+header('Content-Type: application/json; charset=utf-8');
 requireAuth();
 
 try {
@@ -16,31 +17,42 @@ try {
 
     // Verificar que la solicitud existe y es para este usuario
     $stmt = $pdo->prepare("
-        SELECT usuario_id as sender_id, amigo_id as receiver_id FROM amistades 
-        WHERE id = :request_id AND amigo_id = :user_id AND estado = 'pendiente'
+        SELECT sender_id FROM friend_requests 
+        WHERE id = ? AND receiver_id = ? AND status = 'pending'
     ");
-    $stmt->execute([':request_id' => $requestId, ':user_id' => $userId]);
-    $request = $stmt->fetch();
+    $stmt->execute([$requestId, $userId]);
+    $request = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$request) {
         respondError('Solicitud no encontrada', 404);
     }
 
     if ($action === 'accept') {
-        // Actualizar solicitud a aceptada
+        // Obtener sender_id
+        $senderId = $request['sender_id'];
+        
+        // Actualizar solicitud a accepted
         $stmt = $pdo->prepare("
-            UPDATE amistades 
-            SET estado = 'aceptada', actualizado_en = NOW()
-            WHERE id = :request_id
+            UPDATE friend_requests 
+            SET status = 'accepted', updated_at = NOW()
+            WHERE id = ?
         ");
-        $stmt->execute([':request_id' => $requestId]);
+        $stmt->execute([$requestId]);
+        
+        // Crear entrada en tabla friends (bidireccional)
+        $stmt = $pdo->prepare("
+            INSERT INTO friends (user_id, friend_id, created_at, updated_at)
+            VALUES (?, ?, NOW(), NOW())
+        ");
+        $stmt->execute([$userId, $senderId]);
+        
         respondSuccess([], 'Solicitud aceptada');
     } else {
         // Rechazar solicitud (eliminar)
         $stmt = $pdo->prepare("
-            DELETE FROM amistades WHERE id = :request_id
+            DELETE FROM friend_requests WHERE id = ?
         ");
-        $stmt->execute([':request_id' => $requestId]);
+        $stmt->execute([$requestId]);
         respondSuccess([], 'Solicitud rechazada');
     }
 

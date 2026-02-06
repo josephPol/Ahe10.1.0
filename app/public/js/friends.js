@@ -222,10 +222,26 @@ document.addEventListener('DOMContentLoaded', function() {
     // Función para buscar usuarios
     async function searchUsers(query) {
         try {
-            const response = await fetch(`../../friends/search-users.php?search=${encodeURIComponent(query)}`);
-            const data = await response.json();
+            const url = `../../friends/search-users.php?search=${encodeURIComponent(query)}`;
+            const response = await fetch(url);
             
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            const data = await response.json();
             const searchResults = document.getElementById('searchResults');
+            
+            // Verificar si hay error en la respuesta
+            if (data.error) {
+                searchResults.innerHTML = `
+                    <div class="empty-state">
+                        <span class="empty-icon">⚠️</span>
+                        <p>${data.error}</p>
+                    </div>
+                `;
+                return;
+            }
             
             if (!data.users || data.users.length === 0) {
                 searchResults.innerHTML = `
@@ -239,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             searchResults.innerHTML = data.users.map(user => {
                 let actionButton = '';
-                if (user.request_status === 'pendiente') {
+                if (user.request_status === 'pending') {
                     actionButton = '<span class="status-text">Solicitud pendiente</span>';
                 } else if (user.request_status === 'aceptada') {
                     actionButton = '<span class="status-text">Ya son amigos</span>';
@@ -270,7 +286,13 @@ document.addEventListener('DOMContentLoaded', function() {
             
         } catch (error) {
             console.error('Error al buscar usuarios:', error);
-            document.getElementById('searchResults').innerHTML = '<p class="error-message">Error al buscar usuarios</p>';
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = `
+                <div class="empty-state">
+                    <span class="empty-icon">❌</span>
+                    <p>Error al buscar usuarios: ${error.message}</p>
+                </div>
+            `;
         }
     }
 

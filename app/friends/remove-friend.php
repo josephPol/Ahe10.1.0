@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/helpers.php';
+header('Content-Type: application/json; charset=utf-8');
 requireAuth();
 
 try {
@@ -13,16 +14,13 @@ try {
 
     $pdo = getDatabase();
 
-    // Eliminar amistad
+    // Eliminar amistad (en ambas direcciones)
     $stmt = $pdo->prepare("
-        DELETE FROM amistades 
-        WHERE ((usuario_id = :user1 AND amigo_id = :user2) OR (usuario_id = :user2 AND amigo_id = :user1))
-        AND estado = 'aceptada'
+        DELETE FROM friends 
+        WHERE (user_id = ? AND friend_id = ?) 
+        OR (user_id = ? AND friend_id = ?)
     ");
-    $stmt->execute([
-        ':user1' => $userId,
-        ':user2' => $friendId
-    ]);
+    $stmt->execute([$userId, $friendId, $friendId, $userId]);
 
     respondSuccess([], 'Amigo eliminado');
 

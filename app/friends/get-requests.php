@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/helpers.php';
+header('Content-Type: application/json; charset=utf-8');
 requireAuth();
 
 try {
@@ -8,14 +9,14 @@ try {
 
     // Obtener solicitudes pendientes recibidas
     $stmt = $pdo->prepare("
-        SELECT a.id, a.usuario_id as sender_id, a.creado_en as created_at, u.name, u.email
-        FROM amistades a
-        INNER JOIN users u ON a.usuario_id = u.id
-        WHERE a.amigo_id = :user_id AND a.estado = 'pendiente'
-        ORDER BY a.creado_en DESC
+        SELECT fr.id, fr.sender_id, fr.created_at, u.name, u.email
+        FROM friend_requests fr
+        INNER JOIN users u ON fr.sender_id = u.id
+        WHERE fr.receiver_id = ? AND fr.status = 'pending'
+        ORDER BY fr.created_at DESC
     ");
-    $stmt->execute([':user_id' => $userId]);
-    $requests = $stmt->fetchAll();
+    $stmt->execute([$userId]);
+    $requests = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     respondSuccess(['requests' => $requests]);
 

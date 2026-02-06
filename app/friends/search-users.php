@@ -1,58 +1,86 @@
 <?php
 require_once __DIR__ . '/helpers.php';
+header('Content-Type: application/json; charset=utf-8');
 requireAuth();
+
+$response = ['success' => false, 'users' => [], 'error' => null];
 
 try {
     $pdo = getDatabase();
-
     $searchTerm = $_GET['search'] ?? '';
-    $currentUserId = $_SESSION['user_id'];
+    $currentUserId = $_SESSION['user_id'] ?? null;
+
+    if (!$currentUserId) {
+        throw new Exception('Usuario no identificado en sesión');
+    }
 
     if (strlen($searchTerm) < 2) {
-        respondSuccess(['users' => []]);
+        $response['users'] = [];
+        $response['success'] = true;
+        echo json_encode($response);
+        exit;
     }
 
-    // Buscar usuarios excluyendo el usuario actual y sus amigos
-    $stmt = $pdo->prepare("
-        SELECT DISTINCT u.id, u.name, u.email, u.created_at
-        FROM users u
-        WHERE u.id != :current_user_id
-        AND (u.name LIKE :search OR u.email LIKE :search)
-        AND u.id NOT IN (
-            SELECT amigo_id FROM amistades WHERE usuario_id = :user_id1 AND estado = 'aceptada'
-            UNION
-            SELECT usuario_id FROM amistades WHERE amigo_id = :user_id2 AND estado = 'aceptada'
-        )
-        LIMIT 10
-    ");
+    // Búsqueda simple: todos los usuarios excepto el actual
+    $searchPattern = '%' . addslashes($searchTerm) . '%';
     
-    $searchPattern = '%' . $searchTerm . '%';
-    $stmt->execute([
-        ':current_user_id' => $currentUserId,
-        ':search' => $searchPattern,
-        ':user_id1' => $currentUserId,
-        ':user_id2' => $currentUserId
-    ]);
+    $query = "
+        SELECT id, name, email, created_at
+        FROM users
+        WHERE id != ?
+        AND (name LIKE ? OR email LIKE ?)
+        ORDER BY name ASC
+        LIMIT 10
+    ";
+    
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([$currentUserId, $searchPattern, $searchPattern]);
+    $users = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    $users = $stmt->fetchAll();
-
-    // Verificar si ya hay solicitud pendiente
-    foreach ($users as &$user) {
-        $stmt = $pdo->prepare("
-            SELECT estado FROM amistades 
-            WHERE (usuario_id = :current_user AND amigo_id = :user_id)
-            OR (usuario_id = :user_id AND amigo_id = :current_user)
-        ");
-        $stmt->execute([
-            ':current_user' => $currentUserId,
-            ':user_id' => $user['id']
-        ]);
-        $request = $stmt->fetch();
-        $user['request_status'] = $request ? $request['estado'] : null;
+    // Para cada usuario, verificar relación en friend_requests
+    if (!empty($users)) {
+        foreach ($users as &$user) {
+            // Buscar solicitud de amistad (en cualquier dirección)
+            $relQuery = "
+                SELECT status FROM friend_requests
+                WHERE (sender_id = ? AND receiver_id = ?)
+                OR (sender_id = ? AND receiver_id = ?)
+            ";
+            $relStmt = $pdo->prepare($relQuery);
+            $relStmt->execute([$currentUserId, $user['id'], $user['id'], $currentUserId]);
+            $request = $relStmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Buscar amistad confirmada
+            $friendQuery = "
+                SELECT id FROM friends
+                WHERE (user_id = ? AND friend_id = ?)
+                OR (user_id = ? AND friend_id = ?)
+            ";
+            $friendStmt = $pdo->prepare($friendQuery);
+            $friendStmt->execute([$currentUserId, $user['id'], $user['id'], $currentUserId]);
+            $friend = $friendStmt->fetch(PDO::FETCH_ASSOC);
+            
+            // Determinar estado
+            if ($friend) {
+                $user['request_status'] = 'aceptada';
+            } elseif ($request) {
+                $user['request_status'] = $request['status'];
+            } else {
+                $user['request_status'] = null;
+            }
+        }
     }
 
-    respondSuccess(['users' => $users]);
+    $response['users'] = $users;
+    $response['success'] = true;
+    echo json_encode($response);
+    exit;
 
-} catch (PDOException $e) {
-    handleDatabaseError($e);
+} catch (Exception $e) {
+    error_log('Error en search-users.php: ' . $e->getMessage());
+    $response['error'] = $e->getMessage();
+    $response['success'] = false;
+    http_response_code(500);
+    echo json_encode($response);
+    exit;
 }

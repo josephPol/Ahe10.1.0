@@ -4,12 +4,11 @@
  * Centraliza código común para evitar duplicación
  */
 
-// Iniciar sesión y configurar headers
+// Iniciar sesión
 session_start();
-header('Content-Type: application/json');
 
 // Incluir configuración de BD
-require_once __DIR__ . '/../../config/database.php';
+require_once __DIR__ . '/../public/config/database.php';
 
 /**
  * Verificar que el usuario está autenticado

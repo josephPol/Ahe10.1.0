@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/helpers.php';
+header('Content-Type: application/json; charset=utf-8');
 requireAuth();
 
 try {
@@ -14,33 +15,39 @@ try {
     $pdo = getDatabase();
 
     // Verificar que el usuario receptor existe
-    $stmt = $pdo->prepare("SELECT id FROM users WHERE id = :receiver_id");
-    $stmt->execute([':receiver_id' => $receiverId]);
+    $stmt = $pdo->prepare("SELECT id FROM users WHERE id = ?");
+    $stmt->execute([$receiverId]);
     if (!$stmt->fetch()) {
         respondError('Usuario no encontrado', 404);
     }
 
-    // Verificar si ya son amigos
+    // Verificar si ya son amigos (en tabla friends)
     $stmt = $pdo->prepare("
-        SELECT id FROM amistades 
-        WHERE ((usuario_id = :user1 AND amigo_id = :user2) OR (usuario_id = :user2 AND amigo_id = :user1))
-        AND estado = 'aceptada'
+        SELECT id FROM friends 
+        WHERE (user_id = ? AND friend_id = ?) 
+        OR (user_id = ? AND friend_id = ?)
     ");
-    $stmt->execute([':user1' => $senderId, ':user2' => $receiverId]);
+    $stmt->execute([$senderId, $receiverId, $receiverId, $senderId]);
     if ($stmt->fetch()) {
         respondError('Ya son amigos', 400);
     }
 
-    // Crear o actualizar solicitud de amistad
+    // Verificar si ya hay una solicitud pendiente
     $stmt = $pdo->prepare("
-        INSERT INTO amistades (usuario_id, amigo_id, estado, creado_en, actualizado_en)
-        VALUES (:sender, :receiver, 'pendiente', NOW(), NOW())
-        ON DUPLICATE KEY UPDATE estado = 'pendiente', actualizado_en = NOW()
+        SELECT id FROM friend_requests 
+        WHERE sender_id = ? AND receiver_id = ? AND status = 'pending'
     ");
-    $stmt->execute([
-        ':sender' => $senderId,
-        ':receiver' => $receiverId
-    ]);
+    $stmt->execute([$senderId, $receiverId]);
+    if ($stmt->fetch()) {
+        respondError('Solicitud ya enviada', 400);
+    }
+
+    // Crear solicitud de amistad
+    $stmt = $pdo->prepare("
+        INSERT INTO friend_requests (sender_id, receiver_id, status, created_at, updated_at)
+        VALUES (?, ?, 'pending', NOW(), NOW())
+    ");
+    $stmt->execute([$senderId, $receiverId]);
 
     respondSuccess([], 'Solicitud enviada');
 
