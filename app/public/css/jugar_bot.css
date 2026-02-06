@@ -62,7 +62,7 @@
 .move-list {
   margin: 0;
   padding-left: 1.1rem;
-  max-height: 480px; /* que coincida con el tablero */
+  max-height: 480px;
   overflow-y: auto;
 }
 
@@ -79,7 +79,6 @@
   border: 4px solid var(--c4);
   background: linear-gradient(180deg, rgba(45, 74, 62, 0.7), rgba(26, 37, 40, 0.7));
   box-shadow:
-
     0 0 0 6px var(--borde-2),
     inset 0 1px 0 rgba(232, 244, 215, 0.08);
   border-radius: 8px;
@@ -105,12 +104,9 @@
 }
 
 /* =========================================
-   COLORES DEL TABLERO (adaptados al tema)
-   chessboard.js usa estas clases:
-   .white-1e1d7 y .black-3c85d
+   COLORES DEL TABLERO
 ========================================= */
 #chessBoard .white-1e1d7 {
-  /* “verde claro” suave, estilo tu UI */
   background: linear-gradient(
     180deg,
     rgba(232, 244, 215, 0.35),
@@ -119,7 +115,6 @@
 }
 
 #chessBoard .black-3c85d {
-  /* “verde oscuro” suave, coherente con el fondo */
   background: linear-gradient(
     180deg,
     rgba(26, 37, 40, 0.55),
@@ -128,7 +123,7 @@
 }
 
 /* =========================================
-   HIGHLIGHTS (selección, último movimiento, jaque)
+   HIGHLIGHTS
 ========================================= */
 #chessBoard .highlight-from,
 #chessBoard .highlight-to {
@@ -143,7 +138,6 @@
   box-shadow: inset 0 0 0 4px rgba(143, 188, 143, 0.20) !important;
 }
 
-/* Si el rey está en jaque ( */
 #chessBoard .in-check {
   box-shadow: inset 0 0 0 4px rgba(255, 80, 80, 0.28) !important;
 }
@@ -161,11 +155,11 @@
   text-align: center;
 }
 
-.timer-white {
+.timer-player {
   order: -1;
 }
 
-.timer-black {
+.timer-ai {
   order: 3;
 }
 
@@ -197,6 +191,24 @@
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.7; }
+}
+
+.ai-indicator {
+  font-size: 0.8rem;
+  color: var(--accent);
+  margin-top: 0.5rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.timer-ai.thinking .ai-indicator {
+  opacity: 1;
+  animation: blink 0.6s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
 }
 
 .resign-btn {
@@ -295,7 +307,84 @@
 }
 
 /* =========================================
-   PANEL DE CONTROL (derecha)
+   MODAL DE SETUP (DIFICULTAD Y COLOR)
+========================================= */
+.setup-section {
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.setup-section h3 {
+  font-size: 1rem;
+  color: var(--c5);
+  margin-bottom: 0.8rem;
+  border-bottom: 2px solid var(--c3);
+  padding-bottom: 0.5rem;
+}
+
+.difficulty-selector,
+.color-selector {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: center;
+}
+
+.setup-btn {
+  padding: 0.8rem 1rem;
+  border: 3px solid var(--c3);
+  border-radius: 6px;
+  background: var(--c2);
+  color: var(--c5);
+  font-size: 0.9rem;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 0 var(--c3);
+}
+
+.setup-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 0 var(--c3);
+  background: var(--c3);
+}
+
+.setup-btn.selected {
+  background: var(--accent);
+  color: var(--c1);
+  border-color: var(--accent);
+  box-shadow: 
+    inset 0 2px 0 rgba(0, 0, 0, 0.2),
+    0 4px 0 var(--c1);
+}
+
+#startGameBtn {
+  margin-top: 1.5rem;
+  padding: 0.8rem 2rem;
+  border: 3px solid var(--c4);
+  border-radius: 6px;
+  background: var(--accent);
+  color: var(--c1);
+  font-size: 1rem;
+  font-weight: bold;
+  font-family: "Courier New", monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+}
+
+#startGameBtn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+#startGameBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   PANEL DE CONTROL
 ========================================= */
 .control-panel {
   width: 220px;
@@ -365,43 +454,4 @@
     inset 0 2px 0 rgba(0, 0, 0, 0.2),
     0 4px 0 var(--c1);
   text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.3);
-}
-
-/* =========================================
-   SELECTORES DE MODO DE JUEGO Y DIFICULTAD
-========================================= */
-.game-mode-selector,
-.difficulty-selector {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
-.mode-choice-btn,
-.difficulty-btn {
-  padding: 1rem 1.5rem;
-  border: 3px solid var(--c4);
-  border-radius: 6px;
-  background: var(--c2);
-  color: var(--c5);
-  font-size: 1rem;
-  font-weight: bold;
-  font-family: "Courier New", monospace;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 0 var(--c3);
-}
-
-.mode-choice-btn:hover,
-.difficulty-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 0 var(--c3);
-  background: var(--c3);
-}
-
-.mode-choice-btn:active,
-.difficulty-btn:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 0 var(--c3);
 }

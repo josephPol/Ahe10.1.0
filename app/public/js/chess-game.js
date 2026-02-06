@@ -1,7 +1,4 @@
-/**
- * ChessHub - Chess Game Engine
- * Handles game modes: Create Room, Join Room, Play vs Bot
- */
+
 
 (function() {
   'use strict';

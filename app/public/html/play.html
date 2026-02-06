@@ -1,36 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Play</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aje10 - Partida</title>
 
-  <!-- CSS común del proyecto (si existe) -->
-  <link rel="stylesheet" href="../css/style.css">
+  <!-- Misma idea que el resto: CSS de página que importa main.css -->
+  <link rel="stylesheet" href="../css/play.css" />
 
-  <!-- CSS específico -->
-  <link rel="stylesheet" href="../css/play.css">
+  <!-- Librerías del tablero (como en jugar.html) -->
+  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
+
 <body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">Aje10</div>
+    </div>
 
-  <div class="container">
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+    </nav>
 
-    <header class="header">
-      <h1>Modo Juego</h1>
-      <p>Turno: <span id="turno">Blancas</span></p>
-    </header>
+    <div class="topRight">
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
 
-    <main class="content">
-      <div class="board-wrapper">
-        <div id="board" class="board"></div>
+  <main class="contenedor">
+    <section class="hero play-hero">
+      <h1>♞ PARTIDA ♞</h1>
+      <p>Mueve las piezas para jugar.</p>
+    </section>
+
+    <section class="play-board-section">
+    <div class="play-layout">
+      <!-- Temporizador de Blancas (arriba a la izquierda) -->
+      <div class="timer-container timer-white">
+        <div class="timer-label">⚪ BLANCAS</div>
+        <div class="timer-display" id="timerWhite">10:00</div>
+        <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
       </div>
-    </main>
 
-  </div>
+      <aside class="move-panel">
+        <div class="move-panel__title">Historial de movimientos</div>
+        <ol id="moveList" class="move-list"></ol>
+      </aside>
 
   <script src="../auth/auth.js"></script>
-  <script src="../js/play.js"></script>
   <script src="../js/chess-game.js"></script>
+
+          <label class="control-label">Modo de movimiento</label>
+          <div class="mode-selector">
+            <button id="mode-drag" class="mode-btn mode-btn--active" data-mode="drag">
+              📍 Drag & Drop
+            </button>
+            <button id="mode-click" class="mode-btn" data-mode="click">
+              🖱️ Doble Click
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Panel de resultado final -->
+    <div id="resultModal" class="result-modal hidden">
+      <div class="result-content">
+        <h2 id="resultTitle">¡Partida Terminada!</h2>
+        <p id="resultMessage"></p>
+        <button id="restartBtn" class="result-btn">Nueva Partida</button>
+      </div>
+    </div>
+
+    <!-- Modal de selección de modo de juego -->
+    <div id="gameModeModal" class="result-modal">
+      <div class="result-content">
+        <h2>Selecciona modo de juego</h2>
+        <div class="game-mode-selector">
+          <button id="pvpBtn" class="mode-choice-btn">
+            👥 Jugador vs Jugador
+          </button>
+          <button id="aiBtn" class="mode-choice-btn">
+            🤖 Jugador vs IA
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal de selección de dificultad IA -->
+    <div id="aiDifficultyModal" class="result-modal hidden">
+      <div class="result-content">
+        <h2>Elige dificultad de IA</h2>
+        <div class="difficulty-selector">
+          <button class="difficulty-btn" data-difficulty="easy">
+            🟢 Fácil
+          </button>
+          <button class="difficulty-btn" data-difficulty="medium">
+            🟡 Medio
+          </button>
+          <button class="difficulty-btn" data-difficulty="hard">
+            🔴 Difícil
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+
+  <script src="../js/play.js"></script>
   <script src="../js/theme.js"></script>
 </body>
 </html>
