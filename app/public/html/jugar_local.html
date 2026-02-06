@@ -6,13 +6,14 @@
     <title>Jugar Local - Ajedrez</title>
     <link rel="stylesheet" href="../css/play.css" />
     <link rel="stylesheet" href="../css/main.css" />
+    <link rel="stylesheet" href="../css/jugar_local.css" />
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
     <header class="topbar">
         <div class="brand">
             <div class="logo">♟</div>
-            <div class="brandName">Aje10</div>
+            <div class="brandName">AJE10</div>
         </div>
         <nav class="topnav">
             <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
@@ -28,7 +29,6 @@
     <main class="contenedor">
         <section class="hero play-hero">
             <h1>♞ PARTIDA LOCAL ♞</h1>
-            <p>Juega contra otra persona en el mismo dispositivo.</p>
         </section>
 
                 <section class="play-board-section">
@@ -45,12 +45,11 @@
                         </aside>
 
                         <div class="play-board-frame">
-                            <div id="chessBoard" class="play-board"></div>
+                            <div id="chessBoard" class="play-board" style="width:480px; height:480px;"></div>
                         </div>
 
                         <aside class="control-panel">
                             <div class="control-panel__title">⚙ Jugabilidad</div>
-                            <!-- Botón de reinicio eliminado -->
                             <div class="control-group">
                                 <label class="control-label">Modo de movimiento</label>
                                 <div class="mode-selector">
