@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login | AJE10</title>
   <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/cookies.css">
   <style>
     /* ESTILOS LOCALES PARA ASEGURAR QUE FUNCIONEN */
     #loginBtn {
@@ -120,11 +121,20 @@
     formData.append('email', email);
     formData.append('password', password);
     
-    fetch('../auth/auth.php', {
+    // Obtener la ruta base
+    const baseUrl = window.location.origin + '/Ahe10.1.0/app/public/auth/auth.php';
+    
+    fetch(baseUrl, {
       method: 'POST',
-      body: formData
+      body: formData,
+      credentials: 'include'
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       loginBtn.disabled = false;
       loginBtn.textContent = 'Entrar';
@@ -138,7 +148,7 @@
         }, 1500);
       } else {
         messageDiv.style.color = 'red';
-        messageDiv.textContent = data.message;
+        messageDiv.textContent = data.message || 'Error al iniciar sesión';
         messageDiv.style.display = 'block';
       }
     })
@@ -146,8 +156,9 @@
       loginBtn.disabled = false;
       loginBtn.textContent = 'Entrar';
       messageDiv.style.color = 'red';
-      messageDiv.textContent = 'Error: ' + error.message;
+      messageDiv.textContent = 'Error al conectar: ' + error.message + '. Intenta nuevamente.';
       messageDiv.style.display = 'block';
+      console.error('Error completo:', error);
     });
   });
 </script>
@@ -174,3 +185,4 @@
 </body>
 
 <script src="../js/theme.js"></script>
+<script src="../js/cookies.js"></script>
