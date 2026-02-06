@@ -3,16 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aje10 - Jugar</title>
+  <title>AJE10 - Jugar</title>
   <link rel="stylesheet" href="../css/play.css" />
-<<<<<<< HEAD
-  <link rel="stylesheet" href="../css/cookies.css" />
-
-  <!-- Librerías del tablero (como en jugar.html) -->
-  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
-=======
   <link rel="stylesheet" href="../css/main.css" />
->>>>>>> 4f254d379941e377ea3969e1b1ec6c4c9e9dff68
 </head>
 <body>
   <header class="topbar">
@@ -34,10 +27,9 @@
   <main class="contenedor">
     <section class="hero play-hero">
       <h1>♞ JUGAR ♞</h1>
-      <p>¡Bienvenido! Elige cómo quieres jugar:</p>
+      <p>Juega en local con otra persona en el mismo dispositivo.</p>
       <div style="display:flex; gap:2rem; justify-content:center; margin-top:2.5rem;">
         <a href="jugar_local.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Jugar local</a>
-        <a href="jugar_bot.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Jugar contra bot</a>
       </div>
     </section>
   </main>
@@ -63,47 +55,5 @@
 
   <script src="../auth/auth.js"></script>
   <script src="../js/theme.js"></script>
-</body>
-</html>
-        <h2>Selecciona modo de juego</h2>
-        <div class="game-mode-selector">
-          <button id="pvpBtn" class="mode-choice-btn">
-            👥 Jugador vs Jugador
-          </button>
-          <button id="aiBtn" class="mode-choice-btn">
-            🤖 Jugador vs IA
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Modal de selección de dificultad IA -->
-    <div id="aiDifficultyModal" class="result-modal hidden">
-      <div class="result-content">
-        <h2>Elige dificultad de IA</h2>
-        <div class="difficulty-selector">
-          <button class="difficulty-btn" data-difficulty="easy">
-            🟢 Fácil
-          </button>
-          <button class="difficulty-btn" data-difficulty="medium">
-            🟡 Medio
-          </button>
-          <button class="difficulty-btn" data-difficulty="hard">
-            🔴 Difícil
-          </button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  </main>
-
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
-
-  <script src="../js/play.js"></script>
-  <script src="../js/theme.js"></script>
-  <script src="../js/cookies.js"></script>
 </body>
 </html>
