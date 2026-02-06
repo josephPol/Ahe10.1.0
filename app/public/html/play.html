@@ -1,32 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Aje10 - Partida</title>
-
-  <!-- Misma idea que el resto: CSS de página que importa main.css -->
+  <title>Aje10 - Jugar</title>
   <link rel="stylesheet" href="../css/play.css" />
+<<<<<<< HEAD
   <link rel="stylesheet" href="../css/cookies.css" />
 
   <!-- Librerías del tablero (como en jugar.html) -->
   <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+=======
+  <link rel="stylesheet" href="../css/main.css" />
+>>>>>>> 4f254d379941e377ea3969e1b1ec6c4c9e9dff68
 </head>
-
 <body>
   <header class="topbar">
     <div class="brand">
       <div class="logo">♟</div>
       <div class="brandName">Aje10</div>
     </div>
-
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="jugar.html" class="nav-link active">⚔ JUGAR</a>
       <a href="inicio.html" class="nav-link">🏠 INICIO</a>
       <a href="learn.html" class="nav-link">📚 APRENDER</a>
       <a href="contact.html" class="nav-link">💬 CONTACTO</a>
     </nav>
-
     <div class="topRight">
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
@@ -34,23 +33,14 @@
 
   <main class="contenedor">
     <section class="hero play-hero">
-      <h1>♞ PARTIDA ♞</h1>
-      <p>Mueve las piezas para jugar.</p>
-    </section>
-
-    <section class="play-board-section">
-    <div class="play-layout">
-      <!-- Temporizador de Blancas (arriba a la izquierda) -->
-      <div class="timer-container timer-white">
-        <div class="timer-label">⚪ BLANCAS</div>
-        <div class="timer-display" id="timerWhite">10:00</div>
-        <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
+      <h1>♞ JUGAR ♞</h1>
+      <p>¡Bienvenido! Elige cómo quieres jugar:</p>
+      <div style="display:flex; gap:2rem; justify-content:center; margin-top:2.5rem;">
+        <a href="jugar_local.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Jugar local</a>
+        <a href="jugar_bot.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Jugar contra bot</a>
       </div>
-
-      <aside class="move-panel">
-        <div class="move-panel__title">Historial de movimientos</div>
-        <ol id="moveList" class="move-list"></ol>
-      </aside>
+    </section>
+  </main>
 
   <footer class="footer">
     <div class="footer-container">
@@ -72,33 +62,9 @@
   </footer>
 
   <script src="../auth/auth.js"></script>
-  <script src="../js/chess-game.js"></script>
-
-          <label class="control-label">Modo de movimiento</label>
-          <div class="mode-selector">
-            <button id="mode-drag" class="mode-btn mode-btn--active" data-mode="drag">
-              📍 Drag & Drop
-            </button>
-            <button id="mode-click" class="mode-btn" data-mode="click">
-              🖱️ Doble Click
-            </button>
-          </div>
-        </div>
-      </aside>
-    </div>
-
-    <!-- Panel de resultado final -->
-    <div id="resultModal" class="result-modal hidden">
-      <div class="result-content">
-        <h2 id="resultTitle">¡Partida Terminada!</h2>
-        <p id="resultMessage"></p>
-        <button id="restartBtn" class="result-btn">Nueva Partida</button>
-      </div>
-    </div>
-
-    <!-- Modal de selección de modo de juego -->
-    <div id="gameModeModal" class="result-modal">
-      <div class="result-content">
+  <script src="../js/theme.js"></script>
+</body>
+</html>
         <h2>Selecciona modo de juego</h2>
         <div class="game-mode-selector">
           <button id="pvpBtn" class="mode-choice-btn">

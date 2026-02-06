@@ -152,7 +152,7 @@
     }
   }
 
-  // ========== TIMERS ==========
+  // ========== CONTADORES ==========
 
   function formatTime(seconds) {
     const mins = Math.floor(seconds / 60);
