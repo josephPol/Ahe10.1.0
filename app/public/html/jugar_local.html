@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jugar Local - Ajedrez</title>
+    <link rel="stylesheet" href="../css/jugar_local.css">
+    <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <header>
+        <h1>Jugar Local</h1>
+        <button id="theme-toggle" aria-label="Cambiar tema">🌙</button>
+    </header>
+    <main>
+        <div id="chessboard" class="chessboard-container"></div>
+        <div class="controls">
+            <button id="reset-btn">Reiniciar partida</button>
+        </div>
+        <div id="status"></div>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/1.6.2/chess.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard.js/1.0.0/chessboard-1.0.0.min.js"></script>
+    <script src="../js/jugar_local.js"></script>
+    <script src="../js/theme.js"></script>
+</body>
+</html>

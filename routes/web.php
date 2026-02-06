@@ -14,8 +14,16 @@ Route::get('/jugar', function () {
     return response()->file(public_path('jugar.html'));
 });
 
+Route::get('/jugar_bot', function () {
+    return response()->file(public_path('jugar_bot.html'));
+});
+
 Route::get('/play', function () {
     return response()->file(public_path('play.html'));
+});
+
+Route::get('/jugar_local', function () {
+    return response()->file(public_path('jugar_local.html'));
 });
 
 Route::get('/learn', function () {
