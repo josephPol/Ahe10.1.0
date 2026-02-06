@@ -10,6 +10,9 @@ const getBaseUrl = () => {
     }
 };
 
+// Guardar estado actual de autenticación
+let currentAuthState = null;
+
 // Verificar sesión del usuario y actualizar UI
 async function checkAuthStatus() {
     try {
@@ -17,24 +20,44 @@ async function checkAuthStatus() {
         const response = await fetch(baseUrl + 'session.php');
         const data = await response.json();
         
-        if (data.authenticated) {
-            // Usuario autenticado
-            updateAuthUI(data.user.name, data.user.email);
-        } else {
-            // Usuario no autenticado
-            resetAuthUI();
+        // Solo actualizar UI si el estado cambió
+        const newAuthState = data.authenticated ? 'authenticated' : 'not-authenticated';
+        
+        if (currentAuthState !== newAuthState) {
+            currentAuthState = newAuthState;
+            
+            if (data.authenticated) {
+                updateAuthUI(data.user.name, data.user.email, data.user.id);
+            } else {
+                resetAuthUI();
+            }
         }
     } catch (error) {
         console.error('Error checking auth status:', error);
-        resetAuthUI();
+        if (currentAuthState !== 'not-authenticated') {
+            currentAuthState = 'not-authenticated';
+            resetAuthUI();
+        }
     }
+}
+
+// Verificar sesión periodicamente
+function startSessionCheck() {
+    checkAuthStatus(); // Primera verificación inmediata
+    setInterval(checkAuthStatus, 5000); // Verificar cada 5 segundos
 }
 
 /**
  * Actualizar la UI para mostrar usuario autenticado
  */
-function updateAuthUI(userName, userEmail) {
+function updateAuthUI(userName, userEmail, userId) {
     const topRight = document.querySelector('.topRight');
+    const friendsBtn = document.getElementById('friendsBtn');
+    
+    // Mostrar botón de amigos
+    if (friendsBtn) {
+        friendsBtn.style.display = 'flex';
+    }
     
     if (topRight) {
         // Limpiar los botones de login y registro
@@ -150,7 +173,13 @@ function resetAuthUI() {
 }
 
 // Ejecutar al cargar la página
-document.addEventListener('DOMContentLoaded', checkAuthStatus);
-
-// Recargar estado de autenticación cada 30 segundos
-setInterval(checkAuthStatus, 30000);
+document.addEventListener('DOMContentLoaded', function() {
+    startSessionCheck(); // Inicia verificación cada 5 segundos
+    
+    // Mostrar/ocultar botón de amigos según autenticación
+    const friendsBtn = document.getElementById('friendsBtn');
+    if (friendsBtn) {
+        // Inicialmente oculto
+        friendsBtn.style.display = 'none';
+    }
+});

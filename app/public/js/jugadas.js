@@ -270,14 +270,5 @@ async function likeJugada(id) {
     }
 }
 
-// Escapar HTML para prevenir XSS
-function escapeHtml(text) {
-    const map = {
-        '&': '&amp;',
-        '<': '&lt;',
-        '>': '&gt;',
-        '"': '&quot;',
-        "'": '&#039;'
-    };
-    return text.replace(/[&<>"']/g, m => map[m]);
-}
+// Escapar HTML para prevenir XSS (definida en utils.js)
+// function escapeHtml(text) { ... } ← ver utils.js

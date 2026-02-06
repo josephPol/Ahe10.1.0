@@ -22,6 +22,12 @@
     </nav>
 
     <div class="topRight">
+      <button class="btn friends-header-btn" id="friendsBtn" style="display: none;" title="Amigos">
+        <svg class="friends-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+          <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.64 2.47 1.78 2.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+        </svg>
+        <span class="friends-badge" id="friendsBadgeBtn" style="display: none;">0</span>
+      </button>
       <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
       <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
@@ -36,6 +42,78 @@
     <h1>⚔ Juega Ajedrez Online</h1>
     <p>Elige cómo quieres jugar</p>
   </section>
+
+  <!-- Friends Modal -->
+  <div class="friends-modal-overlay" id="friendsPanel" style="display: none;">
+    <div class="friends-modal">
+      <div class="friends-modal-header">
+        <div class="modal-title">
+          <span class="title-icon">👥</span>
+          <h2>Mis Amigos</h2>
+        </div>
+        <button class="btn-close-modal" id="closeFriendsPanel">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="friends-tabs-modern">
+        <button class="tab-modern active" data-tab="friends">
+          <span class="tab-icon">👤</span>
+          <span>Amigos</span>
+        </button>
+        <button class="tab-modern" data-tab="search">
+          <span class="tab-icon">🔍</span>
+          <span>Buscar</span>
+        </button>
+        <button class="tab-modern" data-tab="requests">
+          <span class="tab-icon">📩</span>
+          <span>Solicitudes</span>
+          <span class="badge-modern" id="requestsBadge" style="display:none;">0</span>
+        </button>
+      </div>
+
+      <div class="friends-modal-body">
+        <!-- Tab: Mis Amigos -->
+        <div class="tab-content-modern active" id="friendsTab">
+          <div class="friends-list-modern" id="friendsList">
+            <div class="empty-state">
+              <span class="empty-icon">👥</span>
+              <p>No tienes amigos agregados aún</p>
+              <small>Busca usuarios y envía solicitudes de amistad</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Buscar Usuarios -->
+        <div class="tab-content-modern" id="searchTab">
+          <div class="search-box-modern">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="searchUsersInput" placeholder="Buscar por nombre o email..." />
+          </div>
+          <div class="search-results-modern" id="searchResults">
+            <div class="empty-state">
+              <span class="empty-icon">🔍</span>
+              <p>Busca usuarios para agregarlos</p>
+              <small>Escribe al menos 2 caracteres</small>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab: Solicitudes -->
+        <div class="tab-content-modern" id="requestsTab">
+          <div class="requests-list-modern" id="requestsList">
+            <div class="empty-state">
+              <span class="empty-icon">📭</span>
+              <p>No tienes solicitudes pendientes</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <section class="game-modes">
     <div class="mode-card" id="createRoomBtn">
@@ -172,8 +250,10 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
+  <script src="../js/utils.js"></script>
   <script src="../auth/auth.js"></script>
   <script src="js/theme.js"></script>
+  <script src="../js/friends.js"></script>
   <script src="js/chess-game.js"></script>
   </body>
 </html>
