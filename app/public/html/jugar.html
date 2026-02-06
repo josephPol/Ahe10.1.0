@@ -16,7 +16,6 @@
   <title>AJE10 - Jugar</title>
   <link rel="stylesheet" href="../css/jugar.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
-  <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
   <header class="topbar">
@@ -47,12 +46,13 @@
 
   <main class="contenedor">
 
-<!-- Mode Selection Screen -->
-<div id="modeSelection" class="game-mode-selection">
-  <section class="hero">
-    <h1>⚔ Juega Ajedrez Online</h1>
-    <p>Elige cómo quieres jugar</p>
-  </section>
+<section class="hero">
+  <h1>♞ Juega en Local ♞</h1>
+  <p>Juega contra otra persona en el mismo dispositivo.</p>
+  <div style="display:flex; gap:1rem; justify-content:center; margin-top:1.5rem;">
+    <a class="btn btn-primary" href="jugar_local.html">Comenzar partida local</a>
+  </div>
+</section>
 
   <!-- Friends Modal -->
   <div class="friends-modal-overlay" id="friendsPanel" style="display: none;">
@@ -262,14 +262,10 @@
     </div>
   </footer>
 
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../auth/auth.js"></script>
   <script src="../js/theme.js"></script>
   <script src="../js/cookies.js"></script>
   <script src="../js/friends.js"></script>
-  <script src="js/chess-game.js"></script>
   </body>
 </html>

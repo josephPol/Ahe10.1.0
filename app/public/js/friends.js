@@ -119,24 +119,12 @@ document.addEventListener('DOMContentLoaded', function() {
                         <div class="friend-email">${escapeHtml(friend.email)}</div>
                     </div>
                     <div class="friend-actions">
-                        <button class="btn-invite btn-sm" data-friend-id="${friend.id}" data-friend-name="${escapeHtml(friend.name)}">
-                            🎮 Invitar
-                        </button>
                         <button class="btn-remove btn-sm" data-friend-id="${friend.id}">
                             ✕
                         </button>
                     </div>
                 </div>
             `).join('');
-            
-            // Agregar eventos a botones
-            document.querySelectorAll('.btn-invite').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    const friendId = this.dataset.friendId;
-                    const friendName = this.dataset.friendName;
-                    inviteFriend(friendId, friendName);
-                });
-            });
             
             document.querySelectorAll('.btn-remove').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -366,26 +354,6 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             showNotification('Error al eliminar amigo', 'error');
         }
-    }
-
-    // Invitar amigo a jugar
-    function inviteFriend(friendId, friendName) {
-        // Aquí puedes implementar la lógica para crear una sala e invitar
-        showNotification(`Invitación enviada a ${friendName}`, 'success');
-        // Crear sala automáticamente
-        const roomCode = generateRoomCode();
-        alert(`Sala creada con código: ${roomCode}\nInvitación enviada a ${friendName}`);
-        // Aquí podrías redirigir a la sala o abrir el modal de sala
-    }
-
-    // Generar código de sala aleatorio
-    function generateRoomCode() {
-        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-        let code = '';
-        for (let i = 0; i < 6; i++) {
-            code += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        return code;
     }
 
     // Las funciones escapeHtml() y showNotification() están en utils.js

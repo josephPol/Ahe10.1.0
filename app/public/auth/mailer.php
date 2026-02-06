@@ -30,7 +30,7 @@ class Mailer {
                     <div class='content'>
                         <p>Hola <strong>$name</strong>,</p>
                         <p>Tu registro en AJE10 ha sido completado exitosamente.</p>
-                        <p>Ya puedes iniciar sesión y comenzar a jugar ajedrez online contra jugadores reales y bots con diferentes niveles de dificultad.</p>
+                        <p>Ya puedes iniciar sesión y comenzar a jugar ajedrez en modo local y gestionar tu lista de amigos.</p>
                         <p>¡Esperamos que disfrutes la experiencia!</p>
                         <p style='margin-top: 30px;'>
                             <strong>Detalles de tu cuenta:</strong><br>

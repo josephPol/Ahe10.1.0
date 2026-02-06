@@ -9,13 +9,13 @@
 </section>
 
 <section class="features">
-  <div class="feature-card"><div class="icon">♟</div><h3>Juega Online</h3><p>Contra jugadores reales o IA con 3 niveles de dificultad</p></div>
-  <div class="feature-card"><div class="icon">🏰</div><h3>Salas Privadas</h3><p>Crea salas y juega con amigos usando códigos</p></div>
+  <div class="feature-card"><div class="icon">♟</div><h3>Juega en Local</h3><p>Partidas rápidas en el mismo dispositivo</p></div>
+  <div class="feature-card"><div class="icon">👥</div><h3>Sistema de Amigos</h3><p>Gestiona tu lista de amigos y mantén el contacto</p></div>
   <div class="feature-card"><div class="icon">🎓</div><h3>Aprende</h3><p>Tutoriales desde básico hasta avanzado</p></div>
 </section>
 
 <section class="stats">
   <div class="stat-box"><div class="stat-number">∞</div><div class="stat-label">Partidas</div></div>
-  <div class="stat-box"><div class="stat-number">3</div><div class="stat-label">Niveles Bot</div></div>
-  <div class="stat-box"><div class="stat-number">24/7</div><div class="stat-label">Online</div></div>
+  <div class="stat-box"><div class="stat-number">2</div><div class="stat-label">Jugadores</div></div>
+  <div class="stat-box"><div class="stat-number">Local</div><div class="stat-label">Modo</div></div>
 </section>
