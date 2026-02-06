@@ -117,35 +117,39 @@
   </div>
 
   <section class="game-modes">
-    <div class="mode-card" id="createRoomBtn">
-      <div class="mode-icon">🏰</div>
-      <h3>Crear Sala</h3>
-      <p>Crea una sala privada y comparte el código con un amigo</p>
-      <button class="btn btn-primary">Crear Sala</button>
-    </div>
-    
-    <div class="mode-card" id="joinRoomBtn">
-      <div class="mode-icon">🚪</div>
-      <h3>Unirse a Sala</h3>
-      <p>Únete a una sala existente con un código de acceso</p>
-      <button class="btn btn-primary">Unirse</button>
-    </div>
-    
-    <div class="mode-card">
-      <div class="mode-icon">🤖</div>
-      <h3>Jugar vs Bot</h3>
-      <p>Practica contra la inteligencia artificial</p>
-      <a href="jugar_bot.html" class="btn btn-primary">Jugar vs IA</a>
+    <div class="game-modes-row">
+      <div class="mode-card" id="createRoomBtn">
+        <div class="mode-icon">🏰</div>
+        <h3>Crear Sala</h3>
+        <p>Crea una sala privada y comparte el código con un amigo</p>
+        <button class="btn btn-primary">Crear Sala</button>
+      </div>
+      <div class="mode-card" id="joinRoomBtn">
+        <div class="mode-icon">🚪</div>
+        <h3>Unirse a Sala</h3>
+        <p>Únete a una sala existente con un código de acceso</p>
+        <button class="btn btn-primary">Unirse</button>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">🤖</div>
+        <h3>Jugar vs Bot</h3>
+        <p>Practica contra la inteligencia artificial</p>
+        <a href="jugar_bot.html" class="btn btn-primary">Jugar vs IA</a>
+      </div>
+      <div class="mode-card">
+        <div class="mode-icon">👥</div>
+        <h3>Jugar en local</h3>
+        <p>Juega contra otra persona en el mismo dispositivo</p>
+        <a href="jugar_local.html" class="btn btn-primary">Jugar en local</a>
+      </div>
     </div>
   </section>
 </div>
 
-<!-- Quick start button to open a simple board page -->
   <div style="text-align:center;margin-top:1.5rem;">
   <a class="btn btn-primary" href="play.html">Comenzar partida</a>
 </div>
 
-<!-- Room Creation Modal -->
 <div id="createRoomModal" class="chess-modal" style="display: none;">
   <div class="modal-content">
     <h2>🏰 Crear Nueva Sala</h2>
