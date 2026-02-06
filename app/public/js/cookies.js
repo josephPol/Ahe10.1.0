@@ -21,6 +21,9 @@ class CookiesManager {
 
 	checkConsent() {
 		// Verificar si ya hay consentimiento
+		// MODO DEBUG: Descomenta la siguiente línea para que siempre aparezca
+		// localStorage.removeItem(this.cookieName);
+		
 		if (!this.hasConsent()) {
 			this.showBanner();
 			this.setCookies(); // Establecer cookies técnicas necesarias
