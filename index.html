@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
   <script>
-    (function(){
+    (function () {
       const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      if(theme === 'dark') {
+      if (theme === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();
   </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="app/public/html/" />
   <title>AJE10 - Ajedrez Local</title>
   <link rel="stylesheet" href="../css/inicio.css">
@@ -29,7 +29,6 @@
       <a href="inicio.html" class="nav-link active">🏠 INICIO</a>
       <a href="learn.html" class="nav-link">📚 APRENDER</a>
       <a href="contact.html" class="nav-link">💬 CONTACTO</a>
-      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
     </nav>
 
     <div class="topRight">
