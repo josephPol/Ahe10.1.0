@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
   <script>
-    (function(){
+    (function () {
       const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      if(theme === 'dark') {
+      if (theme === 'dark') {
         document.documentElement.classList.add('dark');
         document.documentElement.setAttribute('data-theme', 'dark');
       }
     })();
   </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <base href="app/public/html/" />
   <title>AJE10 - Ajedrez Local</title>
   <link rel="stylesheet" href="../css/inicio.css">
@@ -39,71 +39,70 @@
   </header>
 
   <main class="contenedor">
-
-<section class="hero">
-  <h1>♔ AJE10 ♔</h1>
-  <p>Juega · Aprende · Domina</p>
-    <div class="cta-buttons">
-    <a href="jugar.html" class="btn btn-primary">▶ JUGAR</a>
-    <a href="learn.html" class="btn btn-secondary">📖 APRENDER</a>
-  </div>
-</section>
-
-<section class="features">
-  <div class="feature-card">
-    <div class="icon">♟</div>
-    <h3>Juega en Local</h3>
-    <p>Partidas rápidas en el mismo dispositivo</p>
-  </div>
-  
-  <div class="feature-card">
-    <div class="icon">👥</div>
-    <h3>Sistema de Amigos</h3>
-    <p>Gestiona tu lista de amigos y mantén el contacto</p>
-  </div>
-  
-  <div class="feature-card">
-    <div class="icon">🎓</div>
-    <h3>Aprende</h3>
-    <p>Tutoriales desde básico hasta avanzado</p>
-  </div>
-</section>
-
-<section class="stats">
-  <div class="stat-box">
-    <div class="stat-number">∞</div>
-    <div class="stat-label">Partidas</div>
-  </div>
-  
-  <div class="stat-box">
-    <div class="stat-number">2</div>
-    <div class="stat-label">Jugadores</div>
-  </div>
-  
-  <div class="stat-box">
-    <div class="stat-number">Local</div>
-    <div class="stat-label">Modo</div>
-  </div>
-</section>
-
-<section class="rankings">
-  <h2 class="rankings-title">🏆 TOP JUGADORES 🏆</h2>
-  <div class="rankings-container">
-    <div class="rankings-table">
-      <div class="rankings-header">
-        <div class="rank-col">#</div>
-        <div class="player-col">Jugador</div>
-        <div class="wins-col">Victorias</div>
-        <div class="games-col">Partidas</div>
-        <div class="winrate-col">% Victoria</div>
-        <div class="rating-col">Rating</div>
+    <section class="hero">
+      <h1>♔ AJE10 ♔</h1>
+      <p>Juega · Aprende · Domina</p>
+      <div class="cta-buttons">
+        <a href="jugar.html" class="btn btn-primary">▶ JUGAR</a>
+        <a href="learn.html" class="btn btn-secondary">📖 APRENDER</a>
       </div>
-      <div id="rankings-list" class="rankings-list">
-        <div class="loading-rankings">Cargando rankings...</div>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <div class="icon">♟</div>
+        <h3>Juega en Local</h3>
+        <p>Partidas rápidas en el mismo dispositivo</p>
       </div>
-    </div>
-  </div>
-</section>
+
+      <div class="feature-card">
+        <div class="icon">👥</div>
+        <h3>Sistema de Amigos</h3>
+        <p>Gestiona tu lista de amigos y mantén el contacto</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🎓</div>
+        <h3>Aprende</h3>
+        <p>Tutoriales desde básico hasta avanzado</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat-box">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Partidas</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Jugadores</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-number">Local</div>
+        <div class="stat-label">Modo</div>
+      </div>
+    </section>
+
+    <section class="rankings">
+      <h2 class="rankings-title">🏆 TOP JUGADORES 🏆</h2>
+      <div class="rankings-container">
+        <div class="rankings-table">
+          <div class="rankings-header">
+            <div class="rank-col">#</div>
+            <div class="player-col">Jugador</div>
+            <div class="wins-col">Victorias</div>
+            <div class="games-col">Partidas</div>
+            <div class="winrate-col">% Victoria</div>
+            <div class="rating-col">Rating</div>
+          </div>
+          <div id="rankings-list" class="rankings-list">
+            <div class="loading-rankings">Cargando rankings...</div>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
@@ -126,12 +125,10 @@
     </div>
   </footer>
 
-    <script src="../js/utils.js"></script>
-    <script src="../auth/auth.js"></script>
-    <script src="../js/theme.js"></script>
-    <script src="../js/cookies.js"></script>
-    <script src="../js/rankings.js"></script>
-
-
-  </body>
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/rankings.js"></script>
+</body>
 </html>
