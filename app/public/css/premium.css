@@ -1,0 +1,185 @@
+@import 'main.css';
+
+.premium-page {
+  padding: 2rem 1rem 3rem;
+}
+
+.premium-hero {
+  text-align: center;
+  background: linear-gradient(180deg, rgba(27, 65, 69, 0.9), rgba(14, 36, 40, 0.9));
+  border: 4px solid var(--c3);
+  padding: 2.5rem 1.5rem;
+  margin: 1.5rem auto;
+  max-width: 900px;
+  box-shadow: 0 6px 0 var(--c2), 0 12px 20px rgba(0, 0, 0, 0.35);
+}
+
+.premium-hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 0.6rem;
+  text-shadow: 3px 3px 0 var(--c2);
+}
+
+.premium-hero p {
+  color: var(--texto-suave);
+  margin-bottom: 1.2rem;
+}
+
+.premium-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  background: linear-gradient(180deg, rgba(239, 204, 120, 0.95), rgba(227, 166, 95, 0.95));
+  color: #132528;
+  padding: 0.6rem 1rem;
+  border: 3px solid var(--accent-3);
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35);
+  margin-bottom: 1.5rem;
+}
+
+.premium-price .price {
+  font-size: 1.8rem;
+  font-weight: bold;
+}
+
+.premium-cta {
+  font-size: 1rem;
+}
+
+.premium-benefits {
+  max-width: 900px;
+  margin: 1.5rem auto;
+  background: var(--surface-1);
+  border: 3px solid var(--borde-1);
+  padding: 1.5rem;
+  box-shadow: 0 4px 0 var(--c2);
+}
+
+.premium-benefits h2 {
+  margin-bottom: 0.8rem;
+}
+
+.benefits-list {
+  list-style: none;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.premium-explain {
+  max-width: 900px;
+  margin: 1.5rem auto;
+}
+
+.explain-card {
+  background: var(--surface-2);
+  border: 3px solid var(--borde-1);
+  padding: 1.5rem;
+  box-shadow: 0 4px 0 var(--c2);
+}
+
+/* Modal */
+.premium-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(9, 19, 20, 0.75);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 1rem;
+}
+
+.premium-modal-overlay.is-open {
+  display: flex;
+}
+
+.premium-modal {
+  background: linear-gradient(180deg, rgba(38, 88, 92, 0.98), rgba(17, 41, 45, 0.98));
+  border: 4px solid var(--c3);
+  max-width: 520px;
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 6px 0 var(--c2), 0 14px 26px rgba(0,0,0,0.4);
+}
+
+.premium-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 3px solid var(--c3);
+}
+
+.btn-close-modal {
+  background: transparent;
+  border: 2px solid var(--c4);
+  color: var(--texto);
+  padding: 0.2rem 0.6rem;
+  cursor: pointer;
+  box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+}
+
+.premium-modal-body {
+  padding: 1.2rem;
+  overflow-y: auto;
+}
+
+.premium-form {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.form-row {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.form-row input,
+.form-row select {
+  background: rgba(12, 26, 28, 0.85);
+  color: var(--texto);
+  border: 2px solid var(--borde-1);
+  padding: 0.6rem 0.7rem;
+}
+
+.form-row-inline {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.payment-fields {
+  display: none;
+  border: 2px dashed var(--borde-1);
+  padding: 0.8rem;
+  background: rgba(12, 26, 28, 0.55);
+}
+
+.payment-fields.is-visible {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.payment-note {
+  color: var(--texto-suave);
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.8rem;
+  justify-content: flex-end;
+}
+
+@media (max-width: 700px) {
+  .premium-hero h1 {
+    font-size: 1.7rem;
+  }
+  .form-actions {
+    flex-direction: column;
+  }
+  .form-row-inline {
+    grid-template-columns: 1fr;
+  }
+}
