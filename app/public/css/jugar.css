@@ -2,12 +2,13 @@
 /* Fila de modos de juego alineados */
 .game-modes-row {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: nowrap;
   gap: 18px;
   justify-content: center;
   align-items: stretch;
   margin: 1.4rem auto 2rem;
-  max-width: 780px;
+  max-width: 980px;
 }
 .mode-card {
   background: linear-gradient(180deg, rgba(58, 102, 93, 0.92), rgba(30, 56, 52, 0.94));
@@ -16,15 +17,47 @@
   border-radius: 12px;
   padding: 2.2rem 1.6rem 1.4rem 1.6rem;
   margin: 0;
-  width: 100%;
+  width: calc(50% - 9px);
   min-width: 0;
-  max-width: 100%;
+  max-width: none;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
   height: 100%;
   transition: box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mode-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.42;
+  z-index: -2;
+}
+
+.mode-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10, 22, 22, 0.48), rgba(10, 22, 22, 0.68));
+  z-index: -1;
+}
+
+.mode-bot::before {
+  background-image: url('../imagenes/fondo_learn.png');
+}
+
+.mode-local::before {
+  background-image: url('../imagenes/logo-caballo-jugar_v3.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-color: rgba(20, 45, 42, 0.85);
 }
 .mode-card:hover {
   box-shadow: 0 0 0 9px rgba(227, 166, 95, 0.9), 0 14px 28px rgba(0,0,0,0.26);
@@ -56,6 +89,7 @@
   background: linear-gradient(180deg, var(--accent-3), var(--accent));
   color: #102021;
   border-color: rgba(240, 210, 122, 0.9);
+  box-shadow: 0 4px 0 rgba(0,0,0,0.28);
 }
 
 .play-mode-card {
@@ -64,6 +98,8 @@
 
 @media (max-width: 900px) {
   .game-modes-row {
+    flex-direction: column;
+    flex-wrap: wrap;
     gap: 16px;
   }
 
