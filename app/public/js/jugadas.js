@@ -2,6 +2,19 @@
 let board = null;
 let game = null;
 
+const CHESSBOARD_PIECE_THEME = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
+
+function getApiUrl(path) {
+    const normalizedPath = path.startsWith('/') ? path : `/${path}`;
+    const currentPath = window.location.pathname;
+
+    if (currentPath.includes('/html/')) {
+        return `../api${normalizedPath}`;
+    }
+
+    return `/api${normalizedPath}`;
+}
+
 // Cargar jugadas al cargar la página
 document.addEventListener('DOMContentLoaded', function() {
     loadJugadas();
@@ -59,7 +72,8 @@ function initChessboard() {
         position: 'start',
         onDragStart: onDragStart,
         onDrop: onDrop,
-        onSnapEnd: onSnapEnd
+        onSnapEnd: onSnapEnd,
+        pieceTheme: CHESSBOARD_PIECE_THEME
     };
 
     board = Chessboard('board', config);
@@ -142,7 +156,7 @@ async function submitJugada() {
     };
 
     try {
-        const response = await fetch('/api/jugadas', {
+        const response = await fetch(getApiUrl('/jugadas'), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -150,7 +164,10 @@ async function submitJugada() {
             body: JSON.stringify(data)
         });
 
-        const result = await response.json();
+        const contentType = response.headers.get('content-type') || '';
+        const result = contentType.includes('application/json')
+            ? await response.json()
+            : { success: false, error: `Error HTTP ${response.status}` };
 
         if (result.success) {
             alert('¡Jugada publicada exitosamente!');
@@ -163,11 +180,11 @@ async function submitJugada() {
             game = null;
             loadJugadas(); // Recargar la lista
         } else {
-            alert('Error al publicar la jugada: ' + (result.error || 'Error desconocido'));
+            alert('Error al publicar la jugada: ' + (result.error || `HTTP ${response.status}`));
         }
     } catch (error) {
         console.error('Error:', error);
-        alert('Error al conectar con el servidor');
+        alert('Error al conectar con el servidor: ' + error.message);
     }
 }
 
@@ -177,7 +194,7 @@ async function loadJugadas() {
     container.innerHTML = '<div class="loading">Cargando jugadas...</div>';
 
     try {
-        const response = await fetch('/api/jugadas');
+        const response = await fetch(getApiUrl('/jugadas'));
         const result = await response.json();
 
         if (result.success && result.data.length > 0) {
@@ -327,7 +344,7 @@ async function likeJugada(id) {
     
     // Para jugadas reales de la BD
     try {
-        const response = await fetch(`/api/jugadas/${id}/like`, {
+        const response = await fetch(getApiUrl(`/jugadas/${id}/like`), {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

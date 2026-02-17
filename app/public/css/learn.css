@@ -4,7 +4,7 @@
 .hero {
   text-align: center;
   padding: 4rem 2rem;
-  background: var(--fondo);
+  background: rgba(26, 37, 40, 0.45);
   border: 3px solid var(--c3);
   margin-bottom: 2rem;
   position: relative;
@@ -42,7 +42,7 @@
 
 /* Tarjeta de jugada */
 .jugada-card {
-  background: var(--fondo);
+  background: linear-gradient(180deg, rgba(45, 74, 62, 0.88), rgba(26, 37, 40, 0.88));
   border: 3px solid var(--c3);
   padding: 1.5rem;
   transition: all 0.3s ease;
@@ -152,7 +152,7 @@
 }
 
 .modal-content {
-  background: var(--fondo);
+  background: linear-gradient(180deg, rgba(45, 74, 62, 0.95), rgba(26, 37, 40, 0.95));
   margin: 2% auto;
   padding: 2rem;
   border: 3px solid var(--c3);
@@ -253,7 +253,7 @@
 }
 
 .empty-state {
-  background: var(--fondo);
+  background: rgba(26, 37, 40, 0.5);
   border: 3px dashed var(--c3);
 }
 
@@ -269,7 +269,7 @@
 }
 
 .error-state {
-  background: var(--fondo);
+  background: rgba(26, 37, 40, 0.5);
   border: 3px solid #d32f2f;
 }
 

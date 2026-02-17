@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Jugada;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -30,23 +31,45 @@ class JugadaController extends Controller
             'imagen' => 'required|string', // Base64 image
         ]);
 
+        $userId = User::query()->value('id');
+        if (!$userId) {
+            return response()->json([
+                'success' => false,
+                'error' => 'No hay usuarios disponibles para asociar la jugada.'
+            ], 422);
+        }
+
         // Guardar imagen base64
         $imageData = $request->imagen;
         $imageName = 'jugada_' . time() . '.png';
+        $imagePath = null;
         
         // Decodificar base64 y guardar
         if (preg_match('/^data:image\/(\w+);base64,/', $imageData, $type)) {
             $imageData = substr($imageData, strpos($imageData, ',') + 1);
             $imageData = base64_decode($imageData);
-            Storage::disk('public')->put('jugadas/' . $imageName, $imageData);
+            if ($imageData === false) {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'La imagen del tablero no es válida.'
+                ], 422);
+            }
+
+            $imagePath = 'jugadas/' . $imageName;
+            Storage::disk('public')->put($imagePath, $imageData);
+        } else {
+            return response()->json([
+                'success' => false,
+                'error' => 'Formato de imagen no válido.'
+            ], 422);
         }
 
         $jugada = Jugada::create([
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'movimientos' => $request->movimientos,
-            'imagen' => 'jugadas/' . $imageName,
-            'user_id' => 1, // Por ahora user 1, cambiar cuando haya auth
+            'imagen' => $imagePath,
+            'user_id' => $userId,
         ]);
 
         return response()->json([
@@ -62,7 +85,9 @@ class JugadaController extends Controller
 
         return response()->json([
             'success' => true,
-            'likes' => $jugada->likes
+            'data' => [
+                'likes' => $jugada->likes
+            ]
         ]);
     }
 }
