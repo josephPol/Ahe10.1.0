@@ -9,6 +9,16 @@
     overflow: hidden;
 }
 
+/* ================================
+     MATCH VIEW ENHANCEMENTS
+================================ */
+:root {
+    --match-surface: rgba(18, 34, 32, 0.82);
+    --match-surface-2: rgba(32, 65, 59, 0.85);
+    --match-stroke: rgba(146, 204, 184, 0.7);
+    --match-glow: rgba(239, 204, 120, 0.35);
+}
+
 /* =========================================
      UNICODE PIECES (NO IMAGES)
 ========================================= */
@@ -118,20 +128,21 @@
 /* Botones de rendición */
 .resign-btn {
     margin-top: 0.8rem;
-    padding: 0.5rem 0.8rem;
-    border: 2px solid #c0392b;
-    border-radius: 4px;
+    padding: 0.55rem 0.9rem;
+    border: 2px solid rgba(231, 76, 60, 0.7);
+    border-radius: 8px;
     background: rgba(192, 57, 43, 0.2);
-    color: #e74c3c;
+    color: #f08c84;
     cursor: pointer;
     font-size: 0.85rem;
-    font-weight: bold;
+    font-weight: 700;
     font-family: "Courier New", monospace;
     transition: all 0.2s ease;
 }
 .resign-btn:hover {
     background: rgba(192, 57, 43, 0.4);
     box-shadow: inset 0 0 8px rgba(231, 76, 60, 0.3);
+    transform: translateY(-1px);
 }
 
 /* Forzar que el tablero siempre se muestre correctamente */
@@ -154,10 +165,23 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
 }
 .jugar-local-hero h1 {
     margin: 0.2rem 0 0.2rem 0;
     line-height: 1.1;
+    position: relative;
+    z-index: 1;
+}
+
+.jugar-local-hero::after {
+    content: "";
+    position: absolute;
+    inset: 20% -10% -40% 50%;
+    background: radial-gradient(circle, var(--match-glow), transparent 70%);
+    opacity: 0.7;
+    z-index: 0;
 }
 
 /* LAYOUT */
@@ -166,30 +190,45 @@
     justify-content: center;
     margin-bottom: 12rem;
     padding-bottom: 4rem;
+    position: relative;
+}
+
+.jugar-local-board-section::before {
+    content: "";
+    position: absolute;
+    inset: -2rem 0 -4rem 0;
+    background:
+        radial-gradient(circle at 20% 20%, rgba(127, 230, 194, 0.08), transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(239, 204, 120, 0.1), transparent 50%);
+    pointer-events: none;
 }
 .jugar-local-layout {
     display: flex;
     gap: 14px;
     align-items: flex-start;
+    position: relative;
+    z-index: 1;
 }
 
 /* Panel de historial (izquierda) */
 .move-panel {
     width: 220px;
-    padding: 0.8rem;
-    border: 4px solid var(--c4);
-    background:
-        linear-gradient(180deg, rgba(45, 74, 62, 0.55), rgba(26, 37, 40, 0.55));
+    padding: 1rem;
+    border: 3px solid var(--match-stroke);
+    background: linear-gradient(160deg, var(--match-surface), rgba(15, 28, 27, 0.88));
     box-shadow:
-        0 0 0 6px var(--borde-2),
+        0 0 0 6px rgba(12, 28, 26, 0.7),
+        0 14px 24px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(232, 244, 215, 0.06);
-    border-radius: 8px;
+    border-radius: 14px;
 }
 .move-panel__title {
     font-weight: 700;
     letter-spacing: 1px;
     margin-bottom: 0.6rem;
     opacity: 0.95;
+    text-transform: uppercase;
+    font-size: 0.8rem;
 }
 .move-list {
     margin: 0;
@@ -204,13 +243,24 @@
 
 /* Marco del tablero */
 .jugar-local-board-frame {
-    padding: 0.8rem;
-    border: 4px solid var(--c4);
-    background: linear-gradient(180deg, rgba(45, 74, 62, 0.7), rgba(26, 37, 40, 0.7));
+    padding: 1rem;
+    border: 3px solid var(--match-stroke);
+    background: linear-gradient(160deg, rgba(34, 74, 66, 0.85), rgba(19, 36, 34, 0.92));
     box-shadow:
-        0 0 0 6px var(--borde-2),
+        0 0 0 6px rgba(12, 28, 26, 0.7),
+        0 18px 32px rgba(0, 0, 0, 0.3),
         inset 0 1px 0 rgba(232, 244, 215, 0.08);
-    border-radius: 8px;
+    border-radius: 16px;
+    position: relative;
+}
+
+.jugar-local-board-frame::after {
+    content: "";
+    position: absolute;
+    inset: 8px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 212, 138, 0.2);
+    pointer-events: none;
 }
 .jugar-local-board {
     width: 480px;
@@ -221,29 +271,30 @@
 .timer-container {
     width: 200px;
     padding: 1rem;
-    border: 3px solid var(--c4);
-    background: linear-gradient(180deg, rgba(45, 74, 62, 0.6), rgba(26, 37, 40, 0.6));
-    box-shadow: 0 0 0 6px var(--borde-2);
-    border-radius: 8px;
+    border: 2px solid var(--match-stroke);
+    background: linear-gradient(160deg, var(--match-surface-2), rgba(12, 28, 26, 0.9));
+    box-shadow: 0 0 0 6px rgba(12, 28, 26, 0.6), 0 12px 22px rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
     text-align: center;
 }
 .timer-label {
-    font-size: 0.9rem;
-    font-weight: bold;
-    color: var(--c5);
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--texto-suave);
     margin-bottom: 0.5rem;
-    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.5);
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 .timer-display {
     font-size: 2rem;
-    font-weight: bold;
-    font-family: 'Courier New', monospace;
-    color: var(--accent);
+    font-weight: 700;
+    font-family: "Palatino Linotype", "Book Antiqua", "Garamond", serif;
+    color: var(--accent-3);
     text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 .timer-container.active .timer-display {
-    color: #00ff00;
+    color: #b8ff94;
     text-shadow: 
         0 0 10px rgba(0, 255, 0, 0.5),
         2px 2px 0 rgba(0, 0, 0, 0.5);
@@ -257,14 +308,14 @@
 /* Panel de jugabilidad (derecha) */
 .control-panel {
     width: 220px;
-    padding: 0.8rem;
-    border: 4px solid var(--c4);
-    background:
-        linear-gradient(180deg, rgba(45, 74, 62, 0.55), rgba(26, 37, 40, 0.55));
+    padding: 1rem;
+    border: 3px solid var(--match-stroke);
+    background: linear-gradient(160deg, var(--match-surface), rgba(15, 28, 27, 0.88));
     box-shadow:
-        0 0 0 6px var(--borde-2),
+        0 0 0 6px rgba(12, 28, 26, 0.7),
+        0 14px 24px rgba(0, 0, 0, 0.25),
         inset 0 1px 0 rgba(232, 244, 215, 0.06);
-    border-radius: 8px;
+    border-radius: 14px;
 }
 .control-panel__title {
     font-size: 0.95rem;
