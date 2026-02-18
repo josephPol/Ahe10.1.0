@@ -68,6 +68,26 @@
         </p>
       </div>
     </section>
+
+    <section class="premium-cancel">
+      <div class="cancel-card">
+        <h3>Cancelar suscripción</h3>
+        <p>Introduce tu correo y acepta los términos para cancelar la suscripción premium.</p>
+        <form id="cancelPremiumForm" class="cancel-form">
+          <div class="form-row">
+            <label for="cancelEmail">Email</label>
+            <input id="cancelEmail" name="cancelEmail" type="email" placeholder="tu@email.com" required />
+          </div>
+          <label class="terms-row">
+            <input id="cancelTerms" type="checkbox" required />
+            <span>Acepto los términos y condiciones de cancelación</span>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-secondary">Cancelar suscripción</button>
+          </div>
+        </form>
+      </div>
+    </section>
   </main>
 
   <div id="premiumModal" class="premium-modal-overlay" aria-hidden="true">

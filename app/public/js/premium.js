@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeBtn = document.getElementById('closePremiumModal');
     const cancelBtn = document.getElementById('cancelPremium');
     const form = document.getElementById('premiumForm');
+    const cancelForm = document.getElementById('cancelPremiumForm');
     const methodSelect = document.getElementById('paymentMethod');
     const cardFields = document.getElementById('cardFields');
     const applePayFields = document.getElementById('applePayFields');
@@ -92,6 +93,40 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             } catch (error) {
                 showNotification('Error al procesar el pago', 'error');
+            }
+        });
+    }
+
+    if (cancelForm) {
+        cancelForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const email = cancelForm.cancelEmail.value.trim();
+            const termsAccepted = cancelForm.cancelTerms.checked;
+
+            if (!termsAccepted) {
+                showNotification('Debes aceptar los términos para cancelar', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('../auth/premium.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ action: 'cancel', email, accept_terms: true }),
+                    credentials: 'include'
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    showNotification('Suscripción cancelada', 'success');
+                    setTimeout(() => window.location.reload(), 600);
+                } else {
+                    showNotification(data.message || 'No se pudo cancelar', 'error');
+                }
+            } catch (error) {
+                showNotification('Error al cancelar la suscripción', 'error');
             }
         });
     }

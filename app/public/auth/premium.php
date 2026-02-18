@@ -34,10 +34,11 @@ if (!is_array($input)) {
 	$input = $_POST;
 }
 
+$action = $input['action'] ?? 'subscribe';
 $method = $input['method'] ?? '';
 $allowed = ['apple_pay', 'card', 'paypal'];
 
-if (!in_array($method, $allowed, true)) {
+if ($action === 'subscribe' && !in_array($method, $allowed, true)) {
 	http_response_code(400);
 	echo json_encode([
 		'success' => false,
@@ -98,6 +99,47 @@ try {
 		echo json_encode([
 			'success' => false,
 			'message' => 'Usuario no encontrado'
+		]);
+		exit;
+	}
+
+	if ($action === 'cancel') {
+		$email = $input['email'] ?? '';
+		$acceptTerms = $input['accept_terms'] ?? false;
+
+		if (empty($email) || !$acceptTerms) {
+			$db->rollBack();
+			http_response_code(400);
+			echo json_encode([
+				'success' => false,
+				'message' => 'Email y términos son obligatorios'
+			]);
+			exit;
+		}
+
+		if (strcasecmp($email, $user['email']) !== 0) {
+			$db->rollBack();
+			http_response_code(400);
+			echo json_encode([
+				'success' => false,
+				'message' => 'El email no coincide con el usuario autenticado'
+			]);
+			exit;
+		}
+
+		$stmtDel = $db->prepare('DELETE FROM premium_subscriptions WHERE user_id = ? OR user_email = ?');
+		$stmtDel->execute([$user['id'], $user['email']]);
+
+		$stmt = $db->prepare('UPDATE users SET is_premium = 0, premium_since = NULL, updated_at = NOW() WHERE id = ?');
+		$stmt->execute([$user['id']]);
+
+		$db->commit();
+
+		$_SESSION['is_premium'] = false;
+
+		echo json_encode([
+			'success' => true,
+			'message' => 'Suscripción cancelada'
 		]);
 		exit;
 	}
