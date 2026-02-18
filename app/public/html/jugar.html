@@ -20,7 +20,7 @@
   <link rel="stylesheet" href="../css/jugar.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 </head>
-<body>
+<body class="jugar-page">
   <!-- Encabezado con marca, navegacion y accesos -->
   <header class="topbar">
     <a href="inicio.html" class="brand">
@@ -52,9 +52,60 @@
   <main class="contenedor">
 
 <!-- Hero: titulo y descripcion -->
-<section class="hero">
-  <h1>♞ Elige tu modo de juego ♞</h1>
-  <p>Juega contra la IA o enfréntate a otra persona en el mismo dispositivo.</p>
+<section class="hero play-hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="hero-kicker">Modo batalla local</p>
+      <h1 class="hero-title">♞ Elige tu modo de juego ♞</h1>
+      <p class="hero-lead">Juega contra la IA o enfréntate a otra persona en el mismo dispositivo. Sin esperas, sin lag.</p>
+      <div class="hero-actions">
+        <a href="#modes" class="btn btn-primary">Ver modos</a>
+        <a href="learn.html" class="btn btn-secondary">Estrategias</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Modos</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">10:00</span>
+          <span class="stat-label">Reloj base</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">∞</span>
+          <span class="stat-label">Revancha</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="tile-grid">
+        <span class="tile"></span>
+        <span class="tile piece">♜</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♞</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♛</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♔</span>
+        <span class="tile"></span>
+      </div>
+      <div class="hero-glow"></div>
+    </div>
+  </div>
+</section>
+
+<section class="play-banner">
+  <div class="banner-inner">
+    <span class="banner-icon">⚡</span>
+    <p>Consejo rapido: Usa modo click para jugar con una sola mano y ver mejor cada jugada.</p>
+  </div>
 </section>
 
   <!-- Modal de amigos (panel flotante) -->
@@ -130,7 +181,7 @@
   </div>
 
   <!-- Modos de juego disponibles -->
-  <section class="game-modes">
+  <section class="game-modes" id="modes">
     <div class="game-modes-row">
       <div class="mode-card play-mode-card mode-bot">
         <div class="mode-icon">🤖</div>
@@ -143,6 +194,48 @@
         <h3>Jugar en Local</h3>
         <p>Juega contra otra persona en el mismo dispositivo</p>
         <a href="jugar_local.html" class="btn btn-primary">Jugar en local</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="play-steps">
+    <h2 class="section-title">Como se juega aqui</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Elige un modo</h3>
+        <p>Entrena contra la IA o reta a alguien en tu mismo dispositivo.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Configura tu estilo</h3>
+        <p>Activa arrastrar o click y ajusta el ritmo de la partida.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Revancha infinita</h3>
+        <p>Termina la partida y vuelve a jugar al instante.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="play-tips">
+    <h2 class="section-title">Atajos para mejorar</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">🎯</span>
+        <h4>Objetivo claro</h4>
+        <p>Busca dominar el centro antes de lanzar ataques largos.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🧠</span>
+        <h4>Piensa 2 jugadas</h4>
+        <p>Anticipa la respuesta del rival y evita piezas colgadas.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🛡️</span>
+        <h4>Protege al rey</h4>
+        <p>Enroca temprano y coordina tus torres para el final.</p>
       </div>
     </div>
   </section>
