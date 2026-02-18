@@ -44,7 +44,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function checkAuth() {
         try {
-            const response = await fetch('../auth/session.php');
+            const response = await fetch('../auth/session.php', {
+                credentials: 'include'
+            });
             const data = await response.json();
             return data.authenticated === true;
         } catch (error) {
@@ -71,7 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 const response = await fetch('../auth/premium.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
+                    body: JSON.stringify(payload),
+                    credentials: 'include'
                 });
 
                 const data = await response.json();
