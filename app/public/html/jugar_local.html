@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+    <!-- Tema inicial para evitar parpadeo -->
     <script>
       // Apply theme immediately to prevent flash
       (function(){
@@ -11,14 +12,17 @@
         }
       })();
     </script>
+    <!-- Metadatos basicos -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Jugar Local - Ajedrez</title>
+    <!-- Estilos del tablero y la pagina -->
     <link rel="stylesheet" href="../css/main.css" />
     <link rel="stylesheet" href="../css/jugar_local.css" />
     <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 <body>
+    <!-- Encabezado con navegacion -->
     <header class="topbar">
         <div class="brand">
             <div class="logo">♟</div>
@@ -35,11 +39,14 @@
         </div>
     </header>
 
+    <!-- Contenido principal de la partida local -->
     <main class="contenedor">
+        <!-- Hero con titulo de la partida -->
         <section class="hero jugar-local-hero">
             <h1>♞ PARTIDA LOCAL ♞</h1>
         </section>
 
+        <!-- Zona de tablero, paneles y resultado -->
         <section class="jugar-local-board-section">
             <div class="jugar-local-layout">
                 <div class="timer-container timer-white">
@@ -48,15 +55,18 @@
                     <button class="resign-btn" id="resignWhite" data-color="w">Rendirse</button>
                 </div>
 
+                <!-- Panel de historial de movimientos -->
                 <aside class="move-panel">
                     <div class="move-panel__title">Historial de movimientos</div>
                     <ol id="moveList" class="move-list"></ol>
                 </aside>
 
+                <!-- Tablero de ajedrez -->
                 <div class="jugar-local-board-frame">
                     <div id="chessBoard" class="jugar-local-board" style="width:480px; height:480px;"></div>
                 </div>
 
+                <!-- Controles de jugabilidad -->
                 <aside class="control-panel">
                     <div class="control-panel__title">⚙ Jugabilidad</div>
                     <div class="control-group">
@@ -86,6 +96,7 @@
         </section>
     </main>
 
+    <!-- Librerias y scripts de la partida -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
     <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>

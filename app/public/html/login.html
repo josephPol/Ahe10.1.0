@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,9 +12,11 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Login | AJE10</title>
+  <!-- Estilos base y ajustes locales -->
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/cookies.css">
   <style>
@@ -68,7 +71,7 @@
 </head>
 
 <body>
-
+<!-- Encabezado simple con volver y tema -->
 <header class="topbar">
   <div class="brand">
     <div class="logo">♟</div>
@@ -81,12 +84,15 @@
   </div>
 </header>
 
+<!-- Contenedor principal de login -->
 <div class="loginPage">
 
+  <!-- Caja de login con formulario -->
   <div class="loginBox">
     <h1>AJE10</h1>
     <p class="subtitle">Inicia sesión para jugar</p>
 
+    <!-- Formulario de inicio de sesion -->
     <form id="loginForm">
       <label>
         Email
@@ -113,6 +119,7 @@
 
 </div>
 
+<!-- Script de autenticacion y logica del formulario -->
 <script src="../auth/auth.js"></script>
 <script>
   document.getElementById('loginForm').addEventListener('submit', function(e) {
@@ -173,6 +180,7 @@
   });
 </script>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -194,5 +202,6 @@
 
 </body>
 
+<!-- Scripts comunes -->
 <script src="../js/theme.js"></script>
 <script src="../js/cookies.js"></script>

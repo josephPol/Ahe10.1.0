@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,14 +12,17 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AJE10 - Aprender</title>
+  <!-- Estilos del tablero y la pagina -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.css" />
   <link rel="stylesheet" href="../css/learn.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 </head>
 <body>
+  <!-- Encabezado con marca, navegacion y accesos -->
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
@@ -39,21 +43,24 @@
     </div>
   </header>
 
+  <!-- Contenido principal de la pagina -->
   <main class="contenedor">
 
+<!-- Hero con titulo y boton para crear jugada -->
 <section class="hero">
   <h1>📖 JUGADAS DE AJEDREZ</h1>
   <p>Publica y aprende de las mejores estrategias</p>
   <button id="btn-crear-jugada" class="btn btn-primary">+ Crear Jugada</button>
 </section>
 
+<!-- Listado de jugadas publicadas -->
 <section class="jugadas-section">
   <div id="jugadas-list" class="jugadas-grid">
     <div class="loading">Cargando jugadas...</div>
   </div>
 </section>
 
-<!-- Modal para crear jugada -->
+<!-- Modal para crear una nueva jugada -->
 <div id="modal-crear" class="modal">
   <div class="modal-content">
     <span class="modal-close">&times;</span>
@@ -88,6 +95,7 @@
 
   </main>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -107,6 +115,7 @@
     </div>
   </footer>
 
+    <!-- Librerias y scripts de la pagina -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chessboard-js/1.0.0/chessboard-1.0.0.min.js"></script>

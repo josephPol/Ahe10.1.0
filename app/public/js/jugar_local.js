@@ -18,9 +18,80 @@ const pieceIcon = {
     p: '♙', n: '♘', b: '♗', r: '♖', q: '♕', k: '♔'
 };
 
+const unicodePieceMap = {
+    w: { k: '♔', q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' },
+    b: { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' }
+};
+
+const transparentPieceDataUri =
+    'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI=';
+
+let dragGhostEl = null;
+
+function setupDragGhost() {
+    if (dragGhostEl) return;
+    dragGhostEl = document.createElement('div');
+    dragGhostEl.className = 'unicode-drag-ghost';
+    dragGhostEl.style.display = 'none';
+    document.body.appendChild(dragGhostEl);
+
+    document.addEventListener('mousemove', (e) => {
+        if (!dragGhostEl || dragGhostEl.style.display === 'none') return;
+        dragGhostEl.style.left = `${e.clientX}px`;
+        dragGhostEl.style.top = `${e.clientY}px`;
+    });
+}
+
+function showDragGhost(piece) {
+    if (!piece) return;
+    setupDragGhost();
+    const color = piece[0];
+    const type = piece[1]?.toLowerCase();
+    const symbol = unicodePieceMap[color]?.[type];
+    if (!symbol) return;
+    dragGhostEl.textContent = symbol;
+    dragGhostEl.classList.toggle('unicode-drag-ghost--white', color === 'w');
+    dragGhostEl.classList.toggle('unicode-drag-ghost--black', color === 'b');
+    dragGhostEl.style.display = 'block';
+}
+
+function hideDragGhost() {
+    if (!dragGhostEl) return;
+    dragGhostEl.style.display = 'none';
+}
+
+function renderUnicodePieces() {
+    const boardEl = document.getElementById('chessBoard');
+    if (!boardEl) return;
+
+    boardEl.querySelectorAll('[data-square]').forEach(squareEl => {
+        const square = squareEl.getAttribute('data-square');
+        if (!square) return;
+
+        const piece = game.get(square);
+        let textEl = squareEl.querySelector('.piece-text');
+
+        if (!textEl) {
+            textEl = document.createElement('span');
+            textEl.className = 'piece-text';
+            squareEl.appendChild(textEl);
+        }
+
+        if (piece) {
+            textEl.textContent = unicodePieceMap[piece.color][piece.type] || '';
+            textEl.classList.toggle('piece-text--white', piece.color === 'w');
+            textEl.classList.toggle('piece-text--black', piece.color === 'b');
+        } else {
+            textEl.textContent = '';
+            textEl.classList.remove('piece-text--white', 'piece-text--black');
+        }
+    });
+}
+
 // === Inicialización ===
 
 document.addEventListener('DOMContentLoaded', () => {
+    setupDragGhost();
     setupModeControls();
     setupResignButtons();
     // Esperar a que el div #chessBoard exista
@@ -65,7 +136,8 @@ function initializeBoard() {
         onDragStart,
         onDrop,
         onSnapEnd,
-        pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+        // Hide default piece images; we draw Unicode with CSS.
+        pieceTheme: () => transparentPieceDataUri
     };
     board = Chessboard('chessBoard', config);
     if (gameMode === 'click') {
@@ -76,6 +148,7 @@ function initializeBoard() {
     updateTimerDisplay();
     updateTimerUI();
     refreshBoardUI(null);
+    renderUnicodePieces();
 }
 
 function onDragStart(source, piece) {
@@ -83,6 +156,9 @@ function onDragStart(source, piece) {
     if ((game.turn() === 'w' && piece.startsWith('b')) || (game.turn() === 'b' && piece.startsWith('w'))) return false;
     if (!gameStarted && game.turn() === 'w') startGameTimer();
     clearSelection();
+    const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
+    if (fromEl) fromEl.classList.add('drag-from');
+    showDragGhost(piece);
 }
 
 function onDrop(source, target) {
@@ -92,11 +168,17 @@ function onDrop(source, target) {
     refreshBoardUI(move);
     clearSelection();
     updateTimerUI();
+    const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
+    if (fromEl) fromEl.classList.remove('drag-from');
+    hideDragGhost();
     if (checkGameEnd()) return;
 }
 
 function onSnapEnd() {
     board.position(game.fen());
+    renderUnicodePieces();
+    document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
+    hideDragGhost();
 }
 
 function handleBoardClick(e) {
@@ -151,9 +233,11 @@ function tryMove(from, to) {
     const move = game.move({ from, to, promotion: 'q' });
     if (move === null) {
         board.position(game.fen());
+        renderUnicodePieces();
         return null;
     }
     board.position(game.fen());
+    renderUnicodePieces();
     return move;
 }
 

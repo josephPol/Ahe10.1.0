@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,13 +12,16 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AJE10 - Jugar</title>
+  <!-- Hojas de estilo de la pagina -->
   <link rel="stylesheet" href="../css/jugar.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 </head>
-<body>
+<body class="jugar-page">
+  <!-- Encabezado con marca, navegacion y accesos -->
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
@@ -44,17 +48,67 @@
     </div>
   </header>
 
+  <!-- Contenido principal de la pagina -->
   <main class="contenedor">
 
-<section class="hero">
-  <h1>♞ Juega en Local ♞</h1>
-  <p>Juega contra otra persona en el mismo dispositivo.</p>
-  <div style="display:flex; gap:1rem; justify-content:center; margin-top:1.5rem;">
-    <a class="btn btn-primary" href="jugar_local.html">Comenzar partida local</a>
+<!-- Hero: titulo y descripcion -->
+<section class="hero play-hero">
+  <div class="hero-grid">
+    <div class="hero-copy">
+      <p class="hero-kicker">Modo batalla local</p>
+      <h1 class="hero-title">♞ Elige tu modo de juego ♞</h1>
+      <p class="hero-lead">Juega contra la IA o enfréntate a otra persona en el mismo dispositivo. Sin esperas, sin lag.</p>
+      <div class="hero-actions">
+        <a href="#modes" class="btn btn-primary">Ver modos</a>
+        <a href="learn.html" class="btn btn-secondary">Estrategias</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill">
+          <span class="stat-value">2</span>
+          <span class="stat-label">Modos</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">10:00</span>
+          <span class="stat-label">Reloj base</span>
+        </div>
+        <div class="stat-pill">
+          <span class="stat-value">∞</span>
+          <span class="stat-label">Revancha</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <div class="tile-grid">
+        <span class="tile"></span>
+        <span class="tile piece">♜</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♞</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♛</span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile"></span>
+        <span class="tile piece">♔</span>
+        <span class="tile"></span>
+      </div>
+      <div class="hero-glow"></div>
+    </div>
   </div>
 </section>
 
-  <!-- Friends Modal -->
+<section class="play-banner">
+  <div class="banner-inner">
+    <span class="banner-icon">⚡</span>
+    <p>Consejo rapido: Usa modo click para jugar con una sola mano y ver mejor cada jugada.</p>
+  </div>
+</section>
+
+  <!-- Modal de amigos (panel flotante) -->
   <div class="friends-modal-overlay" id="friendsPanel" style="display: none;">
     <div class="friends-modal">
       <div class="friends-modal-header">
@@ -126,123 +180,69 @@
     </div>
   </div>
 
-  <section class="game-modes">
+  <!-- Modos de juego disponibles -->
+  <section class="game-modes" id="modes">
     <div class="game-modes-row">
-      <div class="mode-card" id="createRoomBtn">
-        <div class="mode-icon">🏰</div>
-        <h3>Crear Sala</h3>
-        <p>Crea una sala privada y comparte el código con un amigo</p>
-        <button class="btn btn-primary">Crear Sala</button>
-      </div>
-      <div class="mode-card" id="joinRoomBtn">
-        <div class="mode-icon">🚪</div>
-        <h3>Unirse a Sala</h3>
-        <p>Únete a una sala existente con un código de acceso</p>
-        <button class="btn btn-primary">Unirse</button>
-      </div>
-      <div class="mode-card">
+      <div class="mode-card play-mode-card mode-bot">
         <div class="mode-icon">🤖</div>
         <h3>Jugar vs Bot</h3>
         <p>Practica contra la inteligencia artificial</p>
         <a href="jugar_bot.html" class="btn btn-primary">Jugar vs IA</a>
       </div>
-      <div class="mode-card">
+      <div class="mode-card play-mode-card mode-local">
         <div class="mode-icon">👥</div>
-        <h3>Jugar en local</h3>
+        <h3>Jugar en Local</h3>
         <p>Juega contra otra persona en el mismo dispositivo</p>
         <a href="jugar_local.html" class="btn btn-primary">Jugar en local</a>
       </div>
     </div>
   </section>
-</div>
 
-  <div style="text-align:center;margin-top:1.5rem;">
-  <a class="btn btn-primary" href="play.html">Comenzar partida</a>
-</div>
-
-<div id="createRoomModal" class="chess-modal" style="display: none;">
-  <div class="modal-content">
-    <h2>🏰 Crear Nueva Sala</h2>
-    <p>Comparte este código con tu oponente:</p>
-    <div class="room-code-display" id="roomCodeDisplay">
-      <span id="generatedRoomCode">------</span>
-      <button class="btn-copy" id="copyRoomCode">📋 Copiar</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" id="cancelCreateRoom">Cancelar</button>
-      <button class="btn btn-primary" id="startGameAsHost">Iniciar Partida</button>
-    </div>
-  </div>
-</div>
-
-<!-- Join Room Modal -->
-<div id="joinRoomModal" class="chess-modal" style="display: none;">
-  <div class="modal-content">
-    <h2>🚪 Unirse a Sala</h2>
-    <p>Ingresa el código de la sala:</p>
-    <input type="text" id="roomCodeInput" class="room-code-input" placeholder="Código de sala" maxlength="6">
-    <div class="modal-actions">
-      <button class="btn btn-secondary" id="cancelJoinRoom">Cancelar</button>
-      <button class="btn btn-primary" id="joinRoomConfirm">Unirse</button>
-    </div>
-  </div>
-</div>
-
-<!-- Bot Difficulty Modal -->
-<div id="botDifficultyModal" class="chess-modal" style="display: none;">
-  <div class="modal-content">
-    <h2>🤖 Selecciona Dificultad</h2>
-    <div class="difficulty-options">
-      <button class="btn btn-primary difficulty-btn" data-level="1">Fácil</button>
-      <button class="btn btn-primary difficulty-btn" data-level="2">Medio</button>
-      <button class="btn btn-primary difficulty-btn" data-level="3">Difícil</button>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-secondary" id="cancelBotGame">Cancelar</button>
-    </div>
-  </div>
-</div>
-
-<!-- Chess Game Screen -->
-<div id="gameScreen" style="display: none;">
-  <section class="chess-game-container">
-    <div class="game-header">
-      <div class="game-info">
-        <h2 id="gameTitle">Partida de Ajedrez</h2>
-        <p id="gameStatus">Turno de las blancas</p>
+  <section class="play-steps">
+    <h2 class="section-title">Como se juega aqui</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">01</div>
+        <h3>Elige un modo</h3>
+        <p>Entrena contra la IA o reta a alguien en tu mismo dispositivo.</p>
       </div>
-      <div class="game-actions">
-        <button class="btn btn-secondary" id="resignBtn">🏳️ Rendirse</button>
-        <button class="btn btn-secondary" id="newGameBtn">🔄 Nueva Partida</button>
+      <div class="step-card">
+        <div class="step-number">02</div>
+        <h3>Configura tu estilo</h3>
+        <p>Activa arrastrar o click y ajusta el ritmo de la partida.</p>
       </div>
-    </div>
-    
-    <div class="chess-board-wrapper">
-      <div id="chessBoard" class="chess-board"></div>
-    </div>
-    
-    <div class="game-controls">
-      <div class="move-history">
-        <h3>Historial de Movimientos</h3>
-        <div id="moveList" class="move-list"></div>
-      </div>
-      
-      <div class="captured-pieces">
-        <div class="captured-white">
-          <h4>Capturadas Blancas:</h4>
-          <div id="capturedWhite"></div>
-        </div>
-        <div class="captured-black">
-          <h4>Capturadas Negras:</h4>
-          <div id="capturedBlack"></div>
-        </div>
+      <div class="step-card">
+        <div class="step-number">03</div>
+        <h3>Revancha infinita</h3>
+        <p>Termina la partida y vuelve a jugar al instante.</p>
       </div>
     </div>
   </section>
-</div>
+
+  <section class="play-tips">
+    <h2 class="section-title">Atajos para mejorar</h2>
+    <div class="tips-grid">
+      <div class="tip-card">
+        <span class="tip-icon">🎯</span>
+        <h4>Objetivo claro</h4>
+        <p>Busca dominar el centro antes de lanzar ataques largos.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🧠</span>
+        <h4>Piensa 2 jugadas</h4>
+        <p>Anticipa la respuesta del rival y evita piezas colgadas.</p>
+      </div>
+      <div class="tip-card">
+        <span class="tip-icon">🛡️</span>
+        <h4>Protege al rey</h4>
+        <p>Enroca temprano y coordina tus torres para el final.</p>
+      </div>
+    </div>
+  </section>
 
   </main>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -262,6 +262,7 @@
     </div>
   </footer>
 
+  <!-- Scripts de utilidades, tema y amigos -->
   <script src="../js/utils.js"></script>
   <script src="../auth/auth.js"></script>
   <script src="../js/theme.js"></script>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script>
+    (function () {
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if (theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <base href="app/public/html/" />
+  <title>AJE10 - Ajedrez Local</title>
+  <link rel="stylesheet" href="../css/inicio.css">
+  <link rel="stylesheet" href="../css/cookies.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="inicio.html" class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">AJE10</div>
+    </a>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link active">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+    </nav>
+
+    <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main class="contenedor">
+    <section class="hero">
+      <h1>♔ AJE10 ♔</h1>
+      <p>Juega · Aprende · Domina</p>
+      <div class="cta-buttons">
+        <a href="jugar.html" class="btn btn-primary">▶ JUGAR</a>
+        <a href="learn.html" class="btn btn-secondary">📖 APRENDER</a>
+      </div>
+    </section>
+
+    <section class="features">
+      <div class="feature-card">
+        <div class="icon">♟</div>
+        <h3>Juega en Local</h3>
+        <p>Partidas rápidas en el mismo dispositivo</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">👥</div>
+        <h3>Sistema de Amigos</h3>
+        <p>Gestiona tu lista de amigos y mantén el contacto</p>
+      </div>
+
+      <div class="feature-card">
+        <div class="icon">🎓</div>
+        <h3>Aprende</h3>
+        <p>Tutoriales desde básico hasta avanzado</p>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="stat-box">
+        <div class="stat-number">∞</div>
+        <div class="stat-label">Partidas</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-number">2</div>
+        <div class="stat-label">Jugadores</div>
+      </div>
+
+      <div class="stat-box">
+        <div class="stat-number">Local</div>
+        <div class="stat-label">Modo</div>
+      </div>
+    </section>
+
+    <section class="rankings">
+      <h2 class="rankings-title">🏆 TOP JUGADORES 🏆</h2>
+      <div class="rankings-container">
+        <div class="rankings-table">
+          <div class="rankings-header">
+            <div class="rank-col">#</div>
+            <div class="player-col">Jugador</div>
+            <div class="wins-col">Victorias</div>
+            <div class="games-col">Partidas</div>
+            <div class="winrate-col">% Victoria</div>
+            <div class="rating-col">Rating</div>
+          </div>
+          <div id="rankings-list" class="rankings-list">
+            <div class="loading-rankings">Cargando rankings...</div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-icon">♟</span>
+        <span class="footer-name">AJE10</span>
+      </div>
+      <div class="footer-links">
+        <a href="jugar.html">Jugar</a>
+        <a href="learn.html">Aprender</a>
+        <a href="contact.html">Contacto</a>
+        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 AJE10</p>
+        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/rankings.js"></script>
+</body>
+</html>
