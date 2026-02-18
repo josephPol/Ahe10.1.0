@@ -34,6 +34,43 @@ const unicodePieceMap = {
   b: { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' }
 };
 
+const transparentPieceDataUri =
+  'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEAAAAALAAAAAABAAEAAAI=';
+
+let dragGhostEl = null;
+
+function setupDragGhost() {
+  if (dragGhostEl) return;
+  dragGhostEl = document.createElement('div');
+  dragGhostEl.className = 'unicode-drag-ghost';
+  dragGhostEl.style.display = 'none';
+  document.body.appendChild(dragGhostEl);
+
+  document.addEventListener('mousemove', (e) => {
+    if (!dragGhostEl || dragGhostEl.style.display === 'none') return;
+    dragGhostEl.style.left = `${e.clientX}px`;
+    dragGhostEl.style.top = `${e.clientY}px`;
+  });
+}
+
+function showDragGhost(piece) {
+  if (!piece) return;
+  setupDragGhost();
+  const color = piece[0];
+  const type = piece[1]?.toLowerCase();
+  const symbol = unicodePieceMap[color]?.[type];
+  if (!symbol) return;
+  dragGhostEl.textContent = symbol;
+  dragGhostEl.classList.toggle('unicode-drag-ghost--white', color === 'w');
+  dragGhostEl.classList.toggle('unicode-drag-ghost--black', color === 'b');
+  dragGhostEl.style.display = 'block';
+}
+
+function hideDragGhost() {
+  if (!dragGhostEl) return;
+  dragGhostEl.style.display = 'none';
+}
+
 function renderUnicodePieces() {
   const boardEl = document.getElementById('chessBoard');
   if (!boardEl || !game) return;
@@ -69,6 +106,7 @@ const difficultyDepth = {
 };
 
 document.addEventListener('DOMContentLoaded', () => {
+  setupDragGhost();
   setupSetupModal();
   setupModeControls();
   setupResignButton();
@@ -172,7 +210,7 @@ function initializeBoard() {
     position: game.fen(),
     orientation: playerColor || 'white',
     // Hide default piece images; we draw Unicode with CSS.
-    pieceTheme: () => 'data:,' ,
+    pieceTheme: () => transparentPieceDataUri,
     onDragStart,
     onDrop,
     onSnapEnd
@@ -196,6 +234,9 @@ function onDragStart(source, piece) {
   if ((playerColor === 'w' && !piece.startsWith('w')) || (playerColor === 'b' && !piece.startsWith('b'))) {
     return false;
   }
+  const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
+  if (fromEl) fromEl.classList.add('drag-from');
+  showDragGhost(piece);
 }
 
 function onDrop(source, target) {
@@ -205,12 +246,17 @@ function onDrop(source, target) {
   if (move === null) return 'snapback';
 
   onHumanMove(move);
+  const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
+  if (fromEl) fromEl.classList.remove('drag-from');
+  hideDragGhost();
 }
 
 function onSnapEnd() {
   if (!board || !game) return;
   board.position(game.fen());
   renderUnicodePieces();
+  document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
+  hideDragGhost();
 }
 
 function handleBoardClick(e) {
