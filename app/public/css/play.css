@@ -26,7 +26,11 @@
    LAYOUT: historial izquierda + tablero derecha
 ========================================= */
 .play-board-section {
-@import 'main.css';
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12rem;
+  padding-bottom: 4rem;
+}
 
 /* Contenedor del tablero */
 .board-wrapper {
@@ -34,7 +38,6 @@
   justify-content: center;
   margin-bottom: 12rem;
   padding-bottom: 4rem;
-}
 }
 .play-layout {
   display: flex;
@@ -137,6 +140,43 @@
 #chessBoard .highlight-from,
 #chessBoard .highlight-to {
   box-shadow: inset 0 0 0 4px rgba(232, 244, 215, 0.22) !important;
+}
+
+@media (max-width: 900px) {
+  .play-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .move-panel,
+  .control-panel,
+  .timer-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .move-list {
+    max-height: 240px;
+  }
+
+  .play-board,
+  #chessBoard,
+  #chessBoard .board-b72b1 {
+    width: min(92vw, 420px) !important;
+    height: min(92vw, 420px) !important;
+  }
+
+  .play-board-section,
+  .board-wrapper {
+    margin-bottom: 6rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .play-board-frame {
+    padding: 0.7rem;
+  }
 }
 
 #chessBoard .highlight-from {

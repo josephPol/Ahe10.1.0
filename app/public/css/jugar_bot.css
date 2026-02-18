@@ -162,6 +162,42 @@
   overflow: hidden;
 }
 
+@media (max-width: 900px) {
+  .play-layout {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .move-panel,
+  .control-panel,
+  .timer-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .move-list {
+    max-height: 240px;
+  }
+
+  .play-board,
+  #chessBoard,
+  #chessBoard .board-b72b1 {
+    width: min(92vw, 420px) !important;
+    height: min(92vw, 420px) !important;
+  }
+
+  .play-board-section {
+    margin-bottom: 6rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .play-board-frame {
+    padding: 0.7rem;
+  }
+}
+
 /* =========================================
    UNICODE PIECES (NO IMAGES)
 ========================================= */
