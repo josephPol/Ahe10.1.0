@@ -3,31 +3,35 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return response()->file(public_path('inicio.html'));
+    return redirect('html/inicio.html');
 });
 
 Route::get('/inicio', function () {
-    return response()->file(public_path('inicio.html'));
+    return redirect('html/inicio.html');
 });
 
 Route::get('/jugar', function () {
-    return response()->file(public_path('jugar.html'));
+    return redirect('html/jugar.html');
 });
 
 Route::get('/play', function () {
-    return response()->file(public_path('play.html'));
+    return redirect('html/play.html');
 });
 
 Route::get('/jugar_local', function () {
-    return response()->file(public_path('jugar_local.html'));
+    return redirect('html/jugar_local.html');
 });
 
 Route::get('/learn', function () {
-    return response()->file(public_path('learn.html'));
+    return redirect('html/learn.html');
 });
 
 Route::get('/contact', function () {
-    return response()->file(public_path('contact.html'));
+    return redirect('html/contact.html');
+});
+
+Route::get('/premium', function () {
+    return redirect('html/premium.html');
 });
 
 use App\Http\Controllers\ContactController;
@@ -45,3 +49,5 @@ Route::get('/api/rankings', [RankingController::class, 'index'])->name('rankings
 Route::get('/api/jugadas', [JugadaController::class, 'index'])->name('jugadas.index');
 Route::post('/api/jugadas', [JugadaController::class, 'store'])->name('jugadas.store');
 Route::post('/api/jugadas/{id}/like', [JugadaController::class, 'like'])->name('jugadas.like');
+
+

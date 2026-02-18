@@ -21,6 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_premium',
+        'premium_since',
+        'premium_plan',
+        'premium_price',
+        'premium_payment_method',
     ];
 
     /**
@@ -43,6 +48,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_premium' => 'boolean',
+            'premium_since' => 'datetime',
         ];
     }
 }
