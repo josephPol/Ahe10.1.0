@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,9 +12,11 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AJE10 - Jugar</title>
+  <!-- Estilos base y del tablero -->
   <link rel="stylesheet" href="../css/play.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 
@@ -22,6 +25,7 @@
   <link rel="stylesheet" href="../css/main.css" />
 </head>
 <body>
+  <!-- Encabezado con navegacion -->
   <header class="topbar">
     <div class="brand">
       <div class="logo">♟</div>
@@ -38,7 +42,9 @@
     </div>
   </header>
 
+  <!-- Contenido principal de la pagina -->
   <main class="contenedor">
+    <!-- Hero con descripcion del modo de juego -->
     <section class="hero play-hero">
       <h1>♞ JUGAR ♞</h1>
       <p>Juega en local con otra persona en el mismo dispositivo.</p>
@@ -48,6 +54,7 @@
     </section>
   </main>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -67,12 +74,13 @@
     </div>
   </footer>
 
+  <!-- Scripts comunes -->
   <script src="../auth/auth.js"></script>
   <script src="../js/theme.js"></script>
 </body>
 </html>
  
-    <!-- Modal de selección de dificultad IA -->
+    <!-- Modal de seleccion de dificultad IA -->
     <div id="aiDifficultyModal" class="result-modal hidden">
       <div class="result-content">
         <h2>Elige dificultad de IA</h2>
@@ -93,6 +101,7 @@
 
   </main>
 
+  <!-- Librerias y scripts de la partida -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>

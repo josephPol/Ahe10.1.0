@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,9 +12,11 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Recuperar Contraseña | AJE10</title>
+  <!-- Estilos base y ajustes locales -->
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/cookies.css">
   <style>
@@ -185,6 +188,7 @@
 
 <body>
 
+<!-- Encabezado simple con volver y tema -->
 <header class="topbar">
   <div class="brand">
     <div class="logo">♟</div>
@@ -197,8 +201,10 @@
   </div>
 </header>
 
+<!-- Contenedor principal de recuperacion -->
 <div class="loginPage">
 
+  <!-- Caja de recuperacion con formulario -->
   <div class="resetBox">
     <h1>🔐 Recuperar</h1>
     <p class="subtitle">Acceso a tu cuenta</p>
@@ -207,6 +213,7 @@
       💡 Ingresa tu email y te enviaremos instrucciones para recuperar tu contraseña.
     </div>
 
+    <!-- Formulario de recuperacion por email -->
     <form id="resetForm">
       <label>
         Email
@@ -228,6 +235,7 @@
 
 </div>
 
+<!-- Scripts de utilidades y logica del formulario -->
 <script src="../js/utils.js"></script>
 <script src="js/theme.js"></script>
 <script>

@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,15 +12,18 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>ChessHub - Jugar vs IA</title>
+  <!-- Estilos del tablero y la pagina -->
 
   <link rel="stylesheet" href="../css/jugar_bot.css" />
   <link rel="stylesheet" href="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
 </head>
 
 <body>
+  <!-- Encabezado con navegacion -->
   <header class="topbar">
     <div class="brand">
       <div class="logo">♟</div>
@@ -38,30 +42,36 @@
     </div>
   </header>
 
+  <!-- Contenido principal de la partida vs IA -->
   <main class="contenedor">
+    <!-- Hero de estado de partida -->
     <section class="hero play-hero">
       <h1>🤖 JUGADOR vs IA 🤖</h1>
       <p id="gameSubtitle">Preparando partida...</p>
     </section>
 
+    <!-- Zona de tablero, paneles y modales -->
     <section class="play-board-section">
     <div class="play-layout">
-      <!-- Temporizador del Jugador (arriba a la izquierda) -->
+      <!-- Temporizador del jugador -->
       <div class="timer-container timer-player">
         <div class="timer-label" id="playerLabel">⚪ TÚ</div>
         <div class="timer-display" id="timerPlayer">10:00</div>
         <button class="resign-btn" id="resignBtn">Rendirse</button>
       </div>
 
+      <!-- Panel de historial de movimientos -->
       <aside class="move-panel">
         <div class="move-panel__title">Historial de movimientos</div>
         <ol id="moveList" class="move-list"></ol>
       </aside>
 
+      <!-- Tablero de ajedrez -->
       <div class="play-board-frame">
         <div id="chessBoard" class="play-board"></div>
       </div>
 
+      <!-- Controles de jugabilidad -->
       <aside class="control-panel">
         <div class="control-panel__title">⚙ Jugabilidad</div>
         <div class="control-group">
@@ -78,7 +88,7 @@
       </aside>
     </div>
 
-    <!-- Modal de selección de dificultad y color -->
+    <!-- Modal de seleccion de dificultad y color -->
     <div id="setupModal" class="result-modal">
       <div class="result-content">
         <h2>Elige tu Configuración</h2>
@@ -126,7 +136,7 @@
 
   </main>
 
-  <!-- Scripts -->
+  <!-- Librerias y scripts de la partida -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://unpkg.com/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.12.0/chess.min.js"></script>

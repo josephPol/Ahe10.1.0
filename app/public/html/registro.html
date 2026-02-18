@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,9 +12,11 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Registro | AJE10</title>
+  <!-- Estilos base y ajustes locales -->
   <link rel="stylesheet" href="../css/registro.css">
   <link rel="stylesheet" href="../css/cookies.css">
   <style>
@@ -68,7 +71,7 @@
 </head>
 
 <body>
-
+<!-- Encabezado simple con volver y tema -->
 <header class="topbar">
   <div class="brand">
     <div class="logo">♟</div>
@@ -81,12 +84,15 @@
   </div>
 </header>
 
+<!-- Contenedor principal de registro -->
 <div class="registerPage">
 
+  <!-- Caja de registro con formulario -->
   <div class="registerBox">
     <h1>AJE10</h1>
     <p class="subtitle">¡Crea tu cuenta para jugar y obtener beneficios!</p>
 
+    <!-- Formulario de creacion de cuenta -->
     <form id="registerForm">
 
       <div class="row">
@@ -133,6 +139,7 @@
 
 </div>
 
+<!-- Script de autenticacion y logica del formulario -->
 <script src="../auth/auth.js"></script>
 <script>
   document.getElementById('registerForm').addEventListener('submit', function(e) {
@@ -204,6 +211,7 @@
   });
 </script>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -225,5 +233,6 @@
 
 </body>
 
+<!-- Scripts comunes -->
 <script src="../js/theme.js"></script>
 <script src="../js/cookies.js"></script>

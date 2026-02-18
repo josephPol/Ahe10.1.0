@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="es">
 <head>
+  <!-- Tema inicial para evitar parpadeo -->
   <script>
     // Apply theme immediately to prevent flash
     (function(){
@@ -11,13 +12,16 @@
       }
     })();
   </script>
+  <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>AJE10 - Jugar</title>
+  <!-- Hojas de estilo de la pagina -->
   <link rel="stylesheet" href="../css/jugar.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 </head>
 <body>
+  <!-- Encabezado con marca, navegacion y accesos -->
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
@@ -44,14 +48,16 @@
     </div>
   </header>
 
+  <!-- Contenido principal de la pagina -->
   <main class="contenedor">
 
+<!-- Hero: titulo y descripcion -->
 <section class="hero">
   <h1>♞ Elige tu modo de juego ♞</h1>
   <p>Juega contra la IA o enfréntate a otra persona en el mismo dispositivo.</p>
 </section>
 
-  <!-- Friends Modal -->
+  <!-- Modal de amigos (panel flotante) -->
   <div class="friends-modal-overlay" id="friendsPanel" style="display: none;">
     <div class="friends-modal">
       <div class="friends-modal-header">
@@ -123,6 +129,7 @@
     </div>
   </div>
 
+  <!-- Modos de juego disponibles -->
   <section class="game-modes">
     <div class="game-modes-row">
       <div class="mode-card play-mode-card mode-bot">
@@ -142,6 +149,7 @@
 
   </main>
 
+  <!-- Pie de pagina -->
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
@@ -161,6 +169,7 @@
     </div>
   </footer>
 
+  <!-- Scripts de utilidades, tema y amigos -->
   <script src="../js/utils.js"></script>
   <script src="../auth/auth.js"></script>
   <script src="../js/theme.js"></script>
