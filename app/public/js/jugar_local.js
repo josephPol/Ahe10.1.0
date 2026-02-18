@@ -18,6 +18,39 @@ const pieceIcon = {
     p: '♙', n: '♘', b: '♗', r: '♖', q: '♕', k: '♔'
 };
 
+const unicodePieceMap = {
+    w: { k: '♔', q: '♕', r: '♖', b: '♗', n: '♘', p: '♙' },
+    b: { k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟' }
+};
+
+function renderUnicodePieces() {
+    const boardEl = document.getElementById('chessBoard');
+    if (!boardEl) return;
+
+    boardEl.querySelectorAll('[data-square]').forEach(squareEl => {
+        const square = squareEl.getAttribute('data-square');
+        if (!square) return;
+
+        const piece = game.get(square);
+        let textEl = squareEl.querySelector('.piece-text');
+
+        if (!textEl) {
+            textEl = document.createElement('span');
+            textEl.className = 'piece-text';
+            squareEl.appendChild(textEl);
+        }
+
+        if (piece) {
+            textEl.textContent = unicodePieceMap[piece.color][piece.type] || '';
+            textEl.classList.toggle('piece-text--white', piece.color === 'w');
+            textEl.classList.toggle('piece-text--black', piece.color === 'b');
+        } else {
+            textEl.textContent = '';
+            textEl.classList.remove('piece-text--white', 'piece-text--black');
+        }
+    });
+}
+
 // === Inicialización ===
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -65,7 +98,8 @@ function initializeBoard() {
         onDragStart,
         onDrop,
         onSnapEnd,
-        pieceTheme: 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png'
+        // Hide default piece images; we draw Unicode with CSS.
+        pieceTheme: () => 'data:,'
     };
     board = Chessboard('chessBoard', config);
     if (gameMode === 'click') {
@@ -76,6 +110,7 @@ function initializeBoard() {
     updateTimerDisplay();
     updateTimerUI();
     refreshBoardUI(null);
+    renderUnicodePieces();
 }
 
 function onDragStart(source, piece) {
@@ -97,6 +132,7 @@ function onDrop(source, target) {
 
 function onSnapEnd() {
     board.position(game.fen());
+    renderUnicodePieces();
 }
 
 function handleBoardClick(e) {
@@ -151,9 +187,11 @@ function tryMove(from, to) {
     const move = game.move({ from, to, promotion: 'q' });
     if (move === null) {
         board.position(game.fen());
+        renderUnicodePieces();
         return null;
     }
     board.position(game.fen());
+    renderUnicodePieces();
     return move;
 }
 

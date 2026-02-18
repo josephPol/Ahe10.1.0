@@ -10,6 +10,40 @@
 }
 
 /* =========================================
+     UNICODE PIECES (NO IMAGES)
+========================================= */
+#chessBoard .piece-417db {
+    opacity: 0;
+}
+
+#chessBoard [data-square] {
+    position: relative;
+}
+
+#chessBoard .piece-text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 44px;
+    line-height: 1;
+    font-family: "Segoe UI Symbol", "Noto Sans Symbols2", "DejaVu Sans", "Arial Unicode MS", sans-serif;
+    font-weight: 400;
+    pointer-events: none;
+}
+
+#chessBoard .piece-text--white {
+    color: #f5f3e6;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.65), 0 0 6px rgba(255, 255, 255, 0.2);
+}
+
+#chessBoard .piece-text--black {
+    color: #1a1a1a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2), 0 0 4px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================
      COLORES DEL TABLERO (de jugar_bot.css)
 ========================================= */
 #chessBoard .white-1e1d7 {
