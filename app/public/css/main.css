@@ -782,6 +782,28 @@ textarea:focus {
   }
 }
 
+@media (max-width: 600px) {
+  .topbar {
+    justify-content: space-between;
+  }
+
+  .topRight {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .auth-btn {
+    width: 48%;
+    margin: 0.2rem 0;
+  }
+
+  .btn-theme {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+
 /* ========== DARK MODE OVERRIDES ========== */
 body.dark {
   --c1: #091113;

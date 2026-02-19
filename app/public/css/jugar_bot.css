@@ -357,6 +357,55 @@
   transform: translateY(-1px);
 }
 
+@media (max-width: 900px) {
+  .play-layout {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .play-board-section {
+    width: 100%;
+    padding: 0 1rem 2rem;
+    margin-bottom: 6rem;
+  }
+
+  .move-panel,
+  .control-panel,
+  .timer-container {
+    width: 100%;
+    max-width: 420px;
+  }
+
+  .move-list {
+    max-height: 220px;
+  }
+
+  .play-board-frame {
+    width: min(90vw, 360px);
+    height: min(90vw, 360px);
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+  }
+
+  .play-board,
+  #chessBoard,
+  #chessBoard .board-b72b1 {
+    width: 100% !important;
+    height: 100% !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .play-board-frame {
+    width: min(92vw, 320px);
+    height: min(92vw, 320px);
+  }
+}
+
 /* =========================================
    MODAL DE RESULTADO
 ========================================= */

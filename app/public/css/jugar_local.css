@@ -359,6 +359,55 @@
     box-shadow: 0 4px 0 var(--c3);
     background: var(--c3);
 }
+
+@media (max-width: 900px) {
+    .jugar-local-layout {
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    .jugar-local-board-section {
+        width: 100%;
+        padding: 0 1rem 2rem;
+        margin-bottom: 6rem;
+    }
+
+    .move-panel,
+    .control-panel,
+    .timer-container {
+        width: 100%;
+        max-width: 420px;
+    }
+
+    .move-list {
+        max-height: 220px;
+    }
+
+    .jugar-local-board-frame {
+        width: min(90vw, 360px);
+        height: min(90vw, 360px);
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+    }
+
+    #chessBoard,
+    #chessBoard .board-b72b1,
+    .jugar-local-board {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+@media (max-width: 600px) {
+    .jugar-local-board-frame {
+        width: min(92vw, 320px);
+        height: min(92vw, 320px);
+    }
+}
 .mode-btn--active {
     background: var(--accent);
     color: var(--c1);
@@ -402,17 +451,23 @@
         transform: scale(0.9);
     }
     to {
-        opacity: 1;
-        transform: scale(1);
+        width: calc(var(--board-size) - 16px) !important;
+        height: calc(var(--board-size) - 16px) !important;
     }
 }
 #resultTitle {
+    
+    #chessBoard .piece-text,
+    .unicode-drag-ghost {
+        font-size: clamp(20px, 7vw, 34px);
+    }
     font-size: 2rem;
     color: var(--accent);
     margin-bottom: 1rem;
     text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.5);
-}
-#resultMessage {
+        --board-size: min(92vw, 320px);
+        width: var(--board-size);
+        height: var(--board-size);
     font-size: 1.1rem;
     color: var(--c5);
     margin-bottom: 1.5rem;
