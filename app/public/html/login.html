@@ -147,19 +147,30 @@
     formData.append('email', email);
     formData.append('password', password);
     
-    // Usar ruta relativa simple
-    const authUrl = '../auth/auth.php';
-    
-    fetch(authUrl, {
+    // Usar ruta absoluta y fallback por si cambia el punto de entrada
+    const primaryAuthUrl = window.location.origin + '/Ahe10.1.0/app/public/auth/auth.php';
+    const fallbackAuthUrl = window.location.origin + '/Ahe10.1.0/public/auth/auth.php';
+
+    const doFetch = (url) => fetch(url, {
       method: 'POST',
       body: formData,
       credentials: 'include'
-    })
-    .then(response => {
+    }).then(response => {
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        const error = new Error(`HTTP error! status: ${response.status}`);
+        error.status = response.status;
+        error.url = url;
+        throw error;
       }
       return response.json();
+    });
+
+    doFetch(primaryAuthUrl)
+    .catch(error => {
+      if (error.status === 404 || error.status === 405) {
+        return doFetch(fallbackAuthUrl);
+      }
+      throw error;
     })
     .then(data => {
       loginBtn.disabled = false;
