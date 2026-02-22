@@ -147,9 +147,8 @@
     formData.append('email', email);
     formData.append('password', password);
     
-    // Usar ruta absoluta y fallback por si cambia el punto de entrada
-    const primaryAuthUrl = window.location.origin + '/Ahe10.1.0/app/public/auth/auth.php';
-    const fallbackAuthUrl = window.location.origin + '/Ahe10.1.0/public/auth/auth.php';
+    // Usar ruta relativa segura según la ubicación actual
+    const authUrl = new URL('../auth/auth.php', window.location.href).toString();
 
     const doFetch = (url) => fetch(url, {
       method: 'POST',
@@ -165,13 +164,7 @@
       return response.json();
     });
 
-    doFetch(primaryAuthUrl)
-    .catch(error => {
-      if (error.status === 404 || error.status === 405) {
-        return doFetch(fallbackAuthUrl);
-      }
-      throw error;
-    })
+    doFetch(authUrl)
     .then(data => {
       loginBtn.disabled = false;
       loginBtn.textContent = 'Entrar';

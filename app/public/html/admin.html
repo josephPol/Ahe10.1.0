@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <script>
+    (function(){
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin | AJE10</title>
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="../css/cookies.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="inicio.html" class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">AJE10</div>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+    </nav>
+
+    <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <main class="admin-container">
+    <section class="admin-hero">
+      <h1>Panel de Administración</h1>
+      <p>Gestiona usuarios: crear, editar, eliminar, resetear contraseñas y roles.</p>
+      <div class="admin-actions">
+        <button id="refreshBtn" class="btn btn-primary">Refrescar</button>
+        <button id="createBtn" class="btn btn-secondary">Crear usuario</button>
+      </div>
+    </section>
+
+    <section class="admin-table-section">
+      <div id="adminMessage" class="admin-message" role="alert"></div>
+      <div class="admin-table">
+        <div class="admin-table-header">
+          <div>ID</div>
+          <div>Nombre</div>
+          <div>Email</div>
+          <div>Admin</div>
+          <div>Acciones</div>
+        </div>
+        <div id="usersList" class="admin-table-body">
+          <div class="admin-loading">Cargando usuarios...</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-icon">♟</span>
+        <span class="footer-name">AJE10</span>
+      </div>
+      <div class="footer-links">
+        <a href="jugar.html">Jugar</a>
+        <a href="learn.html">Aprender</a>
+        <a href="contact.html">Contacto</a>
+        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 AJE10</p>
+        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+  <script src="../js/admin.js"></script>
+</body>
+</html>

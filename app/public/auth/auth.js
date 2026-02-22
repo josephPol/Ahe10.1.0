@@ -1,6 +1,6 @@
 // Determinar la URL base dinámicamente
 const getBaseUrl = () => {
-    return window.location.origin + '/Ahe10.1.0/app/public/auth/';
+    return new URL('../auth/', window.location.href).toString();
 };
 
 // Guardar estado actual de autenticación
@@ -22,7 +22,7 @@ async function checkAuthStatus() {
             currentAuthState = newAuthState;
             
             if (data.authenticated) {
-                updateAuthUI(data.user.name, data.user.email, data.user.id);
+                updateAuthUI(data.user.name, data.user.email, data.user.id, data.user.is_admin);
             } else {
                 resetAuthUI();
             }
@@ -45,15 +45,37 @@ function startSessionCheck() {
 /**
  * Actualizar la UI para mostrar usuario autenticado
  */
-function updateAuthUI(userName, userEmail, userId) {
+function updateAuthUI(userName, userEmail, userId, isAdmin) {
     const topRight = document.querySelector('.topRight');
     const friendsBtn = document.getElementById('friendsBtn');
+    const topNavs = document.querySelectorAll('.topnav');
     
     // Mostrar botón de amigos
     if (friendsBtn) {
         friendsBtn.style.display = 'flex';
     }
     
+    if (topNavs.length > 0) {
+        topNavs.forEach((topNav) => {
+            const existingAdminLinks = topNav.querySelectorAll('#adminNavLink, [data-admin-link="true"]');
+            existingAdminLinks.forEach(link => link.remove());
+
+            if (isAdmin) {
+                const adminLink = document.createElement('a');
+                adminLink.href = 'admin.html';
+                adminLink.id = 'adminNavLink';
+                adminLink.dataset.adminLink = 'true';
+                adminLink.className = 'nav-link';
+                adminLink.textContent = '🛡 ADMIN';
+                if (window.location.pathname.endsWith('/admin.html')) {
+                    adminLink.classList.add('active');
+                    adminLink.setAttribute('aria-current', 'page');
+                }
+                topNav.appendChild(adminLink);
+            }
+        });
+    }
+
     if (topRight) {
         // Limpiar los botones de login y registro
         const authBtns = topRight.querySelectorAll('.auth-btn');
@@ -133,6 +155,7 @@ function updateAuthUI(userName, userEmail, userId) {
  */
 function resetAuthUI() {
     const topRight = document.querySelector('.topRight');
+    const topNavs = document.querySelectorAll('.topnav');
     
     if (topRight) {
         // Eliminar el contenedor del usuario si existe
@@ -165,6 +188,13 @@ function resetAuthUI() {
                 topRight.appendChild(registerBtn);
             }
         }
+    }
+
+    if (topNavs.length > 0) {
+        topNavs.forEach((topNav) => {
+            const adminLinks = topNav.querySelectorAll('#adminNavLink, [data-admin-link="true"]');
+            adminLinks.forEach(link => link.remove());
+        });
     }
 }
 

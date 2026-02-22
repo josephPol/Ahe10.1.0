@@ -23,7 +23,8 @@ if (isset($_SESSION['logged_in']) && $_SESSION['logged_in'] === true) {
     $response['user'] = [
         'id' => $_SESSION['user_id'],
         'name' => $_SESSION['user_name'],
-        'email' => $_SESSION['user_email']
+        'email' => $_SESSION['user_email'],
+        'is_admin' => $_SESSION['is_admin'] ?? false
     ];
 }
 

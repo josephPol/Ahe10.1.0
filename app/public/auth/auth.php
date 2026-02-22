@@ -79,6 +79,7 @@ class Auth {
             $_SESSION['user_name'] = $name;
             $_SESSION['user_email'] = $email;
             $_SESSION['logged_in'] = true;
+            $_SESSION['is_admin'] = false;
 
             return ['success' => true, 'message' => 'Registro exitoso'];
         } catch (PDOException $e) {
@@ -94,7 +95,7 @@ class Auth {
             return ['success' => false, 'message' => 'Email y contraseña requeridos'];
         }
 
-        $stmt = $this->db->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
+        $stmt = $this->db->prepare('SELECT id, name, email, password, is_admin FROM users WHERE email = ?');
         $stmt->execute([$email]);
 
         if ($stmt->rowCount() === 0) {
@@ -112,6 +113,7 @@ class Auth {
         $_SESSION['user_name'] = $user['name'];
         $_SESSION['user_email'] = $user['email'];
         $_SESSION['logged_in'] = true;
+        $_SESSION['is_admin'] = (bool)($user['is_admin'] ?? false);
 
         return ['success' => true, 'message' => 'Sesión iniciada'];
     }
@@ -139,7 +141,8 @@ class Auth {
             return [
                 'id' => $_SESSION['user_id'],
                 'name' => $_SESSION['user_name'],
-                'email' => $_SESSION['user_email']
+                'email' => $_SESSION['user_email'],
+                'is_admin' => $_SESSION['is_admin'] ?? false
             ];
         }
         return null;
