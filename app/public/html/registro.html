@@ -202,11 +202,38 @@
       
       if (data.success) {
         messageDiv.style.color = 'green';
-        messageDiv.textContent = 'Cuenta creada exitosamente. Se ha enviado un correo de confirmación. Redirigiendo...';
+        messageDiv.style.background = 'rgba(76, 175, 80, 0.1)';
+        messageDiv.style.border = '2px solid #4CAF50';
+        messageDiv.style.padding = '1rem';
+        messageDiv.style.borderRadius = '4px';
+        
+        let confirmHTML = `
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">✓ Registro exitoso</strong>
+          <p style="margin: 0.5rem 0; font-size: 0.95rem;">Se ha enviado un link de confirmación a tu email.</p>
+        `;
+        
+        // Mostrar el link de verificación para desarrollo
+        if (data.verification_token) {
+          confirmHTML += `
+            <div style="background: rgba(0,0,0,0.2); padding: 1rem; margin-top: 1rem; border-radius: 4px;">
+              <small style="display: block; margin-bottom: 0.5rem;"><strong>Link de verificación (desarrollo):</strong></small>
+              <a href="${data.verification_url}" style="color: #4CAF50; word-break: break-all; text-decoration: underline; font-weight: bold;">${data.verification_url}</a>
+            </div>
+          `;
+        }
+        
+        confirmHTML += `<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Serás redirigido a verificar tu email en 5 segundos...</p>`;
+        messageDiv.innerHTML = confirmHTML;
         messageDiv.style.display = 'block';
+        
+        // Redirigir a confirmar email
         setTimeout(() => {
-          window.location.href = 'inicio.html';
-        }, 2000);
+          if (data.verification_url) {
+            window.location.href = data.verification_url;
+          } else {
+            window.location.href = 'confirm-email.html?token=' + data.verification_token;
+          }
+        }, 5000);
       } else {
         messageDiv.style.color = 'red';
         messageDiv.textContent = data.message || 'Error al crear cuenta';
