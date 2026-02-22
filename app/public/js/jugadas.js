@@ -277,13 +277,21 @@ function displayJugadasEjemplo() {
 // Mostrar jugadas
 function displayJugadas(jugadas) {
     const container = document.getElementById('jugadas-list');
+    const defaultCover = 'imagenes/foto_jugadas.jpg';
+    const resolveImageUrl = (path) => {
+        if (!path) return new URL(`../${defaultCover}`, window.location.href).toString();
+        if (path.startsWith('http://') || path.startsWith('https://')) return path;
+        if (path.startsWith('/')) return path;
+        if (path.startsWith('imagenes/')) {
+            return new URL(`../${path}`, window.location.href).toString();
+        }
+        return new URL(`../storage/${path}`, window.location.href).toString();
+    };
     
     const html = jugadas.map(jugada => `
         <div class="jugada-card">
             <div class="jugada-image">
-                ${jugada.imagen ? 
-                    `<img src="/storage/${jugada.imagen}" alt="${escapeHtml(jugada.nombre)}">` : 
-                    '<div class="no-image">♟</div>'}
+                <img src="${resolveImageUrl(jugada.imagen)}" alt="${escapeHtml(jugada.nombre)}">
             </div>
             <div class="jugada-content">
                 <h3 class="jugada-title">${escapeHtml(jugada.nombre)}</h3>
