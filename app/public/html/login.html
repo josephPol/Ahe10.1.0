@@ -178,7 +178,18 @@
         }, 1500);
       } else {
         messageDiv.style.color = 'red';
-        messageDiv.textContent = data.message || 'Error al iniciar sesión';
+        messageDiv.style.background = 'rgba(220, 53, 69, 0.1)';
+        messageDiv.style.border = '2px solid #dc3545';
+        messageDiv.style.padding = '0.75rem';
+        messageDiv.style.borderRadius = '4px';
+        let message = data.message || 'Error al iniciar sesión';
+        
+        // Si el error es por email no verificado, mostrar opción
+        if (message.includes('verifica')) {
+          messageDiv.innerHTML = `<strong>${message}</strong><br><small style="margin-top: 0.5rem; display: block;"><a href="contraseña-olvidada.html" style="color: #dc3545;">¿No recibiste el email?</a></small>`;
+        } else {
+          messageDiv.textContent = message;
+        }
         messageDiv.style.display = 'block';
       }
     })

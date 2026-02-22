@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <!-- Tema inicial para evitar parpadeo -->
+  <script>
+    (function(){
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Confirmar Email | AJE10</title>
+  <link rel="stylesheet" href="../css/login.css">
+  <link rel="stylesheet" href="../css/cookies.css">
+  <style>
+    .resetBox {
+      max-width: 400px;
+      background: var(--c1);
+      border: 4px solid var(--c3);
+      border-radius: 8px;
+      padding: 2.5rem;
+      box-shadow: 
+        inset 0 2px 8px rgba(0,0,0,0.3),
+        0 4px 0 var(--c2),
+        0 8px 16px rgba(0,0,0,0.4);
+    }
+
+    .resetBox h1 {
+      font-size: 2rem;
+      color: var(--c5);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      text-shadow: 2px 2px 0 var(--c2);
+    }
+
+    .resetBox .subtitle {
+      text-align: center;
+      color: var(--c4);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    .resetBox .info-box {
+      background: var(--c2);
+      border: 2px solid var(--c3);
+      border-radius: 4px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--c4);
+      line-height: 1.6;
+      text-align: center;
+    }
+
+    .resetBox .extra {
+      text-align: center;
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .resetBox .extra a {
+      color: var(--c5);
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.2s ease;
+      font-size: 0.9rem;
+    }
+
+    .resetBox .extra a:hover {
+      color: var(--c4);
+      text-decoration: underline;
+    }
+
+    .resetBox .backHome {
+      display: block;
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--c4);
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .resetBox .backHome:hover {
+      color: var(--c5);
+    }
+
+    .success-icon {
+      text-align: center;
+      font-size: 3rem;
+      margin: 1rem 0;
+    }
+
+    .error-icon {
+      text-align: center;
+      font-size: 3rem;
+      margin: 1rem 0;
+    }
+
+    .spinner {
+      border: 4px solid var(--c3);
+      border-top: 4px solid var(--c5);
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 2rem auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Encabezado simple con volver y tema -->
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">♟</div>
+    <div class="brandName">AJE10</div>
+  </div>
+
+  <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+  <nav class="topnav">
+    <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+    <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+    <a href="learn.html" class="nav-link">📚 APRENDER</a>
+    <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+  </nav>
+
+  <div class="topRight">
+    <a href="inicio.html" class="btn auth-btn btn-secondary">← Volver</a>
+    <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+  </div>
+</header>
+
+<!-- Contenedor principal de verificación -->
+<div class="loginPage">
+
+  <!-- Caja de verificación -->
+  <div class="resetBox">
+    <h1>📧 Confirmar Email</h1>
+    <p class="subtitle">Verificando tu email...</p>
+
+    <div id="content">
+      <div class="spinner"></div>
+      <p style="text-align: center; color: var(--c4);">Un momento, por favor...</p>
+    </div>
+
+    <div class="extra" style="margin-top: 2rem;">
+      <a href="login.html">← Volver a Login</a>
+      <a href="registro.html">Crear Cuenta →</a>
+    </div>
+
+    <a href="inicio.html" class="backHome">← Inicio</a>
+  </div>
+
+</div>
+
+<!-- Scripts -->
+<script src="../js/utils.js"></script>
+<script src="../js/menu.js"></script>
+<script src="../js/cookies.js"></script>
+<script src="../js/theme.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Obtener token de la URL
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('token');
+    const contentDiv = document.getElementById('content');
+
+    if (!token) {
+      contentDiv.innerHTML = `
+        <div class="error-icon">❌</div>
+        <p style="text-align: center; color: #dc3545;"><strong>Token inválido o faltante</strong></p>
+        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Por favor, revisa el link que recibiste en tu email.</p>
+      `;
+      return;
+    }
+
+    // Enviar solicitud para verificar email
+    const formData = new FormData();
+    formData.append('action', 'verify-email');
+    formData.append('token', token);
+    
+    const authUrl = new URL('../auth/auth.php', window.location.href).toString();
+
+    fetch(authUrl, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include'
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        contentDiv.innerHTML = `
+          <div class="success-icon">✓</div>
+          <p style="text-align: center; color: #4CAF50;"><strong>¡Email verificado!</strong></p>
+          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Puedes iniciar sesión ahora. Redirigiendo al login...</p>
+        `;
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 3000);
+      } else {
+        contentDiv.innerHTML = `
+          <div class="error-icon">❌</div>
+          <p style="text-align: center; color: #dc3545;"><strong>Error al verificar</strong></p>
+          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">${data.message || 'El token puede haber expirado.'}</p>
+        `;
+      }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      contentDiv.innerHTML = `
+        <div class="error-icon">❌</div>
+        <p style="text-align: center; color: #dc3545;"><strong>Error de conexión</strong></p>
+        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Por favor, intenta nuevamente.</p>
+      `;
+    });
+  });
+</script>
+
+</body>
+</html>
