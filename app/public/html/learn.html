@@ -96,6 +96,49 @@
   </div>
 </div>
 
+<!-- Modal para editar jugada (solo admin) -->
+<div id="modal-editar" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" data-close="edit">&times;</span>
+    <h2>Editar Jugada</h2>
+
+    <form id="form-editar-jugada">
+      <div class="form-group">
+        <label for="editar-nombre">Nombre de la jugada:</label>
+        <input type="text" id="editar-nombre" required maxlength="255">
+      </div>
+
+      <div class="form-group">
+        <label for="editar-descripcion">Descripción:</label>
+        <textarea id="editar-descripcion" required rows="4"></textarea>
+      </div>
+
+      <div class="form-group">
+        <label for="editar-likes">Likes:</label>
+        <input type="number" id="editar-likes" min="0" value="0">
+      </div>
+
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="btn-cancelar-editar">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para eliminar jugada (solo admin) -->
+<div id="modal-eliminar" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" data-close="delete">&times;</span>
+    <h2>Eliminar Jugada</h2>
+    <p>¿Eliminar esta jugada? Esta acción no se puede deshacer.</p>
+    <div class="form-actions">
+      <button type="button" class="btn btn-secondary" id="btn-cancelar-eliminar">Cancelar</button>
+      <button type="button" class="btn btn-primary" id="btn-confirmar-eliminar">Eliminar</button>
+    </div>
+  </div>
+</div>
+
   </main>
 
   <!-- Pie de pagina -->

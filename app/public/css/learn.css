@@ -110,6 +110,17 @@
   border-top: 2px solid var(--c3);
 }
 
+.jugada-admin-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+
+.jugada-admin-actions .btn {
+  padding: 0.45rem 0.8rem;
+  font-size: 0.85rem;
+}
+
 .jugada-author {
   color: var(--c4);
   font-size: 0.9rem;

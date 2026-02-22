@@ -39,6 +39,20 @@
   border-radius: 10px;
   padding: 1rem;
   box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.35);
+  margin-bottom: 1.6rem;
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.admin-section-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
 }
 
 .admin-message {
@@ -228,6 +242,17 @@
 .admin-modal-body input[type="text"],
 .admin-modal-body input[type="email"],
 .admin-modal-body input[type="password"] {
+  width: 100%;
+  padding: 0.6rem 0.7rem;
+  border-radius: 6px;
+  border: 2px solid rgba(0, 0, 0, 0.35);
+  background: rgba(13, 28, 27, 0.6);
+  color: var(--texto);
+  font-family: "Courier New", monospace;
+}
+
+.admin-modal-body select,
+.admin-modal-body input[type="number"] {
   width: 100%;
   padding: 0.6rem 0.7rem;
   border-radius: 6px;
