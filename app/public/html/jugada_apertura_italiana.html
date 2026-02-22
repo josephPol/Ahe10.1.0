@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <script>
+    (function(){
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AJE10 - Apertura Italiana</title>
+  <link rel="stylesheet" href="../css/jugada_detalle.css" />
+  <link rel="stylesheet" href="../css/cookies.css" />
+</head>
+<body class="jugada-detalle-page">
+  <!-- Encabezado -->
+  <header class="topbar">
+    <a href="inicio.html" class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">AJE10</div>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+    </nav>
+
+    <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="contenedor">
+    
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="jugar.html">Jugar</a>
+      <span class="separator">›</span>
+      <a href="aprender_jugadas.html">Aprender Jugadas</a>
+      <span class="separator">›</span>
+      <span class="current">Apertura Italiana</span>
+    </nav>
+
+    <!-- Header de la jugada -->
+    <section class="jugada-header">
+      <div class="jugada-title-section">
+        <h1>♗ Apertura Italiana</h1>
+        <div class="jugada-tags">
+          <span class="tag">Apertura</span>
+          <span class="tag">Intermedio</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video de la jugada -->
+    <section class="video-section">
+      <h2>Video Tutorial</h2>
+      <div class="video-container">
+        <iframe 
+          width="100%" 
+          height="100%" 
+          src="https://www.youtube.com/embed/4q1H_PqM3Ko" 
+          title="Apertura Italiana - Tutorial"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- Explicación de la jugada -->
+    <section class="explicacion-section">
+      <h2>¿Qué es la Apertura Italiana?</h2>
+      
+      <div class="explicacion-content">
+        <div class="explicacion-text">
+          <p>La <strong>Apertura Italiana</strong> es una de las aperturas más antiguas y respetadas del ajedrez. Se caracteriza por <strong>1. e4 e5 2. Cf3 Cc6 3. Ac4</strong>, buscando control del centro y desarrollo rápido.</p>
+
+          <h3>Ideas principales</h3>
+          <p><strong>Control del centro</strong> - Con e4 y Cf3<br>
+          <strong>Desarrollo rápido</strong> - Alfil a c4 presionando f7<br>
+          <strong>Posición sólida</strong> - Preparando enroque corto<br>
+          <strong>Flexibilidad</strong> - Múltiples planes según respuesta</p>
+
+          <h3>Variantes principales</h3>
+          <p><strong>Giuoco Piano</strong> - Juego posicional tranquilo<br>
+          <strong>Evans Gambit</strong> - Sacrificio de peón para ataque<br>
+          <strong>Giuoco Pianissimo</strong> - Desarrollo ultra sólido</p>
+
+          <h3>Consejo</h3>
+          <p>Excelente apertura para todos los niveles. Enseña principios fundamentales de desarrollo y control del centro.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botón volver -->
+    <div class="volver-section">
+      <a href="aprender_jugadas.html" class="btn btn-secondary">← Volver a la biblioteca</a>
+    </div>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-icon">♟</span>
+        <span class="footer-name">AJE10</span>
+      </div>
+      <div class="footer-links">
+        <a href="jugar.html">Jugar</a>
+        <a href="learn.html">Aprender</a>
+        <a href="contact.html">Contacto</a>
+        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 AJE10</p>
+        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+</body>
+</html>

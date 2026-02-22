@@ -1,0 +1,203 @@
+@import 'main.css';
+
+/* ================================
+   JUGADAS LIST PAGE STYLES
+================================ */
+
+:root {
+  --jugadas-accent: #9cd4c0;
+  --jugadas-accent-2: #ffd48a;
+  --jugadas-bg: rgba(18, 34, 32, 0.7);
+}
+
+.jugadas-list-page .contenedor {
+  max-width: 1200px;
+}
+
+/* Hero Section */
+.jugadas-hero {
+  text-align: center;
+  padding: 3rem 2rem;
+  background: linear-gradient(135deg, rgba(156, 212, 192, 0.15), rgba(255, 212, 138, 0.1));
+  border-radius: 1.5rem;
+  margin-bottom: 3rem;
+  border: 2px solid rgba(156, 212, 192, 0.3);
+}
+
+.jugadas-hero h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--c5);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.hero-subtitle {
+  font-size: 1.1rem;
+  color: var(--c4);
+  max-width: 700px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+/* Jugadas Grid */
+.jugadas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.jugada-card {
+  background: var(--jugadas-bg);
+  border: 2px solid rgba(156, 212, 192, 0.4);
+  border-radius: 1.2rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.jugada-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--jugadas-accent), var(--jugadas-accent-2));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.jugada-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--jugadas-accent);
+  box-shadow: 0 8px 24px rgba(156, 212, 192, 0.2);
+}
+
+.jugada-card:hover::before {
+  transform: scaleX(1);
+}
+
+.jugada-icon {
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+}
+
+.jugada-info {
+  flex: 1;
+}
+
+.jugada-info h3 {
+  font-size: 1.5rem;
+  color: var(--c5);
+  margin-bottom: 0.5rem;
+}
+
+.jugada-info p {
+  color: var(--c4);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.jugada-meta {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.tag {
+  display: inline-block;
+  padding: 0.3rem 0.8rem;
+  background: rgba(156, 212, 192, 0.2);
+  border: 1px solid rgba(156, 212, 192, 0.4);
+  border-radius: 20px;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--jugadas-accent);
+  font-weight: 600;
+}
+
+.jugada-card .btn {
+  width: 100%;
+  text-align: center;
+  margin-top: auto;
+}
+
+/* Info Banner */
+.info-banner {
+  background: linear-gradient(135deg, rgba(255, 212, 138, 0.15), rgba(156, 212, 192, 0.1));
+  border: 2px solid rgba(255, 212, 138, 0.4);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.banner-content {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.banner-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+.banner-content p {
+  color: var(--c4);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.banner-content strong {
+  color: var(--jugadas-accent-2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .jugadas-hero h1 {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .jugadas-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .jugada-card {
+    padding: 1.5rem;
+  }
+
+  .banner-content {
+    flex-direction: column;
+    text-align: center;
+  }
+}
+
+/* Dark mode adjustments */
+.dark .jugada-card {
+  background: rgba(15, 29, 27, 0.8);
+  border-color: rgba(156, 212, 192, 0.3);
+}
+
+.dark .jugada-card:hover {
+  border-color: var(--jugadas-accent);
+  box-shadow: 0 8px 24px rgba(156, 212, 192, 0.3);
+}
+
+.dark .tag {
+  background: rgba(156, 212, 192, 0.15);
+  border-color: rgba(156, 212, 192, 0.3);
+}
