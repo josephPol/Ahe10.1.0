@@ -1,5 +1,175 @@
 @import 'main.css';
-/* Estilos específicos para la página Inicio (si es necesario) */
+.stats .stat-box:nth-child(3) {
+	background-image: url('../imagenes/modo-local.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.stats .stat-box:nth-child(3)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.stats .stat-box:nth-child(3) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.stats .stat-box:nth-child(2) {
+	background-image: url('../imagenes/2-jugadores.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.stats .stat-box:nth-child(2)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.stats .stat-box:nth-child(2) > * {
+	position: relative;
+	z-index: 2;
+}
+
+
+
+.stats .stat-box:first-child {
+	background-image: url('../imagenes/partidas-infinitas.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.stats .stat-box:first-child::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.stats .stat-box:first-child > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(1) {
+	position: relative;
+}
+.features .feature-card:nth-child(1)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(1) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(2) {
+	background-image: url('../imagenes/sistema-amigos.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.features .feature-card:nth-child(2)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(2) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(3) {
+	background-image: url('../imagenes/aprende.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.features .feature-card:nth-child(3)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(3) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(1) {
+	position: relative;
+}
+.features .feature-card:nth-child(1)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(1) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(2) {
+	background-image: url('../imagenes/sistema-amigos.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+	position: relative;
+}
+.features .feature-card:nth-child(2)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(2) > * {
+	position: relative;
+	z-index: 2;
+}
+
+.features .feature-card:nth-child(1) {
+	position: relative;
+}
+.features .feature-card:nth-child(1)::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: rgba(20, 32, 32, 0.75);
+	z-index: 1;
+	pointer-events: none;
+}
+.features .feature-card:nth-child(1) > * {
+	position: relative;
+	z-index: 2;
+}
+
+/* Estilos específicos para la página Inicio  */
 
 /* Rankings Section */
 .rankings {
@@ -89,6 +259,16 @@
 .feature-card {
 	background: linear-gradient(180deg, rgba(77, 182, 172, 0.26), rgba(17, 41, 45, 0.92));
 	border-width: 3px;
+	padding: 2.2em 1.2em;
+	min-height: 160px;
+	font-size: 1.15em;
+}
+
+.features .feature-card:nth-child(1) {
+	background-image: url('../imagenes/juego-local.png');
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .stats {
