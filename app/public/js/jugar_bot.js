@@ -2,6 +2,7 @@ let game = null;
 let board = null;
 let gameMode = 'drag';
 let selectedFrom = null;
+let isDraggingPiece = false;
 
 let playerColor = null;
 let botColor = null;
@@ -71,6 +72,12 @@ function hideDragGhost() {
   dragGhostEl.style.display = 'none';
 }
 
+function cleanupDragState() {
+  document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
+  hideDragGhost();
+  isDraggingPiece = false;
+}
+
 function renderUnicodePieces() {
   const boardEl = document.getElementById('chessBoard');
   if (!boardEl || !game) return;
@@ -111,6 +118,12 @@ document.addEventListener('DOMContentLoaded', () => {
   setupModeControls();
   setupResignButton();
   setupRestartButton();
+  document.addEventListener('mouseup', () => {
+    if (gameMode === 'drag' && isDraggingPiece) cleanupDragState();
+  });
+  document.addEventListener('touchend', () => {
+    if (gameMode === 'drag' && isDraggingPiece) cleanupDragState();
+  });
 
   updateTimerDisplay();
   gameSubtitleEl.textContent = 'Selecciona dificultad y color para empezar';
@@ -237,26 +250,27 @@ function onDragStart(source, piece) {
   const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
   if (fromEl) fromEl.classList.add('drag-from');
   showDragGhost(piece);
+  isDraggingPiece = true;
 }
 
 function onDrop(source, target) {
   if (!canPlayerMove()) return 'snapback';
 
   const move = game.move({ from: source, to: target, promotion: 'q' });
-  if (move === null) return 'snapback';
+  if (move === null) {
+    cleanupDragState();
+    return 'snapback';
+  }
 
   onHumanMove(move);
-  const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
-  if (fromEl) fromEl.classList.remove('drag-from');
-  hideDragGhost();
+  cleanupDragState();
 }
 
 function onSnapEnd() {
   if (!board || !game) return;
   board.position(game.fen());
   renderUnicodePieces();
-  document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
-  hideDragGhost();
+  cleanupDragState();
 }
 
 function handleBoardClick(e) {

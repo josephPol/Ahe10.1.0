@@ -4,6 +4,7 @@ let game = new Chess();
 let board;
 let selectedFrom = null;
 let gameMode = 'drag'; // 'drag' o 'click'
+let isDraggingPiece = false;
 let timerWhiteEl = document.getElementById('timerWhite');
 let timerBlackEl = document.getElementById('timerBlack');
 let timeWhite = 10 * 60;
@@ -60,6 +61,12 @@ function hideDragGhost() {
     dragGhostEl.style.display = 'none';
 }
 
+function cleanupDragState() {
+    document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
+    hideDragGhost();
+    isDraggingPiece = false;
+}
+
 function renderUnicodePieces() {
     const boardEl = document.getElementById('chessBoard');
     if (!boardEl) return;
@@ -94,6 +101,12 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDragGhost();
     setupModeControls();
     setupResignButtons();
+    document.addEventListener('mouseup', () => {
+        if (gameMode === 'drag' && isDraggingPiece) cleanupDragState();
+    });
+    document.addEventListener('touchend', () => {
+        if (gameMode === 'drag' && isDraggingPiece) cleanupDragState();
+    });
     // Esperar a que el div #chessBoard exista
     const tryInit = () => {
         const el = document.getElementById('chessBoard');
@@ -159,26 +172,27 @@ function onDragStart(source, piece) {
     const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
     if (fromEl) fromEl.classList.add('drag-from');
     showDragGhost(piece);
+    isDraggingPiece = true;
 }
 
 function onDrop(source, target) {
     const move = game.move({ from: source, to: target, promotion: 'q' });
-    if (move === null) return 'snapback';
+    if (move === null) {
+        cleanupDragState();
+        return 'snapback';
+    }
     addMoveToHistory(move);
     refreshBoardUI(move);
     clearSelection();
     updateTimerUI();
-    const fromEl = document.querySelector(`#chessBoard [data-square="${source}"]`);
-    if (fromEl) fromEl.classList.remove('drag-from');
-    hideDragGhost();
+    cleanupDragState();
     if (checkGameEnd()) return;
 }
 
 function onSnapEnd() {
     board.position(game.fen());
     renderUnicodePieces();
-    document.querySelectorAll('#chessBoard .drag-from').forEach(el => el.classList.remove('drag-from'));
-    hideDragGhost();
+    cleanupDragState();
 }
 
 function handleBoardClick(e) {
