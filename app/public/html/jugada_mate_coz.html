@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <script>
+    (function(){
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AJE10 - Mate de la Coz</title>
+  <link rel="stylesheet" href="../css/jugada_detalle.css" />
+  <link rel="stylesheet" href="../css/cookies.css" />
+</head>
+<body class="jugada-detalle-page">
+  <!-- Encabezado -->
+  <header class="topbar">
+    <a href="inicio.html" class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">AJE10</div>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+    </nav>
+
+    <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="contenedor">
+    
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="jugar.html">Jugar</a>
+      <span class="separator">›</span>
+      <a href="aprender_jugadas.html">Aprender Jugadas</a>
+      <span class="separator">›</span>
+      <span class="current">Mate de la Coz</span>
+    </nav>
+
+    <!-- Header de la jugada -->
+    <section class="jugada-header">
+      <div class="jugada-title-section">
+        <h1>🐴 Mate de la Coz</h1>
+        <div class="jugada-tags">
+          <span class="tag">Táctica</span>
+          <span class="tag">Intermedio</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video de la jugada -->
+    <section class="video-section">
+      <h2>📹 Video Tutorial</h2>
+      <div class="video-container">
+        <iframe 
+          width="100%" 
+          height="100%" 
+          src="https://www.youtube.com/embed/HtAnSCpqY_I" 
+          title="Mate de la Coz - Tutorial"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+    </section>
+
+    <!-- Explicación de la jugada -->
+    <section class="explicacion-section">
+      <h2>📖 ¿Qué es el Mate de la Coz?</h2>
+      
+      <div class="explicacion-content">
+        <div class="explicacion-text">
+          <p>El <strong>Mate de la Coz</strong> (también llamado Mate Ahogado) es un patrón de mate espectacular donde el <strong>caballo da jaque mate sin ser atacado</strong>, porque el rey enemigo está rodeado por sus propias piezas.</p>
+
+          <h3>♟️ Características</h3>
+          <p><strong>El rey está atrapado</strong> - Rodeado de sus piezas<br>
+          <strong>Caballo da mate</strong> - Salta sobre las piezas enemigas<br>
+          <strong>No se puede capturar</strong> - El caballo está protegido o fuera de alcance<br>
+          <strong>Muy espectacular</strong> - A menudo requiere sacrificios previos</p>
+
+          <h3>🎯 Ejemplo típico</h3>
+          <p>Un patrón común es sacrificar la dama para dejar al rey enemigo atrapado en su propia fortaleza, y luego el caballo remat a con un jaque mate inevitable.<br><br>
+          <strong>Posición típica:</strong> Rey en h8, torre en g8, peones en f7, g7, h7. El caballo salta a f7 dando jaque mate mortal.</p>
+
+          <h3>💡 Consejo</h3>
+          <p>Busca oportunidades cuando el rey enemigo esté acorralado en una esquina. A veces vale la pena sacrificar piezas para crear esta configuración.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botón volver -->
+    <div class="volver-section">
+      <a href="aprender_jugadas.html" class="btn btn-secondary">← Volver a la biblioteca</a>
+    </div>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-icon">♟</span>
+        <span class="footer-name">AJE10</span>
+      </div>
+      <div class="footer-links">
+        <a href="jugar.html">Jugar</a>
+        <a href="learn.html">Aprender</a>
+        <a href="contact.html">Contacto</a>
+        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 AJE10</p>
+        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+</body>
+</html>

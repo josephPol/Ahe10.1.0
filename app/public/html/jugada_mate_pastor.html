@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <script>
+    (function(){
+      const theme = localStorage.getItem('chesshub_theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+      if(theme === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AJE10 - Mate del Pastor</title>
+  <link rel="stylesheet" href="../css/jugada_detalle.css" />
+  <link rel="stylesheet" href="../css/cookies.css" />
+</head>
+<body class="jugada-detalle-page">
+  <!-- Encabezado -->
+  <header class="topbar">
+    <a href="inicio.html" class="brand">
+      <div class="logo">♟</div>
+      <div class="brandName">AJE10</div>
+    </a>
+
+    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+
+    <nav class="topnav">
+      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
+      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
+      <a href="learn.html" class="nav-link">📚 APRENDER</a>
+      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+    </nav>
+
+    <div class="topRight">
+      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
+    </div>
+  </header>
+
+  <!-- Contenido principal -->
+  <main class="contenedor">
+    
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb">
+      <a href="jugar.html">Jugar</a>
+      <span class="separator">›</span>
+      <a href="aprender_jugadas.html">Aprender Jugadas</a>
+      <span class="separator">›</span>
+      <span class="current">Mate del Pastor</span>
+    </nav>
+
+    <!-- Header de la jugada -->
+    <section class="jugada-header">
+      <div class="jugada-title-section">
+        <h1>♔ Mate del Pastor</h1>
+        <div class="jugada-tags">
+          <span class="tag">Apertura</span>
+          <span class="tag">Principiantes</span>
+          <span class="tag">Ataque Rápido</span>
+        </div>
+      </div>
+      <div class="jugada-stats">
+        <div class="stat">
+          <span class="stat-label">Nivel</span>
+          <span class="stat-value">⭐ Principiante</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Movimientos</span>
+          <span class="stat-value">4</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Efectividad</span>
+          <span class="stat-value">Alta</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Video de la jugada -->
+    <section class="video-section">
+      <h2>📹 Video Tutorial</h2>
+      <div class="video-container">
+        <iframe 
+          width="100%" 
+          height="100%" 
+          src="https://www.youtube.com/embed/wHkP5a3pSYI" 
+          title="Mate del Pastor - Tutorial"
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="video-caption">Video explicativo del Mate del Pastor paso a paso</p>
+    </section>
+
+    <!-- Explicación de la jugada -->
+    <section class="explicacion-section">
+      <h2>📖 ¿Qué es el Mate del Pastor?</h2>
+      
+      <div class="explicacion-content">
+        <div class="explicacion-text">
+          <p>El <strong>Mate del Pastor</strong> es una trampa de ajedrez que busca dar mate en solo 4 movimientos atacando el punto f7, el más débil de las negras al inicio.</p>
+
+          <h3>♟️ Movimientos</h3>
+          <p><strong>1. e4 e5</strong> - Control del centro<br>
+          <strong>2. Ac4 Cc6</strong> - Alfil apunta a f7<br>
+          <strong>3. Dh5 Cf6</strong> - Dama al ataque<br>
+          <strong>4. Dxf7#</strong> - ¡Jaque mate!</p>
+
+          <h3>🛡️ Defensa</h3>
+          <p>Se defiende fácilmente con <strong>Cf6</strong>, <strong>g6</strong> o <strong>De7</strong> protegiendo f7.</p>
+
+          <h3>💡 Consejo</h3>
+          <p>Úsala para aprender, pero no dependas de ella. Los jugadores experimentados la bloquean fácilmente.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Botón volver -->
+    <div class="volver-section">
+      <a href="aprender_jugadas.html" class="btn btn-secondary">← Volver a la biblioteca</a>
+    </div>
+
+  </main>
+
+  <!-- Pie de página -->
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-brand">
+        <span class="footer-icon">♟</span>
+        <span class="footer-name">AJE10</span>
+      </div>
+      <div class="footer-links">
+        <a href="jugar.html">Jugar</a>
+        <a href="learn.html">Aprender</a>
+        <a href="contact.html">Contacto</a>
+        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+      </div>
+      <div class="footer-copy">
+        <p>&copy; 2026 AJE10</p>
+        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/utils.js"></script>
+  <script src="../auth/auth.js"></script>
+  <script src="../js/menu.js"></script>
+  <script src="../js/theme.js"></script>
+  <script src="../js/cookies.js"></script>
+</body>
+</html>
