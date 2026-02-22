@@ -15,17 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // Incluir configuración de base de datos
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/database-init.php';
 
 class Auth {
     private $db;
 
     public function __construct() {
-        // Conectar a la base de datos
+        // Inicializar base de datos
+        initializeDatabase();
+
+        // Conectar a la base de datos SQLite
         try {
             $this->db = new PDO(
-                'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8',
-                DB_USER,
-                DB_PASS,
+                'sqlite:' . DB_PATH,
+                null,
+                null,
                 [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
             );
         } catch (PDOException $e) {
@@ -36,6 +40,13 @@ class Auth {
             ]);
             exit;
         }
+    }
+
+    /**
+     * Generar un token único para verificación
+     */
+    private function generateToken() {
+        return bin2hex(random_bytes(32));
     }
 
     /**
@@ -69,21 +80,62 @@ class Auth {
         // Crear usuario
         try {
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-            $stmt = $this->db->prepare('INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, NOW(), NOW())');
+            $stmt = $this->db->prepare('INSERT INTO users (name, email, password, created_at, updated_at) VALUES (?, ?, ?, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)');
             $stmt->execute([$name, $email, $hashedPassword]);
             
             $userId = $this->db->lastInsertId();
             
-            // Iniciar sesión automáticamente
-            $_SESSION['user_id'] = $userId;
-            $_SESSION['user_name'] = $name;
-            $_SESSION['user_email'] = $email;
-            $_SESSION['logged_in'] = true;
-            $_SESSION['is_admin'] = false;
-
-            return ['success' => true, 'message' => 'Registro exitoso'];
+            // Generar token de verificación de email
+            $verificationToken = $this->generateToken();
+            $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
+            
+            $stmt = $this->db->prepare('INSERT INTO email_verifications (user_id, token, expires_at) VALUES (?, ?, ?)');
+            $stmt->execute([$userId, $verificationToken, $expiresAt]);
+            
+            // NO iniciar sesión automáticamente - requiere verificación de email
+            // Devolver el token para verificación (en desarrollo)
+            return [
+                'success' => true,
+                'message' => 'Registro exitoso. Por favor verifica tu email.',
+                'verification_token' => $verificationToken,
+                'verification_url' => 'confirm-email.html?token=' . $verificationToken
+            ];
         } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al registrar: ' . $e->getMessage()];
+        }
+    }
+
+    /**
+     * Verificar email con token
+     */
+    public function verifyEmail($token) {
+        if (empty($token)) {
+            return ['success' => false, 'message' => 'Token inválido'];
+        }
+
+        try {
+            // Buscar token válido y no expirado
+            $stmt = $this->db->prepare('SELECT user_id FROM email_verifications WHERE token = ? AND expires_at > CURRENT_TIMESTAMP');
+            $stmt->execute([$token]);
+            
+            if ($stmt->rowCount() === 0) {
+                return ['success' => false, 'message' => 'Token expirado o inválido'];
+            }
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $userId = $result['user_id'];
+
+            // Marcar email como verificado
+            $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = CURRENT_TIMESTAMP WHERE id = ?');
+            $stmt->execute([$userId]);
+
+            // Eliminar token usado
+            $stmt = $this->db->prepare('DELETE FROM email_verifications WHERE token = ?');
+            $stmt->execute([$token]);
+
+            return ['success' => true, 'message' => 'Email verificado correctamente'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error al verificar email'];
         }
     }
 
@@ -95,27 +147,120 @@ class Auth {
             return ['success' => false, 'message' => 'Email y contraseña requeridos'];
         }
 
-        $stmt = $this->db->prepare('SELECT id, name, email, password, is_admin FROM users WHERE email = ?');
-        $stmt->execute([$email]);
+        try {
+            $stmt = $this->db->prepare('SELECT id, name, email, password, is_admin, email_verified FROM users WHERE email = ?');
+            $stmt->execute([$email]);
 
-        if ($stmt->rowCount() === 0) {
-            return ['success' => false, 'message' => 'Credenciales inválidas'];
+            if ($stmt->rowCount() === 0) {
+                return ['success' => false, 'message' => 'Credenciales inválidas'];
+            }
+
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!password_verify($password, $user['password'])) {
+                return ['success' => false, 'message' => 'Credenciales inválidas'];
+            }
+
+            // Verificar que el email esté verificado
+            if (!$user['email_verified']) {
+                return ['success' => false, 'message' => 'Por favor verifica tu email para iniciar sesión'];
+            }
+
+            // Iniciar sesión
+            $_SESSION['user_id'] = $user['id'];
+            $_SESSION['user_name'] = $user['name'];
+            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['logged_in'] = true;
+            $_SESSION['is_admin'] = (bool)($user['is_admin'] ?? false);
+
+            return ['success' => true, 'message' => 'Sesión iniciada'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error en la base de datos'];
+        }
+    }
+
+    /**
+     * Solicitar recuperación de contraseña
+     */
+    public function requestPasswordReset($email) {
+        if (empty($email)) {
+            return ['success' => false, 'message' => 'Email requerido'];
         }
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+        try {
+            // Verificar que el usuario exista
+            $stmt = $this->db->prepare('SELECT id FROM users WHERE email = ?');
+            $stmt->execute([$email]);
+            
+            if ($stmt->rowCount() === 0) {
+                // Por seguridad, no revelar si el email existe o no
+                return ['success' => true, 'message' => 'Si el email existe, recibirás instrucciones de recuperación'];
+            }
 
-        if (!password_verify($password, $user['password'])) {
-            return ['success' => false, 'message' => 'Credenciales inválidas'];
+            // Eliminar tokens anteriores
+            $stmt = $this->db->prepare('DELETE FROM password_resets WHERE email = ? AND expires_at < CURRENT_TIMESTAMP');
+            $stmt->execute([$email]);
+
+            // Generar nuevo token
+            $resetToken = $this->generateToken();
+            $expiresAt = date('Y-m-d H:i:s', strtotime('+1 hour'));
+
+            $stmt = $this->db->prepare('INSERT INTO password_resets (email, token, expires_at) VALUES (?, ?, ?)');
+            $stmt->execute([$email, $resetToken, $expiresAt]);
+
+            // Devolver token para desarrollo/testing
+            return [
+                'success' => true,
+                'message' => 'Instrucciones de recuperación enviadas',
+                'reset_token' => $resetToken, // Solo en desarrollo
+                'reset_url' => 'reset-password.html?token=' . $resetToken
+            ];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error en la solicitud'];
+        }
+    }
+
+    /**
+     * Resetear contraseña con token
+     */
+    public function resetPassword($token, $newPassword, $confirmPassword) {
+        if (empty($token) || empty($newPassword)) {
+            return ['success' => false, 'message' => 'Datos incompletos'];
         }
 
-        // Iniciar sesión
-        $_SESSION['user_id'] = $user['id'];
-        $_SESSION['user_name'] = $user['name'];
-        $_SESSION['user_email'] = $user['email'];
-        $_SESSION['logged_in'] = true;
-        $_SESSION['is_admin'] = (bool)($user['is_admin'] ?? false);
+        if ($newPassword !== $confirmPassword) {
+            return ['success' => false, 'message' => 'Las contraseñas no coinciden'];
+        }
 
-        return ['success' => true, 'message' => 'Sesión iniciada'];
+        if (strlen($newPassword) < 8) {
+            return ['success' => false, 'message' => 'La contraseña debe tener al menos 8 caracteres'];
+        }
+
+        try {
+            // Buscar token válido y no expirado
+            $stmt = $this->db->prepare('SELECT email FROM password_resets WHERE token = ? AND expires_at > CURRENT_TIMESTAMP');
+            $stmt->execute([$token]);
+
+            if ($stmt->rowCount() === 0) {
+                return ['success' => false, 'message' => 'Token expirado o inválido'];
+            }
+
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $email = $result['email'];
+
+            // Actualizar contraseña
+            $hashedPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+            $stmt = $this->db->prepare('UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE email = ?');
+            $stmt->execute([$hashedPassword, $email]);
+
+            // Eliminar token usado
+            $stmt = $this->db->prepare('DELETE FROM password_resets WHERE token = ?');
+            $stmt->execute([$token]);
+
+            return ['success' => true, 'message' => 'Contraseña actualizada correctamente'];
+        } catch (PDOException $e) {
+            return ['success' => false, 'message' => 'Error al resetear contraseña'];
+        }
     }
 
     /**
@@ -163,22 +308,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $_POST['password'] ?? '',
                 $_POST['password_confirm'] ?? ''
             );
-            
-            // Comentado temporalmente - puede causar problemas si no está configurado correctamente
-            /*
-            if ($response['success']) {
-                // Enviar correo de confirmación
-                require_once __DIR__ . '/mailer.php';
-                $mailer = new Mailer();
-                $mailer->sendConfirmationEmail($_SESSION['user_email'], $_SESSION['user_name']);
-            }
-            */
+            break;
+
+        case 'verify-email':
+            $response = $auth->verifyEmail($_POST['token'] ?? '');
             break;
 
         case 'login':
             $response = $auth->login(
                 $_POST['email'] ?? '',
                 $_POST['password'] ?? ''
+            );
+            break;
+
+        case 'request-password-reset':
+            $response = $auth->requestPasswordReset($_POST['email'] ?? '');
+            break;
+
+        case 'reset-password':
+            $response = $auth->resetPassword(
+                $_POST['token'] ?? '',
+                $_POST['password'] ?? '',
+                $_POST['password_confirm'] ?? ''
             );
             break;
 
@@ -193,3 +344,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo json_encode($response);
     exit();
 }
+?>

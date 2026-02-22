@@ -6,16 +6,24 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadRankings() {
     try {
         const response = await fetch('/api/rankings');
+        
+        // Si hay error HTTP, mostrar mensaje de rankings vacío
+        if (!response.ok) {
+            displayNoRankings();
+            return;
+        }
+        
         const data = await response.json();
         
-        if (data.success && data.data.length > 0) {
+        if (data.success && data.data && data.data.length > 0) {
             displayRankings(data.data);
         } else {
             displayNoRankings();
         }
     } catch (error) {
         console.error('Error loading rankings:', error);
-        displayError();
+        // Mostrar rankings vacío en lugar de error
+        displayNoRankings();
     }
 }
 
