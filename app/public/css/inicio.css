@@ -361,6 +361,17 @@
 	.topRight { flex-wrap: wrap; justify-content: center; }
 	.auth-btn { width: 48%; }
 	.btn-theme { width: 100%; margin-top: 0.5rem; }
+
+	.stats {
+		grid-template-columns: 1fr;
+		justify-items: center;
+		gap: 0.9rem;
+	}
+
+	.stat-box {
+		width: 100%;
+		max-width: 360px;
+	}
 	
 	.rankings-header, .ranking-row {
 		grid-template-columns: 40px 1fr 70px;
