@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/database-init.php';
 
 function jsonResponse($success, $message = '', $data = null, $code = 200) {
     http_response_code($code);
@@ -33,12 +34,28 @@ function requireAdmin() {
 }
 
 try {
-    $db = new PDO(
-        'mysql:host=' . DB_HOST . ';dbname=' . DB_NAME . ';charset=utf8',
-        DB_USER,
-        DB_PASS,
-        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-    );
+    if (DB_TYPE === 'mysql') {
+        $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
+        $db = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+        $check = $db->query("SHOW TABLES LIKE 'users'");
+        if ($check->rowCount() === 0) {
+            initializeDatabase();
+            $db = new PDO(
+                'sqlite:' . DB_PATH,
+                null,
+                null,
+                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+            );
+        }
+    } else {
+        initializeDatabase();
+        $db = new PDO(
+            'sqlite:' . DB_PATH,
+            null,
+            null,
+            [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+        );
+    }
 } catch (PDOException $e) {
     jsonResponse(false, 'Error de conexión a la base de datos', null, 500);
 }

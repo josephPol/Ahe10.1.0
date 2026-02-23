@@ -19,19 +19,37 @@ require_once __DIR__ . '/../config/database-init.php';
 
 class Auth {
     private $db;
+    private $dbType;
 
     public function __construct() {
-        // Inicializar base de datos
-        initializeDatabase();
-
-        // Conectar a la base de datos SQLite
         try {
-            $this->db = new PDO(
-                'sqlite:' . DB_PATH,
-                null,
-                null,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
+            $this->dbType = DB_TYPE;
+            if ($this->dbType === 'mysql') {
+                $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
+                $this->db = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                // Verificar tabla users; si no existe, usar SQLite de respaldo
+                $check = $this->db->query("SHOW TABLES LIKE 'users'");
+                if ($check->rowCount() === 0) {
+                    initializeDatabase();
+                    $this->db = new PDO(
+                        'sqlite:' . DB_PATH,
+                        null,
+                        null,
+                        [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                    );
+                    $this->dbType = 'sqlite';
+                }
+            } else {
+                // Inicializar base de datos SQLite
+                initializeDatabase();
+                $this->db = new PDO(
+                    'sqlite:' . DB_PATH,
+                    null,
+                    null,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+                $this->dbType = 'sqlite';
+            }
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode([
@@ -148,22 +166,49 @@ class Auth {
         }
 
         try {
-            $stmt = $this->db->prepare('SELECT id, name, email, password, is_admin, email_verified FROM users WHERE email = ?');
-            $stmt->execute([$email]);
+            try {
+                $stmt = $this->db->prepare('SELECT id, name, email, password, is_admin, email_verified FROM users WHERE email = ?');
+                $stmt->execute([$email]);
+            } catch (PDOException $e) {
+                // Fallback para esquemas antiguos sin columnas extra
+                $stmt = $this->db->prepare('SELECT id, name, email, password FROM users WHERE email = ?');
+                $stmt->execute([$email]);
+            }
 
             if ($stmt->rowCount() === 0) {
                 return ['success' => false, 'message' => 'Credenciales inválidas'];
             }
 
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (!isset($user['is_admin'])) {
+                $user['is_admin'] = 0;
+            }
+            if (!isset($user['email_verified'])) {
+                $user['email_verified'] = 1;
+            }
 
-            if (!password_verify($password, $user['password'])) {
+            $passwordValid = password_verify($password, $user['password']);
+            // Compatibilidad con contraseñas en texto plano (migraciones antiguas)
+            if (!$passwordValid && hash_equals((string)$user['password'], (string)$password)) {
+                $passwordValid = true;
+                $newHash = password_hash($password, PASSWORD_DEFAULT);
+                $stmt = $this->db->prepare('UPDATE users SET password = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?');
+                $stmt->execute([$newHash, $user['id']]);
+            }
+
+            if (!$passwordValid) {
                 return ['success' => false, 'message' => 'Credenciales inválidas'];
             }
 
-            // Verificar que el email esté verificado
-            if (!$user['email_verified']) {
-                return ['success' => false, 'message' => 'Por favor verifica tu email para iniciar sesión'];
+            // Verificar que el email esté verificado (si aplica)
+            if (isset($user['email_verified']) && (int)$user['email_verified'] === 0) {
+                // Permitir login para cuentas existentes sin verificación previa
+                if ($this->dbType === 'mysql') {
+                    $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = NOW() WHERE id = ?');
+                } else {
+                    $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = CURRENT_TIMESTAMP WHERE id = ?');
+                }
+                $stmt->execute([$user['id']]);
             }
 
             // Iniciar sesión
