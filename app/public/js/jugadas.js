@@ -1,6 +1,8 @@
 // Variables globales
 let board = null;
 let game = null;
+let viewBoard = null;
+let viewGame = null;
 let isAdminUser = false;
 let currentEditId = null;
 let currentDeleteId = null;
@@ -23,7 +25,10 @@ document.addEventListener('DOMContentLoaded', async function() {
     await checkAdminStatus();
     loadJugadas();
     initModal();
-    initAdminModals();
+    if (isAdminUser) {
+        initAdminModals();
+    }
+    initViewModal();
 });
 
 function getSessionUrl() {
@@ -124,6 +129,25 @@ function initAdminModals() {
     window.addEventListener('click', function(event) {
         if (event.target === editModal) closeEdit();
         if (event.target === deleteModal) closeDelete();
+    });
+}
+
+function initViewModal() {
+    const viewModal = document.getElementById('modal-ver');
+    const viewClose = viewModal?.querySelector('[data-close="view"]');
+
+    const closeView = () => {
+        if (viewModal) viewModal.style.display = 'none';
+        if (viewBoard) {
+            viewBoard.destroy();
+            viewBoard = null;
+        }
+        viewGame = null;
+    };
+
+    viewClose?.addEventListener('click', closeView);
+    window.addEventListener('click', function(event) {
+        if (event.target === viewModal) closeView();
     });
 }
 
@@ -343,23 +367,26 @@ function displayJugadas(jugadas) {
     const container = document.getElementById('jugadas-list');
     const canManage = isAdminUser;
     const escapeAttr = (text) => String(text ?? '').replace(/"/g, '&quot;');
+    const fixedCover = '../imagenes/foto_jugadas.jpg';
+    const canView = true;
     
     const html = jugadas.map(jugada => `
         <div class="jugada-card">
             <div class="jugada-image">
-                ${jugada.imagen ? 
-                    `<img src="/storage/${jugada.imagen}" alt="${escapeHtml(jugada.nombre)}">` : 
-                    '<div class="no-image">♟</div>'}
+                <img src="${fixedCover}" alt="${escapeHtml(jugada.nombre)}">
             </div>
             <div class="jugada-content">
                 <h3 class="jugada-title">${escapeHtml(jugada.nombre)}</h3>
                 <p class="jugada-description">${escapeHtml(jugada.descripcion)}</p>
-                ${canManage && !(typeof jugada.id === 'string' && jugada.id.startsWith('ejemplo-')) ? `
-                <div class="jugada-admin-actions">
+                <div class="jugada-actions">
+                    ${canView ? `
+                    <button class="btn btn-secondary" data-view-action="open" data-id="${jugada.id}" data-title="${escapeAttr(jugada.nombre)}" data-desc="${escapeAttr(jugada.descripcion)}" data-author="${escapeAttr(jugada.user?.name || 'Anónimo')}" data-likes="${jugada.likes ?? 0}" data-moves="${escapeAttr(jugada.movimientos || '')}">Ver jugada</button>
+                    ` : ''}
+                    ${canManage && !(typeof jugada.id === 'string' && jugada.id.startsWith('ejemplo-')) ? `
                     <button class="btn btn-secondary" data-admin-action="edit" data-id="${jugada.id}" data-name="${escapeAttr(jugada.nombre)}" data-desc="${escapeAttr(jugada.descripcion)}" data-likes="${jugada.likes ?? 0}">Editar</button>
                     <button class="btn btn-primary" data-admin-action="delete" data-id="${jugada.id}">Eliminar</button>
+                    ` : ''}
                 </div>
-                ` : ''}
                 <div class="jugada-footer">
                     <span class="jugada-author">Por: ${escapeHtml(jugada.user?.name || 'Anónimo')}</span>
                     <button class="btn-like" onclick="likeJugada('${jugada.id}')">
@@ -377,9 +404,100 @@ function displayJugadas(jugadas) {
             btn.addEventListener('click', handleAdminActionClick);
         });
     }
+    if (canView) {
+        container.querySelectorAll('[data-view-action="open"]').forEach((btn) => {
+            btn.addEventListener('click', handleViewActionClick);
+        });
+    }
+}
+
+function handleViewActionClick(event) {
+    const btn = event.currentTarget;
+    openViewModal({
+        nombre: btn.dataset.title || '',
+        descripcion: btn.dataset.desc || '',
+        autor: btn.dataset.author || 'Anónimo',
+        likes: btn.dataset.likes || 0,
+        movimientos: btn.dataset.moves || ''
+    });
+}
+
+function openViewModal(jugada) {
+    const viewModal = document.getElementById('modal-ver');
+    if (!viewModal) return;
+
+    document.getElementById('ver-titulo').textContent = jugada.nombre;
+    document.getElementById('ver-descripcion').textContent = jugada.descripcion;
+    document.getElementById('ver-autor').textContent = `Por: ${jugada.autor}`;
+    document.getElementById('ver-likes').textContent = `❤️ ${jugada.likes}`;
+    document.getElementById('ver-imagen').src = '../imagenes/foto_jugadas.jpg';
+
+    const movesContainer = document.getElementById('ver-movimientos');
+    const moves = parseMoves(jugada.movimientos);
+    if (moves.length === 0) {
+        movesContainer.textContent = 'Sin movimientos disponibles.';
+    } else {
+        movesContainer.innerHTML = moves.map((move, index) => {
+            const moveNumber = Math.floor(index / 2) + 1;
+            const prefix = index % 2 === 0 ? `${moveNumber}. ` : '';
+            return `${prefix}${move}`;
+        }).join(' ');
+    }
+
+    renderViewBoard(jugada.movimientos);
+    viewModal.style.display = 'block';
+}
+
+function renderViewBoard(movimientos) {
+    viewGame = new Chess();
+    const parsedMoves = parseMovesVerbose(movimientos);
+
+    parsedMoves.forEach((move) => {
+        if (move && move.from && move.to) {
+            viewGame.move({
+                from: move.from,
+                to: move.to,
+                promotion: move.promotion || 'q'
+            });
+        }
+    });
+
+    const position = viewGame.fen();
+    if (viewBoard) {
+        viewBoard.position(position, false);
+        return;
+    }
+
+    viewBoard = Chessboard('ver-board', {
+        draggable: false,
+        position: position,
+        pieceTheme: CHESSBOARD_PIECE_THEME
+    });
+}
+
+function parseMoves(movimientos) {
+    if (!movimientos) return [];
+    try {
+        const parsed = JSON.parse(movimientos);
+        if (!Array.isArray(parsed)) return [];
+        return parsed.map((m) => m.san || m.notation || '').filter(Boolean);
+    } catch (error) {
+        return [];
+    }
+}
+
+function parseMovesVerbose(movimientos) {
+    if (!movimientos) return [];
+    try {
+        const parsed = JSON.parse(movimientos);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        return [];
+    }
 }
 
 function handleAdminActionClick(event) {
+    if (!isAdminUser) return;
     const btn = event.currentTarget;
     const action = btn.dataset.adminAction;
     const id = btn.dataset.id;
@@ -416,6 +534,10 @@ function openDeleteModal(id) {
 }
 
 async function submitEditJugada() {
+    if (!isAdminUser) {
+        alert('No autorizado');
+        return;
+    }
     if (!currentEditId) return;
     const nombre = document.getElementById('editar-nombre').value.trim();
     const descripcion = document.getElementById('editar-descripcion').value.trim();
@@ -451,6 +573,10 @@ async function submitEditJugada() {
 }
 
 async function deleteJugada(id) {
+    if (!isAdminUser) {
+        alert('No autorizado');
+        return;
+    }
     try {
         const formData = new FormData();
         formData.append('action', 'delete');

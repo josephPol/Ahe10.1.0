@@ -96,6 +96,29 @@
   </div>
 </div>
 
+<!-- Modal para ver jugada -->
+<div id="modal-ver" class="modal">
+  <div class="modal-content">
+    <span class="modal-close" data-close="view">&times;</span>
+    <h2 id="ver-titulo">Jugada</h2>
+    <div class="board-view" aria-label="Tablero de la jugada">
+      <div id="ver-board"></div>
+    </div>
+    <div class="jugada-image" style="margin-bottom: 1rem;">
+      <img id="ver-imagen" src="" alt="Portada jugada">
+    </div>
+    <p id="ver-descripcion"></p>
+    <div class="jugada-footer" style="margin-top: 1rem;">
+      <span class="jugada-author" id="ver-autor"></span>
+      <span id="ver-likes"></span>
+    </div>
+    <div class="jugada-moves" style="margin-top: 1rem;">
+      <h3 class="jugada-moves-title">Movimientos</h3>
+      <div id="ver-movimientos" class="jugada-moves-list"></div>
+    </div>
+  </div>
+</div>
+
 <!-- Modal para editar jugada (solo admin) -->
 <div id="modal-editar" class="modal">
   <div class="modal-content">
