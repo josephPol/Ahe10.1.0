@@ -222,18 +222,9 @@
           `;
         }
         
-        confirmHTML += `<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">You will be redirected to verify your email in 5 seconds...</p>`;
+        confirmHTML += `<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Check your inbox to verify your email.</p>`;
         messageDiv.innerHTML = confirmHTML;
         messageDiv.style.display = 'block';
-        
-        // Redirigir a confirmar email
-        setTimeout(() => {
-          if (data.verification_url) {
-            window.location.href = data.verification_url;
-          } else {
-            window.location.href = 'confirm-email.html?token=' + data.verification_token;
-          }
-        }, 5000);
       } else {
         messageDiv.style.color = 'red';
         messageDiv.textContent = data.message || 'Failed to create account';

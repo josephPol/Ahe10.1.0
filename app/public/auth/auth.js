@@ -205,7 +205,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // Mostrar/ocultar botón de amigos según autenticación
     const friendsBtn = document.getElementById('friendsBtn');
     if (friendsBtn) {
-        // Inicialmente oculto
-        friendsBtn.style.display = 'none';
+        friendsBtn.style.display = 'inline-flex';
     }
 });

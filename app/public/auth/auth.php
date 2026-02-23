@@ -19,19 +19,26 @@ require_once __DIR__ . '/../config/database-init.php';
 
 class Auth {
     private $db;
+    private $dbType;
+    private $envCache = null;
 
     public function __construct() {
-        // Inicializar base de datos
-        initializeDatabase();
-
-        // Conectar a la base de datos SQLite
         try {
-            $this->db = new PDO(
-                'sqlite:' . DB_PATH,
-                null,
-                null,
-                [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
-            );
+            $this->dbType = DB_TYPE;
+            if ($this->dbType === 'mysql') {
+                $dsn = 'mysql:host=' . DB_HOST . ';port=' . DB_PORT . ';dbname=' . DB_NAME . ';charset=utf8mb4';
+                $this->db = new PDO($dsn, DB_USER, DB_PASS, [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]);
+                $this->ensureMysqlTables();
+            } else {
+                initializeDatabase();
+                $this->db = new PDO(
+                    'sqlite:' . DB_PATH,
+                    null,
+                    null,
+                    [PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION]
+                );
+                $this->dbType = 'sqlite';
+            }
         } catch (PDOException $e) {
             http_response_code(500);
             echo json_encode([
@@ -40,6 +47,157 @@ class Auth {
             ]);
             exit;
         }
+    }
+
+    private function ensureMysqlTables() {
+        $this->db->exec("CREATE TABLE IF NOT EXISTS email_verifications (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            token VARCHAR(64) NOT NULL UNIQUE,
+            expires_at DATETIME NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+            INDEX (user_id)
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+        $columns = $this->db->query("SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'users'")->fetchAll(PDO::FETCH_COLUMN);
+        if (!in_array('email_verified', $columns, true)) {
+            $this->db->exec("ALTER TABLE users ADD COLUMN email_verified TINYINT(1) DEFAULT 0");
+        }
+        if (!in_array('email_verified_at', $columns, true)) {
+            $this->db->exec("ALTER TABLE users ADD COLUMN email_verified_at DATETIME NULL");
+        }
+    }
+
+    private function buildVerificationUrl($token) {
+        $scheme = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+        $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
+        $base = rtrim(dirname($_SERVER['SCRIPT_NAME']), '/');
+        return $scheme . '://' . $host . $base . '/../html/confirm-email.html?token=' . $token;
+    }
+
+    private function getEnvValue($key, $default = null) {
+        $value = getenv($key);
+        if ($value !== false && $value !== '') {
+            return $value;
+        }
+
+        if ($this->envCache === null) {
+            $this->envCache = [];
+            $envPath = dirname(__DIR__, 2) . '/.env';
+            if (file_exists($envPath)) {
+                $lines = file($envPath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+                foreach ($lines as $line) {
+                    if (str_starts_with(trim($line), '#') || !str_contains($line, '=')) {
+                        continue;
+                    }
+                    [$envKey, $envValue] = explode('=', $line, 2);
+                    $envKey = trim($envKey);
+                    $envValue = trim($envValue);
+                    $envValue = trim($envValue, "\"'");
+                    $this->envCache[$envKey] = $envValue;
+                }
+            }
+        }
+
+        return $this->envCache[$key] ?? $default;
+    }
+
+    private function smtpSend($to, $subject, $body) {
+        $host = $this->getEnvValue('SMTP_HOST');
+        $port = (int)$this->getEnvValue('SMTP_PORT', 587);
+        $user = $this->getEnvValue('SMTP_USER');
+        $pass = $this->getEnvValue('SMTP_PASS');
+        $from = $this->getEnvValue('SMTP_FROM', $user);
+        $fromName = $this->getEnvValue('SMTP_FROM_NAME', 'AJE10');
+
+        if (!$host || !$user || !$pass || !$from) {
+            return false;
+        }
+
+        $fp = @stream_socket_client("tcp://{$host}:{$port}", $errno, $errstr, 10);
+        if (!$fp) {
+            return false;
+        }
+
+        $read = function () use ($fp) {
+            $data = '';
+            while (!feof($fp)) {
+                $line = fgets($fp, 515);
+                if ($line === false) {
+                    break;
+                }
+                $data .= $line;
+                if (preg_match('/^\d{3} /', $line)) {
+                    break;
+                }
+            }
+            return $data;
+        };
+
+        $send = function ($command) use ($fp) {
+            fwrite($fp, $command . "\r\n");
+        };
+
+        $read();
+        $send('EHLO localhost');
+        $read();
+
+        if ($port === 587) {
+            $send('STARTTLS');
+            $read();
+            stream_socket_enable_crypto($fp, true, STREAM_CRYPTO_METHOD_TLS_CLIENT);
+            $send('EHLO localhost');
+            $read();
+        }
+
+        $send('AUTH LOGIN');
+        $read();
+        $send(base64_encode($user));
+        $read();
+        $send(base64_encode($pass));
+        $authResponse = $read();
+        if (!str_starts_with($authResponse, '235')) {
+            fclose($fp);
+            return false;
+        }
+
+        $send('MAIL FROM:<' . $from . '>');
+        $read();
+        $send('RCPT TO:<' . $to . '>');
+        $read();
+        $send('DATA');
+        $read();
+
+        $headers = [
+            'From: ' . $fromName . ' <' . $from . '>',
+            'To: <' . $to . '>',
+            'Subject: ' . $subject,
+            'MIME-Version: 1.0',
+            'Content-Type: text/plain; charset=UTF-8'
+        ];
+        $message = implode("\r\n", $headers) . "\r\n\r\n" . $body;
+        $send($message . "\r\n.");
+        $read();
+        $send('QUIT');
+        fclose($fp);
+        return true;
+    }
+
+    private function sendVerificationEmail($email, $token) {
+        $verificationUrl = $this->buildVerificationUrl($token);
+        $subject = 'Verifica tu cuenta en AJE10';
+        $message = "Hola,\n\nConfirma tu cuenta haciendo clic en este enlace:\n" . $verificationUrl . "\n\nEste enlace expira en 24 horas.";
+        if ($this->smtpSend($email, $subject, $message)) {
+            return true;
+        }
+        error_log('SMTP send failed for verification email to ' . $email);
+        $headers = "From: no-reply@aje10.local\r\n";
+        $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+        $mailResult = @mail($email, $subject, $message, $headers);
+        if (!$mailResult) {
+            error_log('mail() failed for verification email to ' . $email);
+        }
+        return $mailResult;
     }
 
     /**
@@ -89,8 +247,20 @@ class Auth {
             $verificationToken = $this->generateToken();
             $expiresAt = date('Y-m-d H:i:s', strtotime('+24 hours'));
             
-            $stmt = $this->db->prepare('INSERT INTO email_verifications (user_id, token, expires_at) VALUES (?, ?, ?)');
-            $stmt->execute([$userId, $verificationToken, $expiresAt]);
+            try {
+                $stmt = $this->db->prepare('INSERT INTO email_verifications (user_id, token, expires_at) VALUES (?, ?, ?)');
+                $stmt->execute([$userId, $verificationToken, $expiresAt]);
+            } catch (PDOException $e) {
+                if ($this->dbType === 'mysql') {
+                    $this->ensureMysqlTables();
+                    $stmt = $this->db->prepare('INSERT INTO email_verifications (user_id, token, expires_at) VALUES (?, ?, ?)');
+                    $stmt->execute([$userId, $verificationToken, $expiresAt]);
+                } else {
+                    throw $e;
+                }
+            }
+
+            $emailSent = $this->sendVerificationEmail($email, $verificationToken);
             
             // NO iniciar sesión automáticamente - requiere verificación de email
             // Devolver el token para verificación (en desarrollo)
@@ -98,7 +268,8 @@ class Auth {
                 'success' => true,
                 'message' => 'Registro exitoso. Por favor verifica tu email.',
                 'verification_token' => $verificationToken,
-                'verification_url' => 'confirm-email.html?token=' . $verificationToken
+                'verification_url' => 'confirm-email.html?token=' . $verificationToken,
+                'email_sent' => $emailSent
             ];
         } catch (PDOException $e) {
             return ['success' => false, 'message' => 'Error al registrar: ' . $e->getMessage()];
@@ -126,7 +297,11 @@ class Auth {
             $userId = $result['user_id'];
 
             // Marcar email como verificado
-            $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = CURRENT_TIMESTAMP WHERE id = ?');
+            if ($this->dbType === 'mysql') {
+                $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = NOW() WHERE id = ?');
+            } else {
+                $stmt = $this->db->prepare('UPDATE users SET email_verified = 1, email_verified_at = CURRENT_TIMESTAMP WHERE id = ?');
+            }
             $stmt->execute([$userId]);
 
             // Eliminar token usado
@@ -161,10 +336,7 @@ class Auth {
                 return ['success' => false, 'message' => 'Credenciales inválidas'];
             }
 
-            // Verificar que el email esté verificado
-            if (!$user['email_verified']) {
-                return ['success' => false, 'message' => 'Por favor verifica tu email para iniciar sesión'];
-            }
+            // No bloquear inicio de sesión por verificación de email
 
             // Iniciar sesión
             $_SESSION['user_id'] = $user['id'];
