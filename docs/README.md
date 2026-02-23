@@ -1,205 +1,49 @@
-# 📚 Documentación del Proyecto AJE10
+# AJE10
 
-Bienvenido a la documentación completa del proyecto **AJE10** - Plataforma de Ajedrez Online.
+AJE10 es una plataforma web de ajedrez orientada al aprendizaje y la practica.
+Permite jugar partidas locales o contra IA, consultar rankings, gestionar
+amistades y acceder a una biblioteca de jugadas con explicaciones. Incluye
+registro, login, recuperacion de contrasena y confirmacion de cuenta por email.
 
----
+## Funcionalidades principales
 
-## 📖 Índice de Documentación
+- Juego local y contra IA con controles y estados claros.
+- Biblioteca de jugadas con fichas de detalle y apoyo visual.
+- Rankings con clasificacion general.
+- Sistema de amigos y solicitudes.
+- Autenticacion completa con recuperacion y confirmacion por email.
+- Panel de administracion para gestion de usuarios.
 
-### Documentación Principal
+## Roles
 
-1. **[README.md](../README.md)** - Introducción al proyecto, características y guía de inicio rápido
-   - Características principales
-   - Stack tecnológico
-   - Instalación rápida
-   - Uso básico
-   - API endpoints
+- Usuario: acceso a juego, biblioteca, rankings, amigos y contacto.
+- Administrador: acceso adicional a gestion de usuarios y acciones de control.
 
-### Manuales Técnicos
+## Tecnologias
 
-2. **[INSTALACION.md](INSTALACION.md)** - Manual completo de instalación
-   - Instalación con Docker (recomendado)
-   - Instalación manual (sin Docker)
-   - Configuración de entorno
-   - Solución de problemas
-   - Actualización y desinstalación
+- Backend: PHP 8.2, Laravel 12
+- Frontend: HTML5, CSS3, JavaScript ES6
+- Base de datos: MySQL 8.0
+- Build/infra: Vite, Docker, Docker Compose
+- Librerias: Chess.js, Chessboard.js
 
-3. **[ARQUITECTURA.md](ARQUITECTURA.md)** - Documentación técnica de arquitectura
-   - Diagrama de arquitectura
-   - Patrón MVC
-   - Modelo de datos (ER)
-   - Tecnologías utilizadas
-   - Patrones de diseño implementados
-   - Flujo de datos
-   - Decisiones de arquitectura
+## Instalacion (resumen)
 
-4. **[SEGURIDAD.md](SEGURIDAD.md)** - Documento de seguridad
-   - Autenticación y autorización
-   - Gestión de sesiones
-   - Prevención de ataques (SQL Injection, XSS, CSRF)
-   - Protección de datos
-   - Recomendaciones para producción
-   - Headers de seguridad
+- Docker: seguir la guia en [INSTALACION.md](INSTALACION.md).
+- Manual: usar Composer y Vite segun la misma guia.
 
-### Manuales de Usuario
+## Estructura de documentacion
 
-5. **[MANUAL_USUARIO.md](MANUAL_USUARIO.md)** - Guía completa para usuarios
-   - Registro e inicio de sesión
-   - Navegación en la plataforma
-   - Cómo jugar (local y vs IA)
-   - Sistema de amigos
-   - Rankings y estadísticas
-   - Biblioteca de jugadas
-   - Perfil de usuario
-   - Preguntas frecuentes
+- [INSTALACION.md](INSTALACION.md): instalacion y configuracion.
+- [ARQUITECTURA.md](ARQUITECTURA.md): arquitectura y modelo de datos.
+- [SEGURIDAD.md](SEGURIDAD.md): medidas de seguridad.
+- [MANUAL_USUARIO.md](MANUAL_USUARIO.md): uso de la plataforma.
+- [RANKINGS_SETUP.md](RANKINGS_SETUP.md) y [RANKING_README.md](RANKING_README.md): sistema de rankings.
+- [LIMPIEZA_PROYECTO.md](LIMPIEZA_PROYECTO.md): registro de limpieza.
 
-### Documentación Específica
+## Escalabilidad
 
-6. **[RANKINGS_SETUP.md](RANKINGS_SETUP.md)** - Configuración del sistema de rankings
-   - Instrucciones de activación
-   - Estructura de tablas
-   - Sistema de rating ELO
-   - Integración con el juego
-
-7. **[RANKING_README.md](RANKING_README.md)** - Detalles del sistema de rankings
-   - Características del sistema
-   - API endpoints
-   - Diseño responsive
-   - Personalización
-
-8. **[LIMPIEZA_PROYECTO.md](LIMPIEZA_PROYECTO.md)** - Registro de limpieza del proyecto
-   - Archivos eliminados
-   - Estructura optimizada
-   - Funcionalidades removidas
-   - Consolidación de código
-
----
-
-## 🚀 Inicio Rápido
-
-### Para Usuarios Nuevos
-1. Lee el [README.md](../README.md) para una visión general
-2. Sigue la [guía de instalación](INSTALACION.md) (con Docker)
-3. Consulta el [manual de usuario](MANUAL_USUARIO.md) para usar la plataforma
-
-### Para Desarrolladores
-1. Lee [ARQUITECTURA.md](ARQUITECTURA.md) para entender el diseño
-2. Revisa [SEGURIDAD.md](SEGURIDAD.md) antes de contribuir
-3. Sigue las instrucciones en [INSTALACION.md](INSTALACION.md) para entorno de desarrollo
-
-### Para Administradores
-1. Completa la instalación siguiendo [INSTALACION.md](INSTALACION.md)
-2. Configura los rankings con [RANKINGS_SETUP.md](RANKINGS_SETUP.md)
-3. Revisa las recomendaciones de seguridad en [SEGURIDAD.md](SEGURIDAD.md)
-
----
-
-## 📊 Información del Proyecto
-
-### Tecnologías Principales
-- **Backend**: PHP 8.2, Laravel 12
-- **Frontend**: HTML5, CSS3, JavaScript ES6
-- **Base de datos**: MySQL 8.0
-- **Infraestructura**: Docker, Docker Compose
-- **Librerías**: Chess.js, Chessboard.js
-
-### Estado del Proyecto
-- ✅ Sistema de autenticación completo
-- ✅ Juego local y vs IA funcional
-- ✅ Sistema de amigos implementado
-- ✅ Rankings con rating ELO
-- ✅ Biblioteca de jugadas
-- ✅ Panel de administración
-- 🔄 Sistema de partidas online en tiempo real (futuro)
-- 🔄 Chat entre usuarios (futuro)
-
----
-
-## 🤝 Contribuir
-
-Este proyecto fue desarrollado como **Proyecto Integrado para DAW (Desarrollo de Aplicaciones Web) 2026**.
-
-Si deseas contribuir:
-1. Lee toda la documentación técnica
-2. Revisa las guías de seguridad
-3. Sigue los estándares de código establecidos
-4. Documenta todos los cambios
-
----
-
-## 📝 Estructura de la Documentación
-
-```
-docs/
-├── README.md                 # Este archivo (índice)
-├── INSTALACION.md           # Guía de instalación completa
-├── ARQUITECTURA.md          # Documentación técnica
-├── SEGURIDAD.md             # Documento de seguridad
-├── MANUAL_USUARIO.md        # Manual para usuarios finales
-├── RANKINGS_SETUP.md        # Configuración de rankings
-├── RANKING_README.md        # Detalles del sistema de rankings
-└── LIMPIEZA_PROYECTO.md     # Log de refactorización
-```
-
----
-
-## ⚠️ Notas Importantes
-
-### Para Desarrollo
-- `APP_DEBUG=true` en `.env`
-- Usa Mailpit para probar emails (http://localhost:8025)
-- Laravel Telescope habilitado para debugging
-
-### Para Producción
-- **CRÍTICO**: `APP_DEBUG=false` en `.env`
-- Habilita HTTPS con certificado válido
-- Configura backups automáticos
-- Implementa rate limiting
-- Revisa todas las recomendaciones en [SEGURIDAD.md](SEGURIDAD.md)
-
----
-
-## 📞 Soporte
-
-- **Documentación**: Revisa los archivos en esta carpeta
-- **Issues**: Reporta bugs en el repositorio
-- **Email**: soporte@aje10.com *(ejemplo)*
-- **Vulnerabilidades**: Consulta [SEGURIDAD.md](SEGURIDAD.md#reporte-de-vulnerabilidades)
-
----
-
-## 📜 Licencia
-
-Este proyecto está bajo la licencia MIT. Ver archivo LICENSE para más detalles.
-
----
-
-## 🎯 Roadmap
-
-### Versión 2.0 (Futuro)
-- [ ] Sistema de partidas online en tiempo real (WebSockets)
-- [ ] Chat entre usuarios
-- [ ] Notificaciones push
-- [ ] Análisis de partidas con Stockfish
-- [ ] Torneos y competiciones
-- [ ] Aplicación móvil
-
-### Versión 1.5 (Próximamente)
-- [ ] Recuperación de contraseña por email
-- [ ] Tests automatizados (PHPUnit)
-- [ ] CI/CD con GitHub Actions
-- [ ] Mejoras de performance (Redis cache)
-
-### Versión 1.0 (Actual) ✅
-- [x] Sistema de autenticación
-- [x] Juego local y vs IA
-- [x] Sistema de amigos
-- [x] Rankings con ELO
-- [x] Biblioteca de jugadas
-- [x] Panel de administración
-
----
-
-**Última actualización**: Febrero 2026  
-**Proyecto**: AJE10 - Plataforma de Ajedrez Online  
-**Autor**: Proyecto Integrado DAW 2026
+La aplicacion se apoya en MVC y en una separacion clara entre backend, frontend
+y datos. La modularidad de rutas, controladores y vistas permite anadir modos
+de juego, nuevas jugadas o paneles sin rehacer la base. La base de datos y el
+despliegue con Docker facilitan el crecimiento y el mantenimiento.
