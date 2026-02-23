@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -15,7 +15,7 @@
   <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AJE10 - Contacto</title>
+  <title>AJE10 - Contact</title>
   <!-- Hojas de estilo de la pagina -->
   <link rel="stylesheet" href="../css/contact.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
@@ -25,22 +25,22 @@
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
-      <div class="brandName">AJE10</div>
+      <div class="brandName">♟ AJE10 ♟</div>
     </a>
 
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link active">💬 CONTACTO</a>
-      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+      <a href="jugar.html" class="nav-link">PLAY</a>
+      <a href="inicio.html" class="nav-link">HOME</a>
+      <a href="learn.html" class="nav-link">LEARN</a>
+      <a href="contact.html" class="nav-link active">CONTACT</a>
+      <a href="premium.html" class="nav-link">PREMIUM</a>
     </nav>
 
     <div class="topRight">
-      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
-      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <a href="login.html" class="btn auth-btn btn-secondary">Sign In</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Sign Up</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
   </header>
@@ -50,20 +50,20 @@
 
 <!-- Hero: titulo y subtitulo -->
 <section class="hero">
-  <h1>✉ CONTACTO</h1>
-  <p>¿Preguntas o sugerencias?</p>
+  <h1>CONTACT</h1>
+  <p>Questions or suggestions?</p>
 </section>
 
 <!-- Formulario de contacto -->
 <section class="info-section" style="max-width: 600px; margin: 2rem auto;">
-  <h2>📝 Formulario</h2>
+  <h2>📝 Form</h2>
 
   <div id="formMessages"></div>
 
   <form id="contactForm" class="contact-form" method="POST" action="../contact-submit.php" style="padding: 1.5rem 0;">
     <div class="form-group">
-      <label>Nombre</label>
-      <input name="name" type="text" placeholder="Tu nombre (opcional)">
+      <label>Name</label>
+      <input name="name" type="text" placeholder="Your name (optional)">
     </div>
 
     <div class="form-group">
@@ -72,24 +72,24 @@
     </div>
     
     <div class="form-group">
-      <label>Asunto</label>
-      <input name="subject" type="text" placeholder="Asunto (opcional)">
+      <label>Subject</label>
+      <input name="subject" type="text" placeholder="Subject (optional)">
     </div>
     
     <div class="form-group">
-      <label>Mensaje</label>
-      <textarea name="message" placeholder="Escribe tu mensaje..." rows="5" required></textarea>
+      <label>Message</label>
+      <textarea name="message" placeholder="Write your message..." rows="5" required></textarea>
     </div>
     
     <button type="submit" class="btn btn-primary" style="width: 100%;">
-      ▶ ENVIAR
+      SEND
     </button>
   </form>
 </section>
 
 <!-- Datos de contacto alternativos -->
 <section class="info-section">
-  <h2>📍 Información</h2>
+  <h2>📍 Information</h2>
   
   <div class="info-grid">
     <div class="info-item">
@@ -111,9 +111,9 @@
 
 <!-- Llamado a reportar problemas -->
 <section style="background: rgba(233, 69, 96, 0.1); padding: 3rem; border-radius: 12px; margin-top: 3rem; text-align: center; border: 1px solid rgba(233, 69, 96, 0.3);">
-  <h2 style="color: var(--gold); margin-bottom: 1rem;">¿Reportar un problema?</h2>
-  <p style="margin-bottom: 1.5rem;">Si encuentras un bug o tienes una sugerencia técnica, usa nuestro</p>
-  <a href="reportes.html" class="btn btn-secondary">🐛 Sistema de Reportes</a>
+  <h2 style="color: var(--gold); margin-bottom: 1rem;">Report an issue?</h2>
+  <p style="margin-bottom: 1.5rem;">If you find a bug or have a technical suggestion, use our</p>
+  <a href="reportes.html" class="btn btn-secondary">Bug Report System</a>
 </section>
 </main>
 
@@ -139,7 +139,7 @@
         }
       })
       .catch(function(){
-        document.getElementById('formMessages').innerHTML = '<div class="alert alert-danger">Error de envío</div>';
+        document.getElementById('formMessages').innerHTML = '<div class="alert alert-danger">Send error</div>';
       });
   });
 </script>
@@ -148,18 +148,18 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <span class="footer-icon">♟</span>
+        <span class="footer-icon"></span>
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>

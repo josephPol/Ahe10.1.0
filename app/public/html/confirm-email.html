@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -13,7 +13,7 @@
   </script>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Confirmar Email | AJE10</title>
+  <title>Confirm Email | AJE10</title>
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/cookies.css">
   <style>
@@ -127,20 +127,20 @@
 <header class="topbar">
   <div class="brand">
     <div class="logo">♟</div>
-    <div class="brandName">AJE10</div>
+    <div class="brandName">♟ AJE10 ♟</div>
   </div>
 
-  <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
   <nav class="topnav">
-    <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-    <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-    <a href="learn.html" class="nav-link">📚 APRENDER</a>
-    <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+    <a href="jugar.html" class="nav-link">PLAY</a>
+    <a href="inicio.html" class="nav-link">HOME</a>
+    <a href="learn.html" class="nav-link">LEARN</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
   </nav>
 
   <div class="topRight">
-    <a href="inicio.html" class="btn auth-btn btn-secondary">← Volver</a>
+    <a href="inicio.html" class="btn auth-btn btn-secondary">← Back</a>
     <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
   </div>
 </header>
@@ -150,20 +150,20 @@
 
   <!-- Caja de verificación -->
   <div class="resetBox">
-    <h1>📧 Confirmar Email</h1>
-    <p class="subtitle">Verificando tu email...</p>
+    <h1>Confirm Email</h1>
+    <p class="subtitle">Verifying your email...</p>
 
     <div id="content">
       <div class="spinner"></div>
-      <p style="text-align: center; color: var(--c4);">Un momento, por favor...</p>
+      <p style="text-align: center; color: var(--c4);">One moment, please...</p>
     </div>
 
     <div class="extra" style="margin-top: 2rem;">
-      <a href="login.html">← Volver a Login</a>
-      <a href="registro.html">Crear Cuenta →</a>
+      <a href="login.html">← Back to Login</a>
+      <a href="registro.html">Create Account →</a>
     </div>
 
-    <a href="inicio.html" class="backHome">← Inicio</a>
+    <a href="inicio.html" class="backHome">← Home</a>
   </div>
 
 </div>
@@ -175,21 +175,21 @@
 <script src="../js/theme.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    // Obtener token de la URL
+    // Get token from URL
     const params = new URLSearchParams(window.location.search);
     const token = params.get('token');
     const contentDiv = document.getElementById('content');
 
     if (!token) {
       contentDiv.innerHTML = `
-        <div class="error-icon">❌</div>
-        <p style="text-align: center; color: #dc3545;"><strong>Token inválido o faltante</strong></p>
-        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Por favor, revisa el link que recibiste en tu email.</p>
+        <div class="error-icon"></div>
+        <p style="text-align: center; color: #dc3545;"><strong>Invalid or missing token</strong></p>
+        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Please check the link you received in your email.</p>
       `;
       return;
     }
 
-    // Enviar solicitud para verificar email
+    // Send request to verify email
     const formData = new FormData();
     formData.append('action', 'verify-email');
     formData.append('token', token);
@@ -205,27 +205,27 @@
     .then(data => {
       if (data.success) {
         contentDiv.innerHTML = `
-          <div class="success-icon">✓</div>
-          <p style="text-align: center; color: #4CAF50;"><strong>¡Email verificado!</strong></p>
-          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Puedes iniciar sesión ahora. Redirigiendo al login...</p>
+          <div class="success-icon"></div>
+          <p style="text-align: center; color: #4CAF50;"><strong>Email verified!</strong></p>
+          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">You can sign in now. Redirecting to login...</p>
         `;
         setTimeout(() => {
           window.location.href = 'login.html';
         }, 3000);
       } else {
         contentDiv.innerHTML = `
-          <div class="error-icon">❌</div>
-          <p style="text-align: center; color: #dc3545;"><strong>Error al verificar</strong></p>
-          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">${data.message || 'El token puede haber expirado.'}</p>
+          <div class="error-icon"></div>
+          <p style="text-align: center; color: #dc3545;"><strong>Verification error</strong></p>
+          <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">${data.message || 'The token may have expired.'}</p>
         `;
       }
     })
     .catch(error => {
       console.error('Error:', error);
       contentDiv.innerHTML = `
-        <div class="error-icon">❌</div>
-        <p style="text-align: center; color: #dc3545;"><strong>Error de conexión</strong></p>
-        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Por favor, intenta nuevamente.</p>
+        <div class="error-icon"></div>
+        <p style="text-align: center; color: #dc3545;"><strong>Connection error</strong></p>
+        <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Please try again.</p>
       `;
     });
   });

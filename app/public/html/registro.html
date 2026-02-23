@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -15,7 +15,7 @@
   <!-- Metadatos basicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Registro | AJE10</title>
+  <title>Sign Up | AJE10</title>
   <!-- Estilos base y ajustes locales -->
   <link rel="stylesheet" href="../css/registro.css">
   <link rel="stylesheet" href="../css/cookies.css">
@@ -78,17 +78,17 @@
     <div class="brandName">ChessHub</div>
   </div>
 
-  <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
   <nav class="topnav">
-    <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-    <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-    <a href="learn.html" class="nav-link">📚 APRENDER</a>
-    <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+    <a href="jugar.html" class="nav-link">PLAY</a>
+    <a href="inicio.html" class="nav-link">HOME</a>
+    <a href="learn.html" class="nav-link">LEARN</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
   </nav>
 
   <div class="topRight">
-    <a href="inicio.html" class="btn auth-btn btn-secondary">← Volver</a>
+    <a href="inicio.html" class="btn auth-btn btn-secondary">← Back</a>
     <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
   </div>
 </header>
@@ -99,14 +99,14 @@
   <!-- Caja de registro con formulario -->
   <div class="registerBox">
     <h1>AJE10</h1>
-    <p class="subtitle">¡Crea tu cuenta para jugar y obtener beneficios!</p>
+    <p class="subtitle">Create your account to play and get benefits!</p>
 
     <!-- Formulario de creacion de cuenta -->
     <form id="registerForm">
 
       <div class="row">
         <label>
-          Nombre de usuario
+          Username
           <input type="text" id="registerName" placeholder="tuUsuario" required>
         </label>
 
@@ -118,32 +118,32 @@
 
       <div class="row">
         <label>
-          Contraseña
+          Password
           <input type="password" id="registerPassword" placeholder="••••••••" required>
         </label>
 
         <label>
-          Repetir contraseña
+          Confirm password
           <input type="password" id="registerPasswordConfirm" placeholder="••••••••" required>
         </label>
       </div>
 
       <label class="check">
         <input type="checkbox" id="registerTerms" required>
-        Acepto los <a href="#">términos y condiciones</a>
+        I accept the <a href="#">terms and conditions</a>
       </label>
 
-      <button type="submit" id="registerBtn">Crear cuenta</button>
+      <button type="submit" id="registerBtn">Create account</button>
     </form>
 
     <div id="registerMessage" style="margin-top: 15px; text-align: center; display: none;"></div>
 
     <div class="extra">
-      <span>¿Ya tienes cuenta?</span>
-      <a href="login.html">Inicia sesión</a>
+      <span>Already have an account?</span>
+      <a href="login.html">Sign in</a>
     </div>
 
-    <a href="inicio.html" class="backHome">← Inicio</a>
+    <a href="inicio.html" class="backHome">← Home</a>
   </div>
 
 </div>
@@ -163,13 +163,13 @@
     
     if (password !== passwordConfirm) {
       messageDiv.style.color = 'red';
-      messageDiv.textContent = 'Las contraseñas no coinciden';
+      messageDiv.textContent = 'Passwords do not match';
       messageDiv.style.display = 'block';
       return;
     }
     
     registerBtn.disabled = true;
-    registerBtn.textContent = 'Cargando...';
+    registerBtn.textContent = 'Loading...';
     
     const formData = new FormData();
     formData.append('action', 'register');
@@ -198,7 +198,7 @@
     doFetch(authUrl)
     .then(data => {
       registerBtn.disabled = false;
-      registerBtn.textContent = 'Crear cuenta';
+      registerBtn.textContent = 'Create account';
       
       if (data.success) {
         messageDiv.style.color = 'green';
@@ -208,21 +208,21 @@
         messageDiv.style.borderRadius = '4px';
         
         let confirmHTML = `
-          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">✓ Registro exitoso</strong>
-          <p style="margin: 0.5rem 0; font-size: 0.95rem;">Se ha enviado un link de confirmación a tu email.</p>
+          <strong style="font-size: 1.1rem; display: block; margin-bottom: 0.5rem;">✓ Registration successful</strong>
+          <p style="margin: 0.5rem 0; font-size: 0.95rem;">We sent a confirmation link to your email.</p>
         `;
         
         // Mostrar el link de verificación para desarrollo
         if (data.verification_token) {
           confirmHTML += `
             <div style="background: rgba(0,0,0,0.2); padding: 1rem; margin-top: 1rem; border-radius: 4px;">
-              <small style="display: block; margin-bottom: 0.5rem;"><strong>Link de verificación (desarrollo):</strong></small>
+              <small style="display: block; margin-bottom: 0.5rem;"><strong>Verification link (dev):</strong></small>
               <a href="${data.verification_url}" style="color: #4CAF50; word-break: break-all; text-decoration: underline; font-weight: bold;">${data.verification_url}</a>
             </div>
           `;
         }
         
-        confirmHTML += `<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">Serás redirigido a verificar tu email en 5 segundos...</p>`;
+        confirmHTML += `<p style="margin-top: 1rem; font-size: 0.9rem; color: #666;">You will be redirected to verify your email in 5 seconds...</p>`;
         messageDiv.innerHTML = confirmHTML;
         messageDiv.style.display = 'block';
         
@@ -236,15 +236,15 @@
         }, 5000);
       } else {
         messageDiv.style.color = 'red';
-        messageDiv.textContent = data.message || 'Error al crear cuenta';
+        messageDiv.textContent = data.message || 'Failed to create account';
         messageDiv.style.display = 'block';
       }
     })
     .catch(error => {
       registerBtn.disabled = false;
-      registerBtn.textContent = 'Crear cuenta';
+      registerBtn.textContent = 'Create account';
       messageDiv.style.color = 'red';
-      messageDiv.textContent = 'Error al conectar: ' + error.message + '. Intenta nuevamente.';
+      messageDiv.textContent = 'Connection error: ' + error.message + '. Please try again.';
       messageDiv.style.display = 'block';
       console.error('Error completo:', error);
     });
@@ -255,18 +255,18 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <span class="footer-icon">♟</span>
+        <span class="footer-icon"></span>
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <script>
     (function(){
@@ -20,53 +20,53 @@
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
-      <div class="brandName">AJE10</div>
+      <div class="brandName">♟ AJE10 ♟</div>
     </a>
 
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
-      <a href="premium.html" class="nav-link active">💎 PREMIUM</a>
+      <a href="jugar.html" class="nav-link">PLAY</a>
+      <a href="inicio.html" class="nav-link">HOME</a>
+      <a href="learn.html" class="nav-link">LEARN</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="premium.html" class="nav-link active">PREMIUM</a>
     </nav>
 
     <div class="topRight">
-      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
-      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <a href="login.html" class="btn auth-btn btn-secondary">Sign In</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Sign Up</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
   </header>
 
   <main class="contenedor premium-page">
     <section class="premium-hero">
-      <h1>💎 AJE10 Premium</h1>
-      <p>Juega online, desbloquea ventajas exclusivas y lleva tu experiencia al siguiente nivel.</p>
+      <h1>AJE10 Premium</h1>
+      <p>Play online, unlock exclusive perks, and take your experience to the next level.</p>
       <div class="premium-price">
-        <span class="price">9,99€</span>
-        <span class="period">/ mes</span>
+        <span class="price">€9.99</span>
+        <span class="period">/ month</span>
       </div>
-      <button id="openPremiumModal" class="btn btn-primary premium-cta">Suscribirme</button>
+      <button id="openPremiumModal" class="btn btn-primary premium-cta">Subscribe</button>
     </section>
 
     <section class="premium-benefits">
-      <h2>Ventajas de ser Premium</h2>
+      <h2>Premium benefits</h2>
       <ul class="benefits-list">
-        <li>✅ Jugar online con amigos y rivales en tiempo real.</li>
-        <li>✅ Acceso prioritario a salas y eventos.</li>
-        <li>✅ Estadísticas avanzadas y rankings premium.</li>
-        <li>✅ Soporte preferente.</li>
+        <li>Play online with friends and rivals in real time.</li>
+        <li>Priority access to rooms and events.</li>
+        <li>Advanced stats and premium rankings.</li>
+        <li>Priority support.</li>
       </ul>
     </section>
 
     <section class="premium-explain">
       <div class="explain-card">
-        <h3>¿Por qué Premium?</h3>
+        <h3>Why Premium?</h3>
         <p>
-          Con Premium puedes jugar partidas online y acceder a funciones exclusivas.
-          La suscripción es mensual por 9,99€ y puedes cancelarla cuando quieras.
+          With Premium you can play online matches and access exclusive features.
+          The subscription is monthly for €9.99 and you can cancel anytime.
         </p>
       </div>
     </section>
@@ -75,41 +75,41 @@
   <div id="premiumModal" class="premium-modal-overlay" aria-hidden="true">
     <div class="premium-modal" role="dialog" aria-modal="true" aria-labelledby="premiumModalTitle">
       <div class="premium-modal-header">
-        <h2 id="premiumModalTitle">Suscripción Premium</h2>
-        <button id="closePremiumModal" class="btn-close-modal" aria-label="Cerrar">✕</button>
+        <h2 id="premiumModalTitle">Premium Subscription</h2>
+        <button id="closePremiumModal" class="btn-close-modal" aria-label="Close">✕</button>
       </div>
 
       <div class="premium-modal-body">
         <form id="premiumForm" class="premium-form">
           <div class="form-row">
-            <label for="fullName">Nombre completo</label>
-            <input id="fullName" name="fullName" type="text" placeholder="Tu nombre" required />
+            <label for="fullName">Full name</label>
+            <input id="fullName" name="fullName" type="text" placeholder="Your name" required />
           </div>
 
           <div class="form-row">
             <label for="email">Email</label>
-            <input id="email" name="email" type="email" placeholder="tu@email.com" required />
+            <input id="email" name="email" type="email" placeholder="you@email.com" required />
           </div>
 
           <div class="form-row">
-            <label for="paymentMethod">Método de pago</label>
+            <label for="paymentMethod">Payment method</label>
             <select id="paymentMethod" name="paymentMethod" required>
-              <option value="">Selecciona una opción</option>
+              <option value="">Select an option</option>
               <option value="apple_pay">Apple Pay</option>
-              <option value="card">Tarjeta bancaria</option>
+              <option value="card">Credit card</option>
               <option value="paypal">PayPal</option>
             </select>
           </div>
 
           <div id="cardFields" class="payment-fields" aria-hidden="true">
             <div class="form-row">
-              <label for="cardNumber">Número de tarjeta</label>
+              <label for="cardNumber">Card number</label>
               <input id="cardNumber" name="cardNumber" type="text" inputmode="numeric" placeholder="1234 5678 9012 3456" />
             </div>
             <div class="form-row form-row-inline">
               <div>
-                <label for="cardExpiry">Caducidad</label>
-                <input id="cardExpiry" name="cardExpiry" type="text" placeholder="MM/AA" />
+                <label for="cardExpiry">Expiry</label>
+                <input id="cardExpiry" name="cardExpiry" type="text" placeholder="MM/YY" />
               </div>
               <div>
                 <label for="cardCvv">CVV</label>
@@ -117,24 +117,24 @@
               </div>
             </div>
             <div class="form-row">
-              <label for="cardHolder">Titular</label>
-              <input id="cardHolder" name="cardHolder" type="text" placeholder="Nombre en la tarjeta" />
+              <label for="cardHolder">Cardholder</label>
+              <input id="cardHolder" name="cardHolder" type="text" placeholder="Name on card" />
             </div>
           </div>
 
           <div id="applePayFields" class="payment-fields" aria-hidden="true">
-            <p class="payment-note">Conecta tu cuenta de Apple Pay para completar el pago.</p>
-            <button type="button" class="btn btn-secondary" id="connectApplePay">Conectar Apple Pay</button>
+            <p class="payment-note">Connect your Apple Pay account to complete the payment.</p>
+            <button type="button" class="btn btn-secondary" id="connectApplePay">Connect Apple Pay</button>
           </div>
 
           <div id="paypalFields" class="payment-fields" aria-hidden="true">
-            <p class="payment-note">Conecta tu cuenta de PayPal para completar el pago.</p>
-            <button type="button" class="btn btn-secondary" id="connectPayPal">Conectar PayPal</button>
+            <p class="payment-note">Connect your PayPal account to complete the payment.</p>
+            <button type="button" class="btn btn-secondary" id="connectPayPal">Connect PayPal</button>
           </div>
 
           <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Pagar 9,99€</button>
-            <button type="button" id="cancelPremium" class="btn btn-secondary">Cancelar</button>
+            <button type="submit" class="btn btn-primary">Pay €9.99</button>
+            <button type="button" id="cancelPremium" class="btn btn-secondary">Cancel</button>
           </div>
         </form>
       </div>
@@ -144,18 +144,18 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <span class="footer-icon">♟</span>
+        <span class="footer-icon"></span>
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>

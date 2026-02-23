@@ -38,7 +38,7 @@
     // Update button icon based on current theme
     if(toggle) {
       const isDark = document.body.classList.contains('dark');
-      toggle.textContent = isDark ? '☀️' : '🌙';
+      toggle.textContent = isDark ? 'Light' : 'Dark';
     }
 
     function toggleTheme() {
@@ -51,7 +51,7 @@
         console.error('Error saving theme preference:', e);
       }
       // update button icon
-      if(toggle) toggle.textContent = next === 'dark' ? '☀️' : '🌙';
+      if(toggle) toggle.textContent = next === 'dark' ? 'Light' : 'Dark';
     }
 
     if(toggle) {

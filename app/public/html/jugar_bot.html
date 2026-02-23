@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -15,7 +15,7 @@
   <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ChessHub - Jugar vs IA</title>
+  <title>ChessHub - Play vs AI</title>
   <!-- Estilos del tablero y la pagina -->
 
   <link rel="stylesheet" href="../css/jugar_bot.css" />
@@ -27,16 +27,16 @@
   <header class="topbar">
     <div class="brand">
       <div class="logo">♟</div>
-      <div class="brandName">Aje10</div>
+      <div class="brandName">♟ AJE10 ♟</div>
     </div>
 
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="jugar.html" class="nav-link">PLAY</a>
+      <a href="inicio.html" class="nav-link">HOME</a>
+      <a href="learn.html" class="nav-link">LEARN</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
     </nav>
 
     <div class="topRight">
@@ -48,8 +48,8 @@
   <main class="contenedor">
     <!-- Hero de estado de partida -->
     <section class="hero play-hero">
-      <h1>🤖 JUGADOR vs IA 🤖</h1>
-      <p id="gameSubtitle">Preparando partida...</p>
+      <h1>PLAYER vs AI</h1>
+      <p id="gameSubtitle">Preparing game...</p>
     </section>
 
     <!-- Zona de tablero, paneles y modales -->
@@ -57,14 +57,14 @@
     <div class="play-layout">
       <!-- Temporizador del jugador -->
       <div class="timer-container timer-player">
-        <div class="timer-label" id="playerLabel">⚪ TÚ</div>
+        <div class="timer-label" id="playerLabel">⚪ YOU</div>
         <div class="timer-display" id="timerPlayer">10:00</div>
-        <button class="resign-btn" id="resignBtn">Rendirse</button>
+        <button class="resign-btn" id="resignBtn">Resign</button>
       </div>
 
       <!-- Panel de historial de movimientos -->
       <aside class="move-panel">
-        <div class="move-panel__title">Historial de movimientos</div>
+        <div class="move-panel__title">Move history</div>
         <ol id="moveList" class="move-list"></ol>
       </aside>
 
@@ -75,15 +75,15 @@
 
       <!-- Controles de jugabilidad -->
       <aside class="control-panel">
-        <div class="control-panel__title">⚙ Jugabilidad</div>
+        <div class="control-panel__title">⚙ Gameplay</div>
         <div class="control-group">
-          <label class="control-label">Modo de movimiento</label>
+          <label class="control-label">Move mode</label>
           <div class="mode-selector">
             <button id="mode-drag" class="mode-btn mode-btn--active" data-mode="drag">
-              📍 Drag & Drop
+              Drag & Drop
             </button>
             <button id="mode-click" class="mode-btn" data-mode="click">
-              🖱️ Doble Click
+              Double Click
             </button>
           </div>
         </div>
@@ -93,45 +93,45 @@
     <!-- Modal de seleccion de dificultad y color -->
     <div id="setupModal" class="result-modal">
       <div class="result-content">
-        <h2>Elige tu Configuración</h2>
+        <h2>Choose your setup</h2>
         
         <div class="setup-section">
-          <h3>🎯 Dificultad</h3>
+          <h3>Difficulty</h3>
           <div class="difficulty-selector">
             <button class="setup-btn difficulty-btn" data-difficulty="easy">
-              🟢 Fácil
+              Easy
             </button>
             <button class="setup-btn difficulty-btn" data-difficulty="medium">
-              🟡 Medio
+              Medium
             </button>
             <button class="setup-btn difficulty-btn" data-difficulty="hard">
-              🔴 Difícil
+              Hard
             </button>
           </div>
         </div>
 
         <div class="setup-section">
-          <h3>👑 Tu Color</h3>
+          <h3>Your color</h3>
           <div class="color-selector">
             <button class="setup-btn color-btn" data-color="w">
-              ⚪ Blancas
+              White
             </button>
             <button class="setup-btn color-btn" data-color="b">
-              ⚫ Negras
+              Black
             </button>
           </div>
         </div>
 
-        <button id="startGameBtn" class="start-btn" disabled>Comenzar Partida</button>
+        <button id="startGameBtn" class="start-btn" disabled>Start game</button>
       </div>
     </div>
 
     <!-- Panel de resultado final -->
     <div id="resultModal" class="result-modal hidden">
       <div class="result-content">
-        <h2 id="resultTitle">¡Partida Terminada!</h2>
+        <h2 id="resultTitle">Game over!</h2>
         <p id="resultMessage"></p>
-        <button id="restartBtn" class="result-btn">Nueva Partida</button>
+        <button id="restartBtn" class="result-btn">New game</button>
       </div>
     </div>
   </section>

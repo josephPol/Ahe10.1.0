@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <script>
     (function(){
@@ -12,7 +12,7 @@
   </script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AJE10 - Reportes</title>
+  <title>AJE10 - Reports</title>
   <link rel="stylesheet" href="../css/contact.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
 </head>
@@ -20,58 +20,58 @@
   <header class="topbar">
     <a href="inicio.html" class="brand">
       <div class="logo">♟</div>
-      <div class="brandName">AJE10</div>
+      <div class="brandName">♟ AJE10 ♟</div>
     </a>
 
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
-      <a href="premium.html" class="nav-link">💎 PREMIUM</a>
+      <a href="jugar.html" class="nav-link">PLAY</a>
+      <a href="inicio.html" class="nav-link">HOME</a>
+      <a href="learn.html" class="nav-link">LEARN</a>
+      <a href="contact.html" class="nav-link">CONTACT</a>
+      <a href="premium.html" class="nav-link">PREMIUM</a>
     </nav>
 
     <div class="topRight">
-      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
-      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <a href="login.html" class="btn auth-btn btn-secondary">Sign In</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Sign Up</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
   </header>
 
   <main class="contenedor">
     <section class="hero">
-      <h1>🐛 SISTEMA DE REPORTES</h1>
-      <p>Reporta bugs o sugerencias técnicas de forma clara.</p>
+      <h1>BUG REPORT SYSTEM</h1>
+      <p>Report bugs or technical suggestions clearly.</p>
     </section>
 
     <section class="info-section" style="max-width: 700px; margin: 2rem auto;">
-      <h2>🧰 Enviar reporte</h2>
+      <h2>🧰 Send report</h2>
       <div id="reportMessages"></div>
 
       <form id="reportForm" class="contact-form" method="POST" action="../contact-submit.php" style="padding: 1.5rem 0;">
         <div class="form-group">
-          <label>Tu email</label>
-          <input name="email" type="email" placeholder="tu@email.com" required>
+          <label>Your email</label>
+          <input name="email" type="email" placeholder="you@email.com" required>
         </div>
 
         <div class="form-group">
-          <label>Título</label>
-          <input name="subject" type="text" placeholder="Resumen del problema" required>
+          <label>Title</label>
+          <input name="subject" type="text" placeholder="Issue summary" required>
         </div>
 
         <div class="form-group">
-          <label>Descripción</label>
-          <textarea name="message" placeholder="Describe el problema, pasos para reproducir y qué esperabas." rows="6" required></textarea>
+          <label>Description</label>
+          <textarea name="message" placeholder="Describe the issue, steps to reproduce, and expected result." rows="6" required></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary" style="width: 100%;">
-          ▶ ENVIAR REPORTE
+          SEND REPORT
         </button>
       </form>
 
-      <a href="contact.html" class="backHome">← Volver a Contacto</a>
+      <a href="contact.html" class="backHome">← Back to Contact</a>
     </section>
   </main>
 
@@ -95,7 +95,7 @@
           }
         })
         .catch(function(){
-          document.getElementById('reportMessages').innerHTML = '<div class="alert alert-danger">Error de envío</div>';
+          document.getElementById('reportMessages').innerHTML = '<div class="alert alert-danger">Send error</div>';
         });
     });
   </script>
@@ -103,18 +103,18 @@
   <footer class="footer">
     <div class="footer-container">
       <div class="footer-brand">
-        <span class="footer-icon">♟</span>
+        <span class="footer-icon"></span>
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>
