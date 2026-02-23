@@ -51,6 +51,9 @@
     </section>
 
     <section class="admin-table-section">
+      <div class="admin-section-header">
+        <h2>Usuarios</h2>
+      </div>
       <div id="adminMessage" class="admin-message" role="alert"></div>
       <div class="admin-table">
         <div class="admin-table-header">
@@ -62,6 +65,28 @@
         </div>
         <div id="usersList" class="admin-table-body">
           <div class="admin-loading">Cargando usuarios...</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="admin-table-section">
+      <div class="admin-section-header">
+        <h2>Salas de juego</h2>
+        <div class="admin-actions">
+          <button id="refreshRoomsBtn" class="btn btn-secondary">Refrescar salas</button>
+          <button id="createRoomBtn" class="btn btn-primary">Crear sala</button>
+        </div>
+      </div>
+      <div class="admin-table">
+        <div class="admin-table-header">
+          <div>ID</div>
+          <div>Nombre</div>
+          <div>Modo</div>
+          <div>Estado</div>
+          <div>Acciones</div>
+        </div>
+        <div id="roomsList" class="admin-table-body">
+          <div class="admin-loading">Cargando salas...</div>
         </div>
       </div>
     </section>

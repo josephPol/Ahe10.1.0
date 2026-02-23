@@ -1,6 +1,11 @@
 // Variables globales
 let board = null;
 let game = null;
+let viewBoard = null;
+let viewGame = null;
+let isAdminUser = false;
+let currentEditId = null;
+let currentDeleteId = null;
 
 const CHESSBOARD_PIECE_THEME = 'https://chessboardjs.com/img/chesspieces/wikipedia/{piece}.png';
 
@@ -16,10 +21,33 @@ function getApiUrl(path) {
 }
 
 // Cargar jugadas al cargar la página
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    await checkAdminStatus();
     loadJugadas();
     initModal();
+    if (isAdminUser) {
+        initAdminModals();
+    }
+    initViewModal();
 });
+
+function getSessionUrl() {
+    return new URL('../auth/session.php', window.location.href).toString();
+}
+
+function getAdminJugadasUrl() {
+    return new URL('../admin/jugadas.php', window.location.href).toString();
+}
+
+async function checkAdminStatus() {
+    try {
+        const response = await fetch(getSessionUrl(), { credentials: 'include' });
+        const data = await response.json();
+        isAdminUser = !!data.user?.is_admin;
+    } catch (error) {
+        isAdminUser = false;
+    }
+}
 
 // Inicializar modal y eventos
 function initModal() {
@@ -60,6 +88,66 @@ function initModal() {
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         submitJugada();
+    });
+}
+
+function initAdminModals() {
+    const editModal = document.getElementById('modal-editar');
+    const deleteModal = document.getElementById('modal-eliminar');
+    const editClose = editModal?.querySelector('[data-close="edit"]');
+    const deleteClose = deleteModal?.querySelector('[data-close="delete"]');
+    const editCancel = document.getElementById('btn-cancelar-editar');
+    const deleteCancel = document.getElementById('btn-cancelar-eliminar');
+    const deleteConfirm = document.getElementById('btn-confirmar-eliminar');
+    const editForm = document.getElementById('form-editar-jugada');
+
+    const closeEdit = () => {
+        if (editModal) editModal.style.display = 'none';
+        currentEditId = null;
+    };
+    const closeDelete = () => {
+        if (deleteModal) deleteModal.style.display = 'none';
+        currentDeleteId = null;
+    };
+
+    editClose?.addEventListener('click', closeEdit);
+    deleteClose?.addEventListener('click', closeDelete);
+    editCancel?.addEventListener('click', closeEdit);
+    deleteCancel?.addEventListener('click', closeDelete);
+    deleteConfirm?.addEventListener('click', async () => {
+        if (!currentDeleteId) return;
+        await deleteJugada(currentDeleteId);
+        closeDelete();
+    });
+
+    editForm?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        await submitEditJugada();
+        closeEdit();
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === editModal) closeEdit();
+        if (event.target === deleteModal) closeDelete();
+    });
+}
+
+function initViewModal() {
+    const viewModal = document.getElementById('modal-ver');
+    const viewClose = viewModal?.querySelector('[data-close="view"]');
+
+    const closeView = () => {
+        if (viewModal) viewModal.style.display = 'none';
+        if (viewBoard) {
+            viewBoard.destroy();
+            viewBoard = null;
+        }
+        viewGame = null;
+    };
+
+    viewClose?.addEventListener('click', closeView);
+    window.addEventListener('click', function(event) {
+        if (event.target === viewModal) closeView();
     });
 }
 
@@ -277,25 +365,28 @@ function displayJugadasEjemplo() {
 // Mostrar jugadas
 function displayJugadas(jugadas) {
     const container = document.getElementById('jugadas-list');
-    const defaultCover = 'imagenes/foto_jugadas.jpg';
-    const resolveImageUrl = (path) => {
-        if (!path) return new URL(`../${defaultCover}`, window.location.href).toString();
-        if (path.startsWith('http://') || path.startsWith('https://')) return path;
-        if (path.startsWith('/')) return path;
-        if (path.startsWith('imagenes/')) {
-            return new URL(`../${path}`, window.location.href).toString();
-        }
-        return new URL(`../storage/${path}`, window.location.href).toString();
-    };
+    const canManage = isAdminUser;
+    const escapeAttr = (text) => String(text ?? '').replace(/"/g, '&quot;');
+    const fixedCover = '../imagenes/foto_jugadas.jpg';
+    const canView = true;
     
     const html = jugadas.map(jugada => `
         <div class="jugada-card">
             <div class="jugada-image">
-                <img src="${resolveImageUrl(jugada.imagen)}" alt="${escapeHtml(jugada.nombre)}">
+                <img src="${fixedCover}" alt="${escapeHtml(jugada.nombre)}">
             </div>
             <div class="jugada-content">
                 <h3 class="jugada-title">${escapeHtml(jugada.nombre)}</h3>
                 <p class="jugada-description">${escapeHtml(jugada.descripcion)}</p>
+                <div class="jugada-actions">
+                    ${canView ? `
+                    <button class="btn btn-secondary" data-view-action="open" data-id="${jugada.id}" data-title="${escapeAttr(jugada.nombre)}" data-desc="${escapeAttr(jugada.descripcion)}" data-author="${escapeAttr(jugada.user?.name || 'Anónimo')}" data-likes="${jugada.likes ?? 0}" data-moves="${escapeAttr(jugada.movimientos || '')}">Ver jugada</button>
+                    ` : ''}
+                    ${canManage && !(typeof jugada.id === 'string' && jugada.id.startsWith('ejemplo-')) ? `
+                    <button class="btn btn-secondary" data-admin-action="edit" data-id="${jugada.id}" data-name="${escapeAttr(jugada.nombre)}" data-desc="${escapeAttr(jugada.descripcion)}" data-likes="${jugada.likes ?? 0}">Editar</button>
+                    <button class="btn btn-primary" data-admin-action="delete" data-id="${jugada.id}">Eliminar</button>
+                    ` : ''}
+                </div>
                 <div class="jugada-footer">
                     <span class="jugada-author">Por: ${escapeHtml(jugada.user?.name || 'Anónimo')}</span>
                     <button class="btn-like" onclick="likeJugada('${jugada.id}')">
@@ -307,6 +398,204 @@ function displayJugadas(jugadas) {
     `).join('');
 
     container.innerHTML = html;
+
+    if (canManage) {
+        container.querySelectorAll('[data-admin-action]').forEach((btn) => {
+            btn.addEventListener('click', handleAdminActionClick);
+        });
+    }
+    if (canView) {
+        container.querySelectorAll('[data-view-action="open"]').forEach((btn) => {
+            btn.addEventListener('click', handleViewActionClick);
+        });
+    }
+}
+
+function handleViewActionClick(event) {
+    const btn = event.currentTarget;
+    openViewModal({
+        nombre: btn.dataset.title || '',
+        descripcion: btn.dataset.desc || '',
+        autor: btn.dataset.author || 'Anónimo',
+        likes: btn.dataset.likes || 0,
+        movimientos: btn.dataset.moves || ''
+    });
+}
+
+function openViewModal(jugada) {
+    const viewModal = document.getElementById('modal-ver');
+    if (!viewModal) return;
+
+    document.getElementById('ver-titulo').textContent = jugada.nombre;
+    document.getElementById('ver-descripcion').textContent = jugada.descripcion;
+    document.getElementById('ver-autor').textContent = `Por: ${jugada.autor}`;
+    document.getElementById('ver-likes').textContent = `❤️ ${jugada.likes}`;
+    document.getElementById('ver-imagen').src = '../imagenes/foto_jugadas.jpg';
+
+    const movesContainer = document.getElementById('ver-movimientos');
+    const moves = parseMoves(jugada.movimientos);
+    if (moves.length === 0) {
+        movesContainer.textContent = 'Sin movimientos disponibles.';
+    } else {
+        movesContainer.innerHTML = moves.map((move, index) => {
+            const moveNumber = Math.floor(index / 2) + 1;
+            const prefix = index % 2 === 0 ? `${moveNumber}. ` : '';
+            return `${prefix}${move}`;
+        }).join(' ');
+    }
+
+    renderViewBoard(jugada.movimientos);
+    viewModal.style.display = 'block';
+}
+
+function renderViewBoard(movimientos) {
+    viewGame = new Chess();
+    const parsedMoves = parseMovesVerbose(movimientos);
+
+    parsedMoves.forEach((move) => {
+        if (move && move.from && move.to) {
+            viewGame.move({
+                from: move.from,
+                to: move.to,
+                promotion: move.promotion || 'q'
+            });
+        }
+    });
+
+    const position = viewGame.fen();
+    if (viewBoard) {
+        viewBoard.position(position, false);
+        return;
+    }
+
+    viewBoard = Chessboard('ver-board', {
+        draggable: false,
+        position: position,
+        pieceTheme: CHESSBOARD_PIECE_THEME
+    });
+}
+
+function parseMoves(movimientos) {
+    if (!movimientos) return [];
+    try {
+        const parsed = JSON.parse(movimientos);
+        if (!Array.isArray(parsed)) return [];
+        return parsed.map((m) => m.san || m.notation || '').filter(Boolean);
+    } catch (error) {
+        return [];
+    }
+}
+
+function parseMovesVerbose(movimientos) {
+    if (!movimientos) return [];
+    try {
+        const parsed = JSON.parse(movimientos);
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+        return [];
+    }
+}
+
+function handleAdminActionClick(event) {
+    if (!isAdminUser) return;
+    const btn = event.currentTarget;
+    const action = btn.dataset.adminAction;
+    const id = btn.dataset.id;
+
+    if (action === 'edit') {
+        openEditModal({
+            id,
+            nombre: btn.dataset.name || '',
+            descripcion: btn.dataset.desc || '',
+            likes: btn.dataset.likes || 0
+        });
+    }
+
+    if (action === 'delete') {
+        openDeleteModal(id);
+    }
+}
+
+function openEditModal(jugada) {
+    const editModal = document.getElementById('modal-editar');
+    if (!editModal) return;
+    currentEditId = jugada.id;
+    document.getElementById('editar-nombre').value = jugada.nombre;
+    document.getElementById('editar-descripcion').value = jugada.descripcion;
+    document.getElementById('editar-likes').value = jugada.likes;
+    editModal.style.display = 'block';
+}
+
+function openDeleteModal(id) {
+    const deleteModal = document.getElementById('modal-eliminar');
+    if (!deleteModal) return;
+    currentDeleteId = id;
+    deleteModal.style.display = 'block';
+}
+
+async function submitEditJugada() {
+    if (!isAdminUser) {
+        alert('No autorizado');
+        return;
+    }
+    if (!currentEditId) return;
+    const nombre = document.getElementById('editar-nombre').value.trim();
+    const descripcion = document.getElementById('editar-descripcion').value.trim();
+    const likes = parseInt(document.getElementById('editar-likes').value || '0', 10);
+
+    if (!nombre || !descripcion) {
+        alert('Completa todos los campos');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('action', 'update');
+        formData.append('jugada_id', currentEditId);
+        formData.append('nombre', nombre);
+        formData.append('descripcion', descripcion);
+        formData.append('likes', likes);
+
+        const response = await fetch(getAdminJugadasUrl(), {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        });
+        const result = await response.json();
+        if (result.success) {
+            loadJugadas();
+        } else {
+            alert(result.message || 'No se pudo actualizar');
+        }
+    } catch (error) {
+        alert('Error al actualizar la jugada');
+    }
+}
+
+async function deleteJugada(id) {
+    if (!isAdminUser) {
+        alert('No autorizado');
+        return;
+    }
+    try {
+        const formData = new FormData();
+        formData.append('action', 'delete');
+        formData.append('jugada_id', id);
+
+        const response = await fetch(getAdminJugadasUrl(), {
+            method: 'POST',
+            body: formData,
+            credentials: 'include'
+        });
+        const result = await response.json();
+        if (result.success) {
+            loadJugadas();
+        } else {
+            alert(result.message || 'No se pudo eliminar');
+        }
+    } catch (error) {
+        alert('Error al eliminar la jugada');
+    }
 }
 
 // Mostrar mensaje cuando no hay jugadas

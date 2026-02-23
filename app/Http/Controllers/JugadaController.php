@@ -38,6 +38,7 @@ class JugadaController extends Controller
         }
 
         $imagePath = 'imagenes/foto_jugadas.jpg';
+        $imagePath = 'imagenes/foto_jugadas.jpg';
 
         $jugada = Jugada::create([
             'nombre' => $request->nombre,

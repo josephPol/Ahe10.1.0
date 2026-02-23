@@ -8,6 +8,7 @@ class RankingController extends Controller
 {
     public function index()
     {
+        // Obtener los top 10 usuarios ordenados por victorias
         $topPlayers = User::orderBy('wins', 'desc')
                          ->orderBy('rating', 'desc')
                          ->take(10)

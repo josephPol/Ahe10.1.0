@@ -20,10 +20,12 @@ class ContactController extends Controller
 
         $message = ContactMessage::create($data);
 
+        // Send mail to the configured support address or to admin
         try {
             $to = config('mail.from.address', 'support@chesshub.com');
             Mail::to($to)->send(new ContactMessageReceived($message));
         } catch (\Exception $e) {
+            // Log but do not fail the user
             logger()->error('Mail send failed: '.$e->getMessage());
         }
 

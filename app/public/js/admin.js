@@ -6,6 +6,9 @@ const adminMessage = $('adminMessage');
 const usersList = $('usersList');
 const refreshBtn = $('refreshBtn');
 const createBtn = $('createBtn');
+const roomsList = $('roomsList');
+const refreshRoomsBtn = $('refreshRoomsBtn');
+const createRoomBtn = $('createRoomBtn');
 const modal = {
   wrap: $('adminModal'),
   title: $('adminModalTitle'),
@@ -22,6 +25,8 @@ const showMessage = (type, text) => {
   adminMessage.className = type ? `admin-message ${type}` : 'admin-message';
   adminMessage.textContent = text || '';
 };
+
+const escapeAttr = (value) => String(value ?? '').replace(/"/g, '&quot;');
 
 const openModal = (title, bodyHtml, action, userId = null) => {
   if (!modal.wrap) return;
@@ -60,11 +65,11 @@ const ensureAdmin = async () => {
   }
 };
 
-const apiRequest = async (action, payload = {}) => {
+const apiRequest = async (action, payload = {}, endpoint = 'users.php') => {
   const formData = new FormData();
   formData.append('action', action);
   Object.entries(payload).forEach(([key, value]) => formData.append(key, value));
-  const response = await fetch(getAdminBaseUrl() + 'users.php', {
+  const response = await fetch(getAdminBaseUrl() + endpoint, {
     method: 'POST',
     body: formData,
     credentials: 'include'
@@ -87,9 +92,31 @@ const renderUsers = (users) => {
         <div>${user.email}</div>
         <div>${badge}</div>
         <div class="admin-actions-cell">
-          <button class="btn-admin secondary" data-action="edit" data-id="${user.id}" data-name="${user.name}" data-email="${user.email}" data-admin="${user.is_admin ? 1 : 0}">Editar</button>
+          <button class="btn-admin secondary" data-action="edit" data-id="${user.id}" data-name="${escapeAttr(user.name)}" data-email="${escapeAttr(user.email)}" data-admin="${user.is_admin ? 1 : 0}">Editar</button>
           <button class="btn-admin" data-action="reset" data-id="${user.id}">Reset pass</button>
           <button class="btn-admin danger" data-action="delete" data-id="${user.id}">Eliminar</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+};
+
+const renderRooms = (rooms) => {
+  if (!roomsList) return;
+  if (!rooms || rooms.length === 0) {
+    roomsList.innerHTML = '<div class="admin-loading">No hay salas</div>';
+    return;
+  }
+  roomsList.innerHTML = rooms.map((room) => {
+    return `
+      <div class="admin-table-row">
+        <div>#${room.id}</div>
+        <div>${room.nombre}</div>
+        <div>${room.modo}</div>
+        <div>${room.status}</div>
+        <div class="admin-actions-cell">
+          <button class="btn-admin secondary" data-entity="rooms" data-action="edit" data-id="${room.id}" data-name="${escapeAttr(room.nombre)}" data-desc="${escapeAttr(room.descripcion || '')}" data-mode="${room.modo}" data-max="${room.max_players}" data-status="${room.status}">Editar</button>
+          <button class="btn-admin danger" data-entity="rooms" data-action="delete" data-id="${room.id}">Eliminar</button>
         </div>
       </div>
     `;
@@ -108,6 +135,18 @@ const loadUsers = async () => {
   renderUsers(data.data.users || []);
 };
 
+const loadRooms = async () => {
+  if (!roomsList) return;
+  roomsList.innerHTML = '<div class="admin-loading">Cargando salas...</div>';
+  const data = await apiRequest('list', {}, 'rooms.php');
+  if (!data.success) {
+    showMessage('error', data.message || 'No se pudo cargar salas');
+    roomsList.innerHTML = '';
+    return;
+  }
+  renderRooms(data.data.rooms || []);
+};
+
 const openCreateModal = () => openModal(
   'Crear usuario',
   `
@@ -124,25 +163,50 @@ const openCreateModal = () => openModal(
   'create'
 );
 
+const openCreateRoomModal = () => openModal(
+  'Crear sala',
+  `
+    <label>Nombre</label>
+    <input type="text" id="modalName" placeholder="Nombre de la sala">
+    <label>Descripción</label>
+    <input type="text" id="modalDesc" placeholder="Descripción breve">
+    <label>Modo</label>
+    <select id="modalMode">
+      <option value="local">local</option>
+      <option value="bot">bot</option>
+      <option value="online">online</option>
+    </select>
+    <label>Máx. jugadores</label>
+    <input type="number" id="modalMax" min="2" max="8" value="2">
+    <label>Estado</label>
+    <select id="modalStatus">
+      <option value="activo">activo</option>
+      <option value="cerrado">cerrado</option>
+    </select>
+  `,
+  'create_room'
+);
+
 const handleActionClick = (event) => {
   const btn = event.target.closest('button[data-action]');
   if (!btn) return;
   const action = btn.dataset.action;
   const userId = btn.dataset.id;
+  const entity = btn.dataset.entity || 'users';
   if (!userId) return;
 
-  if (action === 'delete') {
+  if (entity === 'users' && action === 'delete') {
     openModal('Eliminar usuario', '<p>¿Eliminar este usuario? Esta acción no se puede deshacer.</p>', 'delete', userId);
     return;
   }
-  if (action === 'reset') {
+  if (entity === 'users' && action === 'reset') {
     openModal('Resetear contraseña', `
       <label>Nueva contraseña</label>
       <input type="password" id="modalPassword" placeholder="Mínimo 8 caracteres">
     `, 'reset_password', userId);
     return;
   }
-  if (action === 'edit') {
+  if (entity === 'users' && action === 'edit') {
     const currentName = btn.dataset.name || '';
     const currentEmail = btn.dataset.email || '';
     const currentAdmin = btn.dataset.admin === '1';
@@ -155,6 +219,39 @@ const handleActionClick = (event) => {
         <input type="checkbox" id="modalIsAdmin" ${currentAdmin ? 'checked' : ''}> Admin
       </label>
     `, 'update', userId);
+    return;
+  }
+
+  if (entity === 'rooms' && action === 'edit') {
+    const currentName = btn.dataset.name || '';
+    const currentDesc = btn.dataset.desc || '';
+    const currentMode = btn.dataset.mode || 'local';
+    const currentMax = btn.dataset.max || 2;
+    const currentStatus = btn.dataset.status || 'activo';
+    openModal('Editar sala', `
+      <label>Nombre</label>
+      <input type="text" id="modalName" value="${currentName}">
+      <label>Descripción</label>
+      <input type="text" id="modalDesc" value="${currentDesc}">
+      <label>Modo</label>
+      <select id="modalMode">
+        <option value="local" ${currentMode === 'local' ? 'selected' : ''}>local</option>
+        <option value="bot" ${currentMode === 'bot' ? 'selected' : ''}>bot</option>
+        <option value="online" ${currentMode === 'online' ? 'selected' : ''}>online</option>
+      </select>
+      <label>Máx. jugadores</label>
+      <input type="number" id="modalMax" min="2" max="8" value="${currentMax}">
+      <label>Estado</label>
+      <select id="modalStatus">
+        <option value="activo" ${currentStatus === 'activo' ? 'selected' : ''}>activo</option>
+        <option value="cerrado" ${currentStatus === 'cerrado' ? 'selected' : ''}>cerrado</option>
+      </select>
+    `, 'update_room', userId);
+    return;
+  }
+
+  if (entity === 'rooms' && action === 'delete') {
+    openModal('Eliminar sala', '<p>¿Eliminar esta sala? Esta acción no se puede deshacer.</p>', 'delete_room', userId);
   }
 };
 
@@ -225,6 +322,60 @@ const handleModalSubmit = async () => {
     } else {
       showMessage('error', data.message || 'No se pudo eliminar');
     }
+    return;
+  }
+
+  if (state.action === 'create_room') {
+    const nombre = valueOf('#modalName');
+    const descripcion = valueOf('#modalDesc');
+    const modo = valueOf('#modalMode') || 'local';
+    const maxPlayers = parseInt(valueOf('#modalMax') || '2', 10);
+    const status = valueOf('#modalStatus') || 'activo';
+    if (!nombre) {
+      showMessage('error', 'Nombre requerido');
+      return;
+    }
+    const data = await apiRequest('create', { nombre, descripcion, modo, max_players: maxPlayers, status }, 'rooms.php');
+    if (data.success) {
+      showMessage('success', 'Sala creada');
+      closeModal();
+      loadRooms();
+    } else {
+      showMessage('error', data.message || 'No se pudo crear la sala');
+    }
+    return;
+  }
+
+  if (state.action === 'update_room') {
+    const nombre = valueOf('#modalName');
+    const descripcion = valueOf('#modalDesc');
+    const modo = valueOf('#modalMode') || 'local';
+    const maxPlayers = parseInt(valueOf('#modalMax') || '2', 10);
+    const status = valueOf('#modalStatus') || 'activo';
+    if (!nombre) {
+      showMessage('error', 'Nombre requerido');
+      return;
+    }
+    const data = await apiRequest('update', { room_id: state.userId, nombre, descripcion, modo, max_players: maxPlayers, status }, 'rooms.php');
+    if (data.success) {
+      showMessage('success', 'Sala actualizada');
+      closeModal();
+      loadRooms();
+    } else {
+      showMessage('error', data.message || 'No se pudo actualizar');
+    }
+    return;
+  }
+
+  if (state.action === 'delete_room') {
+    const data = await apiRequest('delete', { room_id: state.userId }, 'rooms.php');
+    if (data.success) {
+      showMessage('success', 'Sala eliminada');
+      closeModal();
+      loadRooms();
+    } else {
+      showMessage('error', data.message || 'No se pudo eliminar');
+    }
   }
 };
 
@@ -232,7 +383,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (!(await ensureAdmin())) return;
   refreshBtn?.addEventListener('click', loadUsers);
   createBtn?.addEventListener('click', openCreateModal);
+  refreshRoomsBtn?.addEventListener('click', loadRooms);
+  createRoomBtn?.addEventListener('click', openCreateRoomModal);
   usersList?.addEventListener('click', handleActionClick);
+  roomsList?.addEventListener('click', handleActionClick);
   modal.close?.addEventListener('click', closeModal);
   modal.cancel?.addEventListener('click', closeModal);
   modal.submit?.addEventListener('click', handleModalSubmit);
@@ -240,4 +394,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (event.target === modal.wrap) closeModal();
   });
   loadUsers();
+  loadRooms();
 });
