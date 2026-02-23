@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <script>
     (function(){
@@ -23,30 +23,30 @@
       <div class="brandName">AJE10</div>
     </a>
 
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="jugar.html" class="nav-link">⚔ PLAY</a>
+      <a href="inicio.html" class="nav-link">🏠 HOME</a>
+      <a href="learn.html" class="nav-link">📚 LEARN</a>
+      <a href="contact.html" class="nav-link">💬 CONTACT</a>
       <a href="premium.html" class="nav-link">💎 PREMIUM</a>
     </nav>
 
     <div class="topRight">
-      <a href="login.html" class="btn auth-btn btn-secondary">Acceder</a>
-      <a href="registro.html" class="btn auth-btn btn-primary">Registro</a>
+      <a href="login.html" class="btn auth-btn btn-secondary">Sign In</a>
+      <a href="registro.html" class="btn auth-btn btn-primary">Sign Up</a>
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
     </div>
   </header>
 
   <main class="admin-container">
     <section class="admin-hero">
-      <h1>Panel de Administración</h1>
-      <p>Gestiona usuarios: crear, editar, eliminar, resetear contraseñas y roles.</p>
+      <h1>Admin Panel</h1>
+      <p>Manage users: create, edit, delete, reset passwords, and roles.</p>
       <div class="admin-actions">
-        <button id="refreshBtn" class="btn btn-primary">Refrescar</button>
-        <button id="createBtn" class="btn btn-secondary">Crear usuario</button>
+        <button id="refreshBtn" class="btn btn-primary">Refresh</button>
+        <button id="createBtn" class="btn btn-secondary">Create user</button>
       </div>
     </section>
 
@@ -55,13 +55,13 @@
       <div class="admin-table">
         <div class="admin-table-header">
           <div>ID</div>
-          <div>Nombre</div>
+          <div>Name</div>
           <div>Email</div>
           <div>Admin</div>
-          <div>Acciones</div>
+          <div>Actions</div>
         </div>
         <div id="usersList" class="admin-table-body">
-          <div class="admin-loading">Cargando usuarios...</div>
+          <div class="admin-loading">Loading users...</div>
         </div>
       </div>
     </section>
@@ -74,14 +74,14 @@
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>
@@ -89,13 +89,13 @@
   <div id="adminModal" class="admin-modal" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="admin-modal-content">
       <div class="admin-modal-header">
-        <h2 id="adminModalTitle">Acción</h2>
-        <button id="adminModalClose" class="admin-modal-close" aria-label="Cerrar">✕</button>
+        <h2 id="adminModalTitle">Action</h2>
+        <button id="adminModalClose" class="admin-modal-close" aria-label="Close">✕</button>
       </div>
       <div id="adminModalBody" class="admin-modal-body"></div>
       <div class="admin-modal-footer">
-        <button id="adminModalCancel" class="btn-admin secondary">Cancelar</button>
-        <button id="adminModalSubmit" class="btn-admin">Aceptar</button>
+        <button id="adminModalCancel" class="btn-admin secondary">Cancel</button>
+        <button id="adminModalSubmit" class="btn-admin">Confirm</button>
       </div>
     </div>
   </div>

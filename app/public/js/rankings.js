@@ -61,8 +61,8 @@ function displayNoRankings() {
     const rankingsList = document.getElementById('rankings-list');
     rankingsList.innerHTML = `
         <div class="no-rankings">
-            <p>🎮 Aún no hay jugadores en el ranking</p>
-            <p>¡Sé el primero en jugar y aparecer aquí!</p>
+            <p>🎮 No players in the rankings yet</p>
+            <p>Be the first to play and appear here!</p>
         </div>
     `;
 }
@@ -71,8 +71,8 @@ function displayError() {
     const rankingsList = document.getElementById('rankings-list');
     rankingsList.innerHTML = `
         <div class="error-rankings">
-            <p>❌ Error al cargar los rankings</p>
-            <button onclick="loadRankings()" class="btn btn-secondary">🔄 Reintentar</button>
+            <p>❌ Failed to load rankings</p>
+            <button onclick="loadRankings()" class="btn btn-secondary">🔄 Try again</button>
         </div>
     `;
 }

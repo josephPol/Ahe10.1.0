@@ -1,6 +1,6 @@
 <!doctype html>
 <!-- Plantilla convertida: usar public/jugar.html -->
-<html lang="es"><head><meta charset="utf-8"><title>Jugar</title></head>
+<html lang="en"><head><meta charset="utf-8"><title>Play</title></head>
 <body>
-  <p>Plantilla convertida a HTML estático. Abra <a href="/jugar">/jugar</a> o <a href="/jugar.html">/jugar.html</a>.</p>
+  <p>Template converted to static HTML. Open <a href="/jugar">/jugar</a> or <a href="/jugar.html">/jugar.html</a>.</p>
 </body></html>

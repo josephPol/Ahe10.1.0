@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -15,7 +15,7 @@
   <!-- Metadatos basicos -->
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login | AJE10</title>
+  <title>Sign In | AJE10</title>
   <!-- Estilos base y ajustes locales -->
   <link rel="stylesheet" href="../css/login.css">
   <link rel="stylesheet" href="../css/cookies.css">
@@ -78,17 +78,17 @@
     <div class="brandName">AJE10</div>
   </div>
 
-  <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+  <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
   <nav class="topnav">
-    <a href="jugar.html" class="nav-link">⚔ JUGAR</a>
-    <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-    <a href="learn.html" class="nav-link">📚 APRENDER</a>
-    <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+    <a href="jugar.html" class="nav-link">⚔ PLAY</a>
+    <a href="inicio.html" class="nav-link">🏠 HOME</a>
+    <a href="learn.html" class="nav-link">📚 LEARN</a>
+    <a href="contact.html" class="nav-link">💬 CONTACT</a>
   </nav>
 
   <div class="topRight">
-    <a href="inicio.html" class="btn auth-btn btn-secondary">← Volver</a>
+    <a href="inicio.html" class="btn auth-btn btn-secondary">← Back</a>
     <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
   </div>
 </header>
@@ -99,7 +99,7 @@
   <!-- Caja de login con formulario -->
   <div class="loginBox">
     <h1>AJE10</h1>
-    <p class="subtitle">Inicia sesión para jugar</p>
+    <p class="subtitle">Sign in to play</p>
 
     <!-- Formulario de inicio de sesion -->
     <form id="loginForm">
@@ -109,21 +109,21 @@
       </label>
 
       <label>
-        Contraseña
+        Password
         <input type="password" id="loginPassword" placeholder="••••••••" required>
       </label>
 
-      <button type="submit" id="loginBtn">Entrar</button>
+      <button type="submit" id="loginBtn">Sign In</button>
     </form>
 
     <div id="loginMessage" style="margin-top: 15px; text-align: center; display: none;"></div>
 
     <div class="extra">
-      <a href="registro.html">Crear cuenta</a>
-      <a href="contraseña-olvidada.html">¿Olvidaste tu contraseña?</a>
+      <a href="registro.html">Create account</a>
+      <a href="contraseña-olvidada.html">Forgot your password?</a>
     </div>
 
-    <a href="inicio.html" class="backHome">← Inicio</a>
+    <a href="inicio.html" class="backHome">← Home</a>
   </div>
 
 </div>
@@ -140,7 +140,7 @@
     const loginBtn = document.getElementById('loginBtn');
     
     loginBtn.disabled = true;
-    loginBtn.textContent = 'Cargando...';
+    loginBtn.textContent = 'Loading...';
     
     const formData = new FormData();
     formData.append('action', 'login');
@@ -167,11 +167,11 @@
     doFetch(authUrl)
     .then(data => {
       loginBtn.disabled = false;
-      loginBtn.textContent = 'Entrar';
+      loginBtn.textContent = 'Sign In';
       
       if (data.success) {
         messageDiv.style.color = 'green';
-        messageDiv.textContent = 'Iniciando sesión...';
+        messageDiv.textContent = 'Signing in...';
         messageDiv.style.display = 'block';
         setTimeout(() => {
           window.location.href = 'inicio.html';
@@ -182,11 +182,11 @@
         messageDiv.style.border = '2px solid #dc3545';
         messageDiv.style.padding = '0.75rem';
         messageDiv.style.borderRadius = '4px';
-        let message = data.message || 'Error al iniciar sesión';
+        let message = data.message || 'Sign in failed';
         
         // Si el error es por email no verificado, mostrar opción
-        if (message.includes('verifica')) {
-          messageDiv.innerHTML = `<strong>${message}</strong><br><small style="margin-top: 0.5rem; display: block;"><a href="contraseña-olvidada.html" style="color: #dc3545;">¿No recibiste el email?</a></small>`;
+        if (message.toLowerCase().includes('verifica') || message.toLowerCase().includes('verify')) {
+          messageDiv.innerHTML = `<strong>${message}</strong><br><small style="margin-top: 0.5rem; display: block;"><a href="contraseña-olvidada.html" style="color: #dc3545;">Didn't get the email?</a></small>`;
         } else {
           messageDiv.textContent = message;
         }
@@ -195,9 +195,9 @@
     })
     .catch(error => {
       loginBtn.disabled = false;
-      loginBtn.textContent = 'Entrar';
+      loginBtn.textContent = 'Sign In';
       messageDiv.style.color = 'red';
-      messageDiv.textContent = 'Error al conectar: ' + error.message + '. Intenta nuevamente.';
+      messageDiv.textContent = 'Connection error: ' + error.message + '. Please try again.';
       messageDiv.style.display = 'block';
       console.error('Error completo:', error);
     });
@@ -212,14 +212,14 @@
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
   <!-- Tema inicial para evitar parpadeo -->
   <script>
@@ -15,7 +15,7 @@
   <!-- Metadatos basicos -->
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AJE10 - Jugar</title>
+  <title>AJE10 - Play</title>
   <!-- Estilos base y del tablero -->
   <link rel="stylesheet" href="../css/play.css" />
   <link rel="stylesheet" href="../css/cookies.css" />
@@ -31,12 +31,12 @@
       <div class="logo">♟</div>
       <div class="brandName">Aje10</div>
     </div>
-    <button id="menuToggle" class="menu-toggle" aria-label="Abrir menú" aria-expanded="false">☰</button>
+    <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
     <nav class="topnav">
-      <a href="jugar.html" class="nav-link active">⚔ JUGAR</a>
-      <a href="inicio.html" class="nav-link">🏠 INICIO</a>
-      <a href="learn.html" class="nav-link">📚 APRENDER</a>
-      <a href="contact.html" class="nav-link">💬 CONTACTO</a>
+      <a href="jugar.html" class="nav-link active">⚔ PLAY</a>
+      <a href="inicio.html" class="nav-link">🏠 HOME</a>
+      <a href="learn.html" class="nav-link">📚 LEARN</a>
+      <a href="contact.html" class="nav-link">💬 CONTACT</a>
     </nav>
     <div class="topRight">
       <button id="theme-toggle" class="btn-theme" aria-label="Toggle theme">🌙</button>
@@ -47,10 +47,10 @@
   <main class="contenedor">
     <!-- Hero con descripcion del modo de juego -->
     <section class="hero play-hero">
-      <h1>♞ JUGAR ♞</h1>
-      <p>Juega en local con otra persona en el mismo dispositivo.</p>
+      <h1>♞ PLAY ♞</h1>
+      <p>Play locally with another person on the same device.</p>
       <div style="display:flex; gap:2rem; justify-content:center; margin-top:2.5rem;">
-        <a href="jugar_local.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Jugar local</a>
+        <a href="jugar_local.html" class="result-btn" style="font-size:1.2rem; min-width:180px; text-align:center;">Play local</a>
       </div>
     </section>
   </main>
@@ -63,14 +63,14 @@
         <span class="footer-name">AJE10</span>
       </div>
       <div class="footer-links">
-        <a href="jugar.html">Jugar</a>
-        <a href="learn.html">Aprender</a>
-        <a href="contact.html">Contacto</a>
-        <a href="sobre-nosotros.html">Sobre Nosotros</a>
+        <a href="jugar.html">Play</a>
+        <a href="learn.html">Learn</a>
+        <a href="contact.html">Contact</a>
+        <a href="sobre-nosotros.html">About Us</a>
       </div>
       <div class="footer-copy">
         <p>&copy; 2026 AJE10</p>
-        <p class="footer-slogan">♔ Juega · Aprende · Domina ♔</p>
+        <p class="footer-slogan">♔ Play · Learn · Master ♔</p>
       </div>
     </div>
   </footer>
@@ -85,16 +85,16 @@
     <!-- Modal de seleccion de dificultad IA -->
     <div id="aiDifficultyModal" class="result-modal hidden">
       <div class="result-content">
-        <h2>Elige dificultad de IA</h2>
+        <h2>Choose AI difficulty</h2>
         <div class="difficulty-selector">
           <button class="difficulty-btn" data-difficulty="easy">
-            🟢 Fácil
+            🟢 Easy
           </button>
           <button class="difficulty-btn" data-difficulty="medium">
-            🟡 Medio
+            🟡 Medium
           </button>
           <button class="difficulty-btn" data-difficulty="hard">
-            🔴 Difícil
+            🔴 Hard
           </button>
         </div>
       </div>
