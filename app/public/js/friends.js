@@ -78,7 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (query.length < 2) {
                 document.getElementById('searchResults').innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">🔍</span>
+                        <span class="empty-icon"></span>
                         <p>Busca usuarios para agregarlos</p>
                         <small>Escribe al menos 2 caracteres</small>
                     </div>
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!data.friends || data.friends.length === 0) {
                 friendsList.innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">👥</span>
+                        <span class="empty-icon"></span>
                         <p>No tienes amigos agregados aún</p>
                         <small>Busca usuarios y envía solicitudes de amistad</small>
                     </div>
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!data.requests || data.requests.length === 0) {
                 requestsList.innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">📭</span>
+                        <span class="empty-icon"></span>
                         <p>No tienes solicitudes pendientes</p>
                     </div>
                 `;
@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (data.error) {
                 searchResults.innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">⚠️</span>
+                        <span class="empty-icon"></span>
                         <p>${data.error}</p>
                     </div>
                 `;
@@ -234,7 +234,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (!data.users || data.users.length === 0) {
                 searchResults.innerHTML = `
                     <div class="empty-state">
-                        <span class="empty-icon">🔍</span>
+                        <span class="empty-icon"></span>
                         <p>No se encontraron usuarios</p>
                     </div>
                 `;
@@ -277,7 +277,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const searchResults = document.getElementById('searchResults');
             searchResults.innerHTML = `
                 <div class="empty-state">
-                    <span class="empty-icon">❌</span>
+                    <span class="empty-icon"></span>
                     <p>Error al buscar usuarios: ${error.message}</p>
                 </div>
             `;

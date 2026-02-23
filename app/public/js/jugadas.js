@@ -299,7 +299,7 @@ function displayJugadas(jugadas) {
                 <div class="jugada-footer">
                     <span class="jugada-author">Por: ${escapeHtml(jugada.user?.name || 'Anónimo')}</span>
                     <button class="btn-like" onclick="likeJugada('${jugada.id}')">
-                        ❤️ <span id="likes-${jugada.id}">${jugada.likes}</span>
+                        <span id="likes-${jugada.id}">${jugada.likes}</span>
                     </button>
                 </div>
             </div>
@@ -314,7 +314,7 @@ function displayNoJugadas() {
     const container = document.getElementById('jugadas-list');
     container.innerHTML = `
         <div class="empty-state">
-            <div class="empty-icon">♟</div>
+            <div class="empty-icon"></div>
             <h3>No hay jugadas publicadas aún</h3>
             <p>Sé el primero en compartir una estrategia</p>
         </div>
@@ -326,7 +326,7 @@ function displayError() {
     const container = document.getElementById('jugadas-list');
     container.innerHTML = `
         <div class="error-state">
-            <p>⚠️ Error al cargar las jugadas</p>
+            <p>Error al cargar las jugadas</p>
             <button class="btn btn-secondary" onclick="loadJugadas()">Reintentar</button>
         </div>
     `;

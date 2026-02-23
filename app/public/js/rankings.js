@@ -44,7 +44,7 @@ function displayRankings(players) {
         rankingRow.innerHTML = `
             <div class="rank-col rank-${index + 1}">${rankDisplay}</div>
             <div class="player-col">
-                <div class="player-avatar">👤</div>
+                <div class="player-avatar"></div>
                 <span class="player-name">${escapeHtml(player.name)}</span>
             </div>
             <div class="wins-col">${player.wins}</div>
@@ -61,7 +61,7 @@ function displayNoRankings() {
     const rankingsList = document.getElementById('rankings-list');
     rankingsList.innerHTML = `
         <div class="no-rankings">
-            <p>🎮 No players in the rankings yet</p>
+            <p>No players in the rankings yet</p>
             <p>Be the first to play and appear here!</p>
         </div>
     `;
@@ -71,8 +71,8 @@ function displayError() {
     const rankingsList = document.getElementById('rankings-list');
     rankingsList.innerHTML = `
         <div class="error-rankings">
-            <p>❌ Failed to load rankings</p>
-            <button onclick="loadRankings()" class="btn btn-secondary">🔄 Try again</button>
+            <p>Failed to load rankings</p>
+            <button onclick="loadRankings()" class="btn btn-secondary">Try again</button>
         </div>
     `;
 }

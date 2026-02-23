@@ -127,16 +127,16 @@
 <header class="topbar">
   <div class="brand">
     <div class="logo">♟</div>
-    <div class="brandName">AJE10</div>
+    <div class="brandName">♟ AJE10 ♟</div>
   </div>
 
   <button id="menuToggle" class="menu-toggle" aria-label="Open menu" aria-expanded="false">☰</button>
 
   <nav class="topnav">
-    <a href="jugar.html" class="nav-link">⚔ PLAY</a>
-    <a href="inicio.html" class="nav-link">🏠 HOME</a>
-    <a href="learn.html" class="nav-link">📚 LEARN</a>
-    <a href="contact.html" class="nav-link">💬 CONTACT</a>
+    <a href="jugar.html" class="nav-link">PLAY</a>
+    <a href="inicio.html" class="nav-link">HOME</a>
+    <a href="learn.html" class="nav-link">LEARN</a>
+    <a href="contact.html" class="nav-link">CONTACT</a>
   </nav>
 
   <div class="topRight">
@@ -150,7 +150,7 @@
 
   <!-- Caja de verificación -->
   <div class="resetBox">
-    <h1>📧 Confirm Email</h1>
+    <h1>Confirm Email</h1>
     <p class="subtitle">Verifying your email...</p>
 
     <div id="content">
@@ -182,7 +182,7 @@
 
     if (!token) {
       contentDiv.innerHTML = `
-        <div class="error-icon">❌</div>
+        <div class="error-icon"></div>
         <p style="text-align: center; color: #dc3545;"><strong>Invalid or missing token</strong></p>
         <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Please check the link you received in your email.</p>
       `;
@@ -205,7 +205,7 @@
     .then(data => {
       if (data.success) {
         contentDiv.innerHTML = `
-          <div class="success-icon">✓</div>
+          <div class="success-icon"></div>
           <p style="text-align: center; color: #4CAF50;"><strong>Email verified!</strong></p>
           <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">You can sign in now. Redirecting to login...</p>
         `;
@@ -214,7 +214,7 @@
         }, 3000);
       } else {
         contentDiv.innerHTML = `
-          <div class="error-icon">❌</div>
+          <div class="error-icon"></div>
           <p style="text-align: center; color: #dc3545;"><strong>Verification error</strong></p>
           <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">${data.message || 'The token may have expired.'}</p>
         `;
@@ -223,7 +223,7 @@
     .catch(error => {
       console.error('Error:', error);
       contentDiv.innerHTML = `
-        <div class="error-icon">❌</div>
+        <div class="error-icon"></div>
         <p style="text-align: center; color: #dc3545;"><strong>Connection error</strong></p>
         <p style="text-align: center; color: var(--c4); font-size: 0.9rem;">Please try again.</p>
       `;
