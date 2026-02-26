@@ -586,4 +586,22 @@ function endGame(reason, title) {
   resultTitleEl.textContent = title;
   resultMessageEl.textContent = reason;
   resultModalEl.classList.remove('hidden');
+
+  const normalizedTitle = (title || '').toLowerCase();
+  let result = null;
+  if (normalizedTitle.includes('victoria')) result = 'win';
+  else if (normalizedTitle.includes('derrota')) result = 'loss';
+  else if (normalizedTitle.includes('empate')) result = 'draw';
+
+  if (result) {
+    const url = new URL('../auth/record-game.php', window.location.href).toString();
+    fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ result })
+    }).catch(() => {
+      // Silenciar error de actualización de ranking
+    });
+  }
 }

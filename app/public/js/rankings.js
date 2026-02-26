@@ -5,7 +5,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 async function loadRankings() {
     try {
-        const response = await fetch('/api/rankings');
+        const rankingsUrl = new URL('../auth/rankings.php', window.location.href).toString();
+        const response = await fetch(rankingsUrl, { credentials: 'include' });
         
         // Si hay error HTTP, mostrar mensaje de rankings vacío
         if (!response.ok) {
