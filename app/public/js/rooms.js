@@ -36,10 +36,10 @@ const loadRooms = async () => {
     if (data.success) {
       renderRooms(data.data);
     } else {
-      roomsContainer.innerHTML = '<div class="loading">No se pudieron cargar las salas</div>';
+      roomsContainer.innerHTML = '';
     }
   } catch (error) {
-    roomsContainer.innerHTML = '<div class="loading">Error al cargar salas</div>';
+    roomsContainer.innerHTML = '';
   }
 };
 
