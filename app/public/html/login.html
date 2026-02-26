@@ -147,8 +147,8 @@
     formData.append('email', email);
     formData.append('password', password);
     
-    // Usar ruta relativa segura según la ubicación actual
-    const authUrl = new URL('../auth/auth.php', window.location.href).toString();
+    // Usar base de auth consistente
+    const authUrl = getBaseUrl() + 'auth.php';
 
     const doFetch = (url) => fetch(url, {
       method: 'POST',

@@ -1,6 +1,20 @@
 // Determinar la URL base dinámicamente
 const getBaseUrl = () => {
-    return new URL('../auth/', window.location.href).toString();
+    const origin = window.location.origin;
+    const path = window.location.pathname;
+    const rootSegment = '/Ahe10.1.0/';
+    const appSegment = '/app/public/';
+
+    if (path.includes(appSegment)) {
+        const base = path.slice(0, path.indexOf(appSegment) + appSegment.length);
+        return origin + base + 'auth/';
+    }
+
+    if (path.includes(rootSegment)) {
+        return origin + rootSegment + 'app/public/auth/';
+    }
+
+    return origin + '/Ahe10.1.0/app/public/auth/';
 };
 
 // Guardar estado actual de autenticación
