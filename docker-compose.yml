@@ -1,40 +1,77 @@
+# Configuración de Docker Compose para la aplicación AJE10 Chess
+# Este archivo define los servicios necesarios para ejecutar la aplicación Laravel con MySQL y Mailpit
+
 services:
+  # Servicio principal de la aplicación Laravel
   app:
+    # Construir la imagen desde el Dockerfile local
     build:
       context: .
       dockerfile: Dockerfile
+    # Nombre del contenedor para fácil referencia
     container_name: chess_app
+    # Mapear puertos del host a los del contenedor
     ports:
-      - "8080:80"
-      - "8443:443"
+      - "8080:80"   # Puerto HTTP
+      - "8443:443"  # Puerto HTTPS
+    # Montar el directorio de la app para desarrollo en vivo
     volumes:
       - ./app:/var/www/html
+    # Asegurar que los servicios de base de datos y correo inicien primero
     depends_on:
       - db
       - mailpit
+    # Variables de entorno para la configuración de Laravel
     environment:
       APACHE_DOCUMENT_ROOT: /var/www/html/public
+      APP_ENV: local
+      APP_DEBUG: true
+      APP_URL: http://localhost:8080
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: aje10
+      DB_USERNAME: chess
+      DB_PASSWORD: chess
+      MAIL_MAILER: smtp
+      MAIL_HOST: mailpit
+      MAIL_PORT: 1025
+      MAIL_USERNAME: null
+      MAIL_PASSWORD: null
+      MAIL_ENCRYPTION: null
 
+  # Servicio de base de datos MySQL
   db:
+    # Usar imagen de MySQL 8.0
     image: mysql:8.0
+    # Nombre del contenedor
     container_name: chess_db
+    # Comando de configuración de MySQL
     command: --default-authentication-plugin=mysql_native_password
+    # Variables de entorno de la base de datos
     environment:
-      MYSQL_DATABASE: chess
+      MYSQL_DATABASE: aje10
       MYSQL_USER: chess
       MYSQL_PASSWORD: chess
       MYSQL_ROOT_PASSWORD: root
+    # Exponer puerto de MySQL en el host
     ports:
       - "3307:3306"
+    # Volumen persistente para los datos de la base de datos
     volumes:
       - dbdata:/var/lib/mysql
 
+  # Servicio Mailpit para pruebas de correo
   mailpit:
+    # Usar imagen de Mailpit
     image: axllent/mailpit:latest
+    # Nombre del contenedor
     container_name: chess_mailpit
+    # Exponer puertos de interfaz web y servidor SMTP de Mailpit
     ports:
-      - "8025:8025"
-      - "1025:1025"
+      - "8025:8025"  # Interfaz web
+      - "1025:1025"  # Servidor SMTP
 
+# Volúmenes nombrados para persistencia de datos
 volumes:
   dbdata:

@@ -55,6 +55,15 @@ function initializeDatabase() {
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
 
+        // Tabla de reportes de errores
+        $db->exec("CREATE TABLE IF NOT EXISTS bug_reports (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            email TEXT NOT NULL,
+            subject TEXT NOT NULL,
+            message TEXT NOT NULL,
+            created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+        )");
+
         // Tabla de jugadas (ajedrez)
         $db->exec("CREATE TABLE IF NOT EXISTS jugadas (
             id INTEGER PRIMARY KEY AUTOINCREMENT,

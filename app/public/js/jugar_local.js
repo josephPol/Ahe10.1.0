@@ -1,4 +1,3 @@
-
 // === Variables principales ===
 let game = new Chess();
 let board;
